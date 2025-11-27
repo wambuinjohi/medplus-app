@@ -205,44 +205,44 @@ const App = () => {
           />
 
           {/* Additional Features */}
-          <Route 
-            path="/remittance" 
+          <Route
+            path="/app/remittance"
             element={
               <ProtectedRoute>
                 <RemittanceAdvice />
               </ProtectedRoute>
-            } 
+            }
           />
 
           {/* Reports */}
-          <Route 
-            path="/reports/sales" 
+          <Route
+            path="/app/reports/sales"
             element={
               <ProtectedRoute>
                 <SalesReports />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/reports/inventory" 
+          <Route
+            path="/app/reports/inventory"
             element={
               <ProtectedRoute>
                 <InventoryReports />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/reports/statements" 
+          <Route
+            path="/app/reports/statements"
             element={
               <ProtectedRoute>
                 <StatementOfAccounts />
               </ProtectedRoute>
-            } 
+            }
           />
 
           {/* Settings */}
           <Route
-            path="/settings/company"
+            path="/app/settings/company"
             element={
               <ProtectedRoute>
                 <CompanySettings />
@@ -250,7 +250,7 @@ const App = () => {
             }
           />
           <Route
-            path="/settings/users"
+            path="/app/settings/users"
             element={
               <ProtectedRoute>
                 <UserManagement />
@@ -259,7 +259,7 @@ const App = () => {
           />
 
           <Route
-            path="/setup-test"
+            path="/app/setup-test"
             element={
               <ProtectedRoute>
                 <SetupAndTest />

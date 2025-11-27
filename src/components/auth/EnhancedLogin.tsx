@@ -76,110 +76,178 @@ export function EnhancedLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 p-4">
-      <Card className="w-full max-w-2xl">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto">
-            <BiolegendLogo size="lg" showText={false} />
-          </div>
-          <div className="space-y-2">
-            <CardTitle className="text-2xl font-bold biolegend-brand">Medplus Africa</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Sign in to access your business management system
-            </p>
-          </div>
-        </CardHeader>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 p-4 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-300/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-300/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-300/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+      </div>
 
-        <CardContent className="space-y-6">
-          <Tabs value={'login'}>
-            <TabsList className="w-full">
-              <TabsTrigger value="login" className="flex-1">Sign In</TabsTrigger>
-            </TabsList>
+      <div className="relative z-10">
+        <Card className="w-full max-w-2xl shadow-2xl border-2 border-white/80 backdrop-blur-sm">
+          <CardHeader className="text-center space-y-6 bg-gradient-to-b from-blue-50/50 to-transparent">
+            {/* Animated Logo */}
+            <div className="mx-auto animate-bounce" style={{ animationDuration: '2s' }}>
+              <div className="bg-gradient-to-br from-blue-500 to-green-500 p-3 rounded-2xl inline-block shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <BiolegendLogo size="lg" showText={false} />
+              </div>
+            </div>
 
-            <TabsContent value="login">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      value={formData.email}
-                      onChange={handleInputChange('email')}
-                      className={`pl-10 ${formErrors.email ? 'border-destructive' : ''}`}
-                      disabled={submitting}
-                    />
+            <div className="space-y-3">
+              <CardTitle className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 bg-clip-text text-transparent">
+                Medplus Africa
+              </CardTitle>
+              <p className="text-base text-gray-600 font-medium">
+                💼 Sign in to access your business management system
+              </p>
+            </div>
+
+            {/* Decorative line */}
+            <div className="flex items-center gap-3 justify-center mt-4">
+              <div className="h-1 w-8 bg-gradient-to-r from-blue-500 to-transparent"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div className="h-1 w-8 bg-gradient-to-l from-green-500 to-transparent"></div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="space-y-6 pt-8">
+            <Tabs value={'login'}>
+              <TabsList className="w-full bg-gradient-to-r from-blue-100 to-green-100">
+                <TabsTrigger
+                  value="login"
+                  className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-green-500 data-[state=active]:text-white transition-all duration-300"
+                >
+                  🚀 Sign In
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="login">
+                <form onSubmit={handleSubmit} className="space-y-5 mt-6">
+                  {/* Email Field */}
+                  <div className="space-y-2 group">
+                    <Label htmlFor="email" className="text-gray-700 font-semibold flex items-center gap-2">
+                      <span className="text-lg">📧</span> Email Address
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-blue-500 group-focus-within:text-green-500 transition-colors" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={formData.email}
+                        onChange={handleInputChange('email')}
+                        className={`pl-12 py-3 text-base border-2 rounded-lg transition-all duration-300 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 ${
+                          formErrors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : 'border-gray-200'
+                        }`}
+                        disabled={submitting}
+                      />
+                    </div>
+                    {formErrors.email && (
+                      <p className="text-sm text-red-500 font-medium flex items-center gap-1">
+                        <span>⚠️</span> {formErrors.email}
+                      </p>
+                    )}
                   </div>
-                  {formErrors.email && (
-                    <p className="text-sm text-destructive">{formErrors.email}</p>
-                  )}
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
-                      value={formData.password}
-                      onChange={handleInputChange('password')}
-                      className={`pl-10 pr-10 ${formErrors.password ? 'border-destructive' : ''}`}
-                      disabled={submitting}
-                    />
+                  {/* Password Field */}
+                  <div className="space-y-2 group">
+                    <Label htmlFor="password" className="text-gray-700 font-semibold flex items-center gap-2">
+                      <span className="text-lg">🔐</span> Password
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-blue-500 group-focus-within:text-green-500 transition-colors" />
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="••••••••"
+                        value={formData.password}
+                        onChange={handleInputChange('password')}
+                        className={`pl-12 pr-12 py-3 text-base border-2 rounded-lg transition-all duration-300 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 ${
+                          formErrors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : 'border-gray-200'
+                        }`}
+                        disabled={submitting}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-2 top-1/2 h-9 w-9 -translate-y-1/2 hover:bg-blue-100 text-gray-600 hover:text-blue-600 transition-colors"
+                        onClick={() => setShowPassword(!showPassword)}
+                        disabled={submitting}
+                      >
+                        {showPassword ? (
+                          <Eye className="h-5 w-5" />
+                        ) : (
+                          <EyeOff className="h-5 w-5" />
+                        )}
+                      </Button>
+                    </div>
+                    {formErrors.password && (
+                      <p className="text-sm text-red-500 font-medium flex items-center gap-1">
+                        <span>⚠️</span> {formErrors.password}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Sign In Button */}
+                  <div className="space-y-3 pt-4">
                     <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2"
-                      onClick={() => setShowPassword(!showPassword)}
+                      type="submit"
+                      className="w-full py-3 text-lg font-bold bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 rounded-lg"
                       disabled={submitting}
                     >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
+                      {submitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Signing in...
+                        </>
                       ) : (
-                        <Eye className="h-4 w-4" />
+                        <>
+                          <span>🎯</span>
+                          <span className="ml-2">Sign In</span>
+                        </>
                       )}
                     </Button>
                   </div>
-                  {formErrors.password && (
-                    <p className="text-sm text-destructive">{formErrors.password}</p>
-                  )}
-                </div>
+                </form>
 
-                <div className="space-y-2">
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
-                      </>
-                    ) : (
-                      'Sign In'
-                    )}
-                  </Button>
+              </TabsContent>
 
-                </div>
-              </form>
+            </Tabs>
 
-            </TabsContent>
+            {/* Footer Message */}
+            <div className="text-center space-y-2 border-t-2 border-gray-100 pt-6">
+              <p className="text-sm text-gray-600">
+                <span className="text-lg">❓</span> Need help? Contact your administrator
+              </p>
+              <p className="text-xs text-gray-500 font-medium">
+                Medplus Africa © 2025 - Secure Login
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-          </Tabs>
+      <style>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
 
-          <div className="text-center space-y-2">
-            <p className="text-xs text-muted-foreground">
-              Contact your administrator if you need account access.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 }

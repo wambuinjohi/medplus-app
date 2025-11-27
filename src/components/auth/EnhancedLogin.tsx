@@ -217,9 +217,9 @@ export function EnhancedLogin() {
             </Tabs>
 
             {/* Footer Message */}
-            <div className="text-center space-y-2 border-t-2 border-gray-100 pt-6">
-              <p className="text-sm text-gray-600">
-                <span className="text-lg">❓</span> Need help? Contact your administrator
+            <div className="text-center space-y-2 border-t-2 border-gray-100 pt-4 sm:pt-6">
+              <p className="text-xs sm:text-sm text-gray-600">
+                <span className="text-base sm:text-lg">❓</span> Need help? Contact your administrator
               </p>
               <p className="text-xs text-gray-500 font-medium">
                 Medplus Africa © 2025 - Secure Login

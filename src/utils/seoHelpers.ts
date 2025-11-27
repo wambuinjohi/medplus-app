@@ -130,6 +130,40 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url: strin
 });
 
 /**
+ * Generate Contact Page schema
+ */
+export const generateContactPageSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Medplus Africa',
+  description: 'Get in touch with Medplus Africa for inquiries and support regarding medical supplies and hospital equipment.',
+  url: `${SITE_CONFIG.url}/contact`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: SITE_CONFIG.phone,
+    contactType: 'Customer Service',
+    email: SITE_CONFIG.email,
+    areaServed: 'East Africa',
+  },
+});
+
+/**
+ * Generate FAQ schema
+ */
+export const generateFAQSchema = (faqs: Array<{ question: string; answer: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+});
+
+/**
  * Update document meta tags
  */
 export const updateMetaTags = (metadata: SEOMetadata) => {

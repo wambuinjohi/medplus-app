@@ -25,8 +25,13 @@ export default function Contact() {
       url: 'https://medplusafrica.com/contact',
     })
   );
+
+  // Initialize EmailJS
+  emailjs.init('dK906nDGwBHoPvOsr');
+
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [contactMethod, setContactMethod] = useState<'email' | 'whatsapp'>('email');
   const [formData, setFormData] = useState({
     name: '',
     email: '',

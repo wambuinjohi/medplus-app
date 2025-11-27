@@ -38,19 +38,15 @@ export default function HeroSlider() {
   }, [slides.length]);
 
   const goToSlide = (index: number) => {
-    setFadeIn(false);
-    setTimeout(() => {
-      setCurrentSlide(index);
-      setFadeIn(true);
-    }, 500);
+    setCurrentSlide(index);
   };
 
   const nextSlide = () => {
-    goToSlide((currentSlide + 1) % slides.length);
+    setCurrentSlide((currentSlide + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    goToSlide((currentSlide - 1 + slides.length) % slides.length);
+    setCurrentSlide((currentSlide - 1 + slides.length) % slides.length);
   };
 
   return (

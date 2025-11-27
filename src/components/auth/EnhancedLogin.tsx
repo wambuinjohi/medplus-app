@@ -191,15 +191,15 @@ export function EnhancedLogin() {
                   </div>
 
                   {/* Sign In Button */}
-                  <div className="space-y-3 pt-4">
+                  <div className="space-y-2 sm:space-y-3 pt-3 sm:pt-4">
                     <Button
                       type="submit"
-                      className="w-full py-3 text-lg font-bold bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 rounded-lg"
+                      className="w-full py-2 sm:py-3 text-base sm:text-lg font-bold bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 rounded-lg"
                       disabled={submitting}
                     >
                       {submitting ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                           Signing in...
                         </>
                       ) : (

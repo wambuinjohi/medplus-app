@@ -140,9 +140,9 @@ export default function Landing() {
                           <a
                             key={sub}
                             href="#"
-                            className="flex flex-col items-center text-center group/item transition-all duration-200"
+                            className="flex flex-col items-center text-center group/item transition-all duration-200 hover:scale-110"
                           >
-                            <div className="text-gray-600 group-hover/item:text-primary mb-2 transition-colors">
+                            <div className="mb-2 transition-transform group-hover/item:scale-125">
                               {productIconMap[sub]}
                             </div>
                             <span className="text-xs text-gray-700 group-hover/item:text-primary group-hover/item:font-semibold transition-colors leading-tight">

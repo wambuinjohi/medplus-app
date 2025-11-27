@@ -73,7 +73,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 bg-white shadow-sm z-50 border-b border-gray-200">
+      <header className="sticky top-0 bg-white shadow-md z-50 border-b border-transparent bg-gradient-to-r from-white via-white to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
@@ -185,68 +185,78 @@ export default function Landing() {
       <HeroSlider />
 
       {/* Our Goals Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gradient-to-b from-white to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Goals</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4">Our Goals</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Committed to delivering excellence in healthcare solutions across Africa
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition border border-gray-100">
-              <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div className="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Quality Products</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Supply only the highest quality hospital consumables and equipment to ensure patient safety and care excellence.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Quality Products</h3>
-              <p className="text-gray-600">
-                Supply only the highest quality hospital consumables and equipment to ensure patient safety and care excellence.
-              </p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition border border-gray-100">
-              <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div className="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Affordable Pricing</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Make quality healthcare products accessible to all healthcare institutions across Africa.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Affordable Pricing</h3>
-              <p className="text-gray-600">
-                Make quality healthcare products accessible to all healthcare institutions across Africa.
-              </p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition border border-gray-100">
-              <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+            <div className="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Fast Delivery</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Reliable and timely delivery of critical care supplies to healthcare facilities across the continent.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">
-                Reliable and timely delivery of critical care supplies to healthcare facilities across the continent.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Our Partners Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-gradient-to-b from-blue-50/30 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Partners</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4">Our Partners</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Trusted by leading healthcare institutions across Africa
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {partners.map((partner) => (
               <div
                 key={partner}
-                className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 flex items-center justify-center h-32 hover:shadow-md transition hover:from-gray-100 hover:to-gray-200 border border-gray-200"
+                className="group relative bg-white rounded-xl p-6 flex items-center justify-center h-32 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 overflow-hidden hover:-translate-y-1 hover:border-blue-300"
               >
-                <p className="text-center text-sm text-gray-700 font-medium leading-tight">{partner}</p>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-green-500/0 group-hover:from-blue-500/5 group-hover:to-green-500/5 transition-all duration-300"></div>
+                <p className="text-center text-sm text-gray-700 font-semibold leading-tight relative z-10">{partner}</p>
               </div>
             ))}
           </div>
@@ -254,16 +264,20 @@ export default function Landing() {
       </section>
 
       {/* Talk to Us Section */}
-      <section id="talk-to-us" className="bg-gradient-to-r from-primary/90 to-primary text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Talk to us</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Interested in our products? Let's connect and discuss how we can support your healthcare needs.
+      <section id="talk-to-us" className="bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 text-white py-32 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-48 -mb-48"></div>
+        </div>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Talk to us</h2>
+          <p className="text-xl md:text-2xl text-white/95 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+            Interested in our products? Let's connect and discuss how we can support your healthcare needs across Africa.
           </p>
           <Link to="/app">
             <Button
               size="lg"
-              className="bg-white text-primary hover:bg-gray-100 font-semibold"
+              className="bg-white text-blue-600 hover:bg-gray-100 font-bold text-lg px-10 py-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
               Access Our Application
             </Button>

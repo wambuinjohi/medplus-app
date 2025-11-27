@@ -125,9 +125,7 @@ export default function HeroSlider() {
               <div className="relative w-full max-w-md h-96">
                 {/* Main Image */}
                 <div
-                  className={`absolute inset-0 transition-opacity duration-1000 rounded-2xl overflow-hidden shadow-2xl ${
-                    fadeIn ? 'opacity-100' : 'opacity-0'
-                  }`}
+                  className="absolute inset-0 transition-opacity duration-1200 rounded-2xl overflow-hidden shadow-2xl"
                 >
                   <img
                     src={slides[currentSlide].image}

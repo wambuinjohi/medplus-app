@@ -141,7 +141,7 @@ export default function Landing() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden"
+              className="md:hidden ml-auto"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

@@ -65,8 +65,10 @@ export default function ProductDetail() {
     }
 
     const message = `*Product Quotation Request*
+━━━━━━━━━━━━━━━━━━━━━━
 
-Product: ${product?.name}
+*Product:*
+${product?.name}
 
 *Customer Details:*
 Company: ${quotationForm.companyName}
@@ -76,8 +78,9 @@ Phone: ${quotationForm.phone}
 
 *Order Details:*
 Quantity: ${quotationForm.quantity} ${product?.pricing.unit || 'units'}
-Additional Notes: ${quotationForm.additionalNotes || 'None'}
+${quotationForm.additionalNotes ? `Additional Notes: ${quotationForm.additionalNotes}` : ''}
 
+━━━━━━━━━━━━━━━━━━━━━━
 Please provide a quotation for the above product and delivery terms.`;
 
     const whatsappPhone = '+254734785363';

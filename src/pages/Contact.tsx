@@ -5,8 +5,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PublicHeader } from '@/components/PublicHeader';
 import { useToast } from '@/hooks/use-toast';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function Contact() {
+  useSEO(
+    {
+      title: 'Contact Us',
+      description: 'Get in touch with Medplus Africa for inquiries and support. We provide quality medical supplies and hospital equipment to healthcare facilities across Africa.',
+      keywords: 'contact medplus, medical supplies contact, customer support',
+      url: 'https://medplusafrica.com/contact',
+    },
+    generateWebPageSchema({
+      title: 'Contact Medplus Africa',
+      description: 'Get in touch with our team for inquiries and support',
+      url: 'https://medplusafrica.com/contact',
+    })
+  );
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -63,15 +79,7 @@ export default function Contact() {
       <PublicHeader currentPage="contact" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Contact Us</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'Contact Us', href: '/contact' }]} />
 
       {/* Page Hero */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">

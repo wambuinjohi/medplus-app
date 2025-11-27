@@ -32,7 +32,7 @@ export default function OurProducts() {
     { name: 'Hospital Instruments', icon: '⚕️', description: 'Surgical and diagnostic instruments' },
     { name: 'Hospital Linen', icon: '🧺', description: 'Medical-grade sheets, pillows, and linens' },
     { name: 'Infection Control', icon: '🛡️', description: 'Disinfectants, sanitizers, and safety equipment' },
-    { name: 'Others', icon: '����', description: 'Additional medical supplies and accessories' },
+    { name: 'Others', icon: '📦', description: 'Additional medical supplies and accessories' },
     { name: 'PPE', icon: '🦺', description: 'Personal protective equipment and safety gear' },
     { name: 'Spirits, Detergents and Disinfectants', icon: '🧼', description: 'Cleaning and sterilization products' },
     { name: 'Syringes and Needles', icon: '💊', description: 'Sterile syringes and hypodermic needles' },
@@ -64,24 +64,35 @@ export default function OurProducts() {
         </div>
       </section>
 
-      {/* Product Categories Grid */}
+      {/* Product Categories Section with Sidebar */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12">Product Categories</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {productCategories.map((category) => (
-              <div
-                key={category.name}
-                className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition p-6"
-              >
-                <div className="text-4xl mb-4">{category.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{category.name}</h3>
-                <p className="text-gray-600 mb-4">{category.description}</p>
-                <a href="#" className="text-primary font-medium hover:text-primary/80 transition">
-                  Learn more →
-                </a>
+          {/* Flex Container for Sidebar and Content */}
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Sidebar */}
+            <ProductCategorySidebar
+              categories={productCategories.map((cat) => ({ name: cat.name }))}
+            />
+
+            {/* Main Content */}
+            <div className="flex-1">
+              <h2 className="text-3xl font-bold text-gray-900 mb-12">Product Categories</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {productCategories.map((category) => (
+                  <div
+                    key={category.name}
+                    className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition p-6"
+                  >
+                    <div className="text-4xl mb-4">{category.icon}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{category.name}</h3>
+                    <p className="text-gray-600 mb-4">{category.description}</p>
+                    <a href="#" className="text-primary font-medium hover:text-primary/80 transition">
+                      Learn more →
+                    </a>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>

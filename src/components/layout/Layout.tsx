@@ -56,6 +56,16 @@ export function Layout({ children }: LayoutProps) {
 
   // Show simple layout for public routes
   if (isPublicRoute) {
+    // Landing page takes full width without header/sidebar
+    if (isLandingPage) {
+      return (
+        <div className="w-full">
+          {children}
+        </div>
+      );
+    }
+
+    // Other public routes show with header
     return (
       <div className="min-h-screen bg-background">
         <main className="w-full">

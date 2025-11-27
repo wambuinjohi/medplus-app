@@ -115,7 +115,7 @@ const productCategories: ProductCategory[] = [
   },
   {
     name: 'PPE',
-    icon: '��',
+    icon: '👕',
     products: [
       { name: 'Face Masks', icon: '😷' },
       { name: 'Protective Gowns', icon: '👕' },
@@ -185,8 +185,8 @@ export default function ProductGridDropdown() {
             onClick={() => setSelectedCategory(null)}
           />
 
-          {/* Drawer - Positioned relative to viewport but constrained */}
-          <div className="fixed right-0 top-0 h-screen bg-white shadow-2xl z-50 overflow-y-auto w-full md:w-96 animate-slideInRight">
+          {/* Drawer - Positioned relative to viewport with proper constraints */}
+          <div className="fixed inset-y-0 right-0 bg-white shadow-2xl z-50 overflow-y-auto w-full sm:w-96 max-w-full animate-slideInRight" style={{ maxWidth: 'calc(100vw - 0px)' }}>
             {/* Header */}
             <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-green-500 text-white p-4 md:p-6 flex items-center justify-between gap-4">
               <div className="flex-grow">

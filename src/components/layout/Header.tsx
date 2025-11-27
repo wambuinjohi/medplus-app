@@ -65,14 +65,14 @@ export function Header() {
 
   return (
     <>
-      <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6 shadow-card">
-        {/* Search */}
-        <div className="flex items-center space-x-4 flex-1 max-w-lg">
+      <header className="flex h-14 sm:h-16 items-center justify-between border-b border-border bg-card px-4 sm:px-6 shadow-card gap-4">
+        {/* Search - Hidden on mobile, shown on sm and up */}
+        <div className="hidden sm:flex items-center space-x-4 flex-1 max-w-lg">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search customers, invoices, products..."
-              className="pl-10 bg-muted/50 border-muted focus:bg-background transition-smooth"
+              className="pl-10 bg-muted/50 border-muted focus:bg-background transition-smooth text-sm"
             />
           </div>
         </div>

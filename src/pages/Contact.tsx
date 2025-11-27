@@ -51,17 +51,44 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    
+
+    if (contactMethod === 'email') {
+      handleEmailSubmit();
+    } else {
+      handleWhatsAppSubmit();
+    }
+  };
+
+  const handleEmailSubmit = async () => {
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const templateParams = {
+        to_email: 'sales@medplusafrica.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        subject: formData.subject,
+        message: formData.message,
+      };
+
+      await emailjs.send('service_v8xry1b', 'template_ulgafes', templateParams);
+
       toast({
         title: "Success!",
-        description: "Your inquiry has been received. We'll get back to you shortly.",
+        description: "Your inquiry has been sent via email. We'll get back to you shortly.",
       });
-      
+
       setFormData({
         name: '',
         email: '',
@@ -73,7 +100,56 @@ export default function Contact() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to send inquiry. Please try again.",
+        description: "Failed to send email. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleWhatsAppSubmit = () => {
+    try {
+      const message = `*Inquiry from Medplus Africa Contact Form*
+━━━━━━━━━━━━━━━━━━━━━━
+
+*From:*
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+${formData.company ? `Company: ${formData.company}` : ''}
+
+*Subject:*
+${formData.subject}
+
+*Message:*
+${formData.message}
+
+━━━━━━━━━━━━━���━━━━━━━━`;
+
+      const whatsappPhone = '+254734785363';
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
+
+      window.open(whatsappUrl, '_blank');
+
+      toast({
+        title: "Success!",
+        description: "Opening WhatsApp. Please review and send your message.",
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to open WhatsApp. Please try again.",
         variant: "destructive"
       });
     } finally {

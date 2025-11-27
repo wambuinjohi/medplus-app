@@ -7,12 +7,34 @@ import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import { useToast } from '@/hooks/use-toast';
 import { getProductBySlug } from '@/data/products';
 import { MessageCircle, ArrowLeft, Check } from 'lucide-react';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateProductSchema, SITE_CONFIG } from '@/utils/seoHelpers';
 
 export default function ProductDetail() {
   const { productSlug } = useParams<{ productSlug: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const product = productSlug ? getProductBySlug(productSlug) : undefined;
+
+  // Set SEO for product
+  useSEO(
+    {
+      title: product?.name || 'Product',
+      description: product?.description || 'Medical product from Medplus Africa',
+      keywords: `${product?.name}, medical supplies, ${product?.category}`,
+      url: `${SITE_CONFIG.url}/products/${productSlug}`,
+      type: 'product',
+      image: product?.image,
+    },
+    product ? generateProductSchema({
+      name: product.name,
+      description: product.description,
+      image: product.image,
+      url: `${SITE_CONFIG.url}/products/${productSlug}`,
+      category: product.category,
+    }) : undefined
+  );
 
   const [quotationForm, setQuotationForm] = useState({
     quantity: '',

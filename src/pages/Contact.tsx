@@ -7,7 +7,7 @@ import { PublicHeader } from '@/components/PublicHeader';
 import { useToast } from '@/hooks/use-toast';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
-import { generateWebPageSchema } from '@/utils/seoHelpers';
+import { generateContactPageSchema } from '@/utils/seoHelpers';
 import emailjs from 'emailjs-com';
 import { Mail, MessageCircle } from 'lucide-react';
 

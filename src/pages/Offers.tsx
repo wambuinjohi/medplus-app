@@ -1,8 +1,24 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BiolegendLogo } from '@/components/ui/biolegend-logo';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function Offers() {
+  useSEO(
+    {
+      title: 'Special Offers & Promotions',
+      description: 'Exclusive deals and promotions on quality medical products and equipment. Save on hospital supplies, furniture, and more.',
+      keywords: 'special offers, medical supplies discount, hospital equipment sale, promotions',
+      url: 'https://medplusafrica.com/offers',
+    },
+    generateWebPageSchema({
+      title: 'Special Offers & Promotions',
+      description: 'Exclusive deals on quality medical products and equipment',
+      url: 'https://medplusafrica.com/offers',
+    })
+  );
   const activeOffers = [
     {
       id: 1,
@@ -82,15 +98,7 @@ export default function Offers() {
       </header>
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Special Offers</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'Special Offers', href: '/offers' }]} />
 
       {/* Page Hero */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">

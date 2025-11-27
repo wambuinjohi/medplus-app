@@ -15,13 +15,18 @@ export default function HeroSlider() {
   const slides: Slide[] = [
     {
       id: 1,
-      image: 'https://images.pexels.com/photos/7469494/pexels-photo-7469494.jpeg?w=1200&h=800&fit=crop',
-      alt: 'Healthcare worker preparing medical tools'
+      image: 'https://images.pexels.com/photos/7722677/pexels-photo-7722677.jpeg?w=1200&h=800&fit=crop',
+      alt: 'Medical supplies including gauze, scissors, and alcohol prep pads'
     },
     {
       id: 2,
-      image: 'https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg?w=1200&h=800&fit=crop',
-      alt: 'Healthcare professional with stethoscope'
+      image: 'https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?w=1200&h=800&fit=crop',
+      alt: 'Stethoscope and heart health medical equipment'
+    },
+    {
+      id: 3,
+      image: 'https://images.pexels.com/photos/6129902/pexels-photo-6129902.jpeg?w=1200&h=800&fit=crop',
+      alt: 'Healthcare supplies cotton balls for medical applications'
     }
   ];
 

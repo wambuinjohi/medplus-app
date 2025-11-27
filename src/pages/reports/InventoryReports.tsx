@@ -359,7 +359,7 @@ export default function InventoryReports() {
               <TrendingUp className="h-8 w-8 text-success" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Stock Value</p>
-                <p className="text-lg font-bold text-success">${stats.stockValue.toFixed(2)}</p>
+                <p className="text-lg font-bold text-success">{formatCurrency(stats.stockValue)}</p>
                 <p className="text-xs text-success">At cost price</p>
               </div>
             </div>
@@ -556,19 +556,19 @@ export default function InventoryReports() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm font-medium">Total Stock Value (Cost)</span>
-                  <span className="font-bold">${stats.stockValue.toFixed(2)}</span>
+                  <span className="font-bold">{formatCurrency(stats.stockValue)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm font-medium">Total Stock Value (Retail)</span>
-                  <span className="font-bold">${(stats.stockValue * 1.4).toFixed(2)}</span>
+                  <span className="font-bold">{formatCurrency(stats.stockValue * 1.4)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm font-medium">Potential Profit</span>
-                  <span className="font-bold text-success">${(stats.stockValue * 0.4).toFixed(2)}</span>
+                  <span className="font-bold text-success">{formatCurrency(stats.stockValue * 0.4)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm font-medium">Average Cost per Item</span>
-                  <span className="font-bold">${products?.length ? (stats.stockValue / products.length).toFixed(2) : '0.00'}</span>
+                  <span className="font-bold">{formatCurrency(products?.length ? stats.stockValue / products.length : 0)}</span>
                 </div>
               </div>
             </CardContent>

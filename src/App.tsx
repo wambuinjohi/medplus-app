@@ -52,8 +52,13 @@ const App = () => {
       <Sonner />
       <Layout>
         <Routes>
-          {/* Landing Page - Public */}
+          {/* Public Website Pages */}
           <Route path="/" element={<Landing />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/products" element={<OurProducts />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/media" element={<Media />} />
+          <Route path="/offers" element={<Offers />} />
 
           {/* App Routes - Protected */}
           {/* Dashboard */}

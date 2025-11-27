@@ -9,6 +9,24 @@ import ProductsSection from '@/components/ProductsSection';
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const productIconMap: { [key: string]: React.ReactNode } = {
+    'Bandages, Tapes and Dressings': <Bandage size={24} />,
+    'Bottles and Containers': <Package size={24} />,
+    'Catheters and Tubes': <Pipette size={24} />,
+    'Cotton Wool': <Wind size={24} />,
+    'Diapers and Sanitary': <Baby size={24} />,
+    'Gloves': <Hand size={24} />,
+    'Hospital Equipments': <Monitor size={24} />,
+    'Hospital Furniture': <Sofa size={24} />,
+    'Hospital Instruments': <Wrench size={24} />,
+    'Hospital Linen': <Shirt size={24} />,
+    'Infection Control': <Shield size={24} />,
+    'Others': <MoreHorizontal size={24} />,
+    'PPE': <AlertCircle size={24} />,
+    'Spirits, Detergents and Disinfectants': <Droplet size={24} />,
+    'Syringes and Needles': <Syringe size={24} />,
+  };
+
   const navigationItems = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '#about' },

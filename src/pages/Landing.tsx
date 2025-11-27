@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import HeroSlider from '@/components/HeroSlider';
 import ProductsSection from '@/components/ProductsSection';
+import { getProductBySlug } from '@/data/products';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function Landing() {
     { name: 'MEDS', icon: '🏢', type: 'Organization' },
     { name: 'Metro', icon: '🏪', type: 'Organization' },
     { name: 'Stiegelmeyer Group', icon: '🛏️', type: 'Corporate' },
-    { name: 'PSI', icon: '⚕️', type: 'NGO' },
+    { name: 'PSI', icon: '���️', type: 'NGO' },
     { name: 'UNHCR', icon: '🤝', type: 'NGO' },
   ];
 

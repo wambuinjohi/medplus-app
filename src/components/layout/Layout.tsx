@@ -15,7 +15,7 @@ export function Layout({ children }: LayoutProps) {
   const [loadingStartTime] = useState(Date.now());
 
   // Routes that don't require authentication
-  const publicRoutes = ['/', '/auth-test', '/manual-setup', '/database-fix-page', '/auto-fix', '/audit', '/auto-payment-sync', '/payment-sync'];
+  const publicRoutes = ['/', '/about-us', '/products', '/contact', '/media', '/offers', '/auth-test', '/manual-setup', '/database-fix-page', '/auto-fix', '/audit', '/auto-payment-sync', '/payment-sync'];
   const isPublicRoute = publicRoutes.includes(location.pathname);
   const isLandingPage = location.pathname === '/';
 

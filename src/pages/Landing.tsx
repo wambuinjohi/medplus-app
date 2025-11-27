@@ -8,7 +8,6 @@ import ProductsSection from '@/components/ProductsSection';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
 
   const navigationItems = [
     { label: 'Home', href: '/' },

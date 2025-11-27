@@ -48,7 +48,7 @@ export const products: Product[] = [
   },
   {
     id: 'bottles-containers',
-    slug: 'bottles-containers',
+    slug: 'bottles-and-containers',
     name: 'Bottles and Containers',
     image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde36?w=500&h=400&fit=crop',
     description: 'Sterile containers for specimen collection and storage',

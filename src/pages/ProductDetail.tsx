@@ -273,6 +273,7 @@ Please provide a quotation for the above product and delivery terms.`;
                   type="number"
                   value={quotationForm.quantity}
                   onChange={handleFormChange}
+                  autoComplete="off"
                   placeholder="e.g., 50"
                   required
                   className="mt-1"
@@ -289,6 +290,7 @@ Please provide a quotation for the above product and delivery terms.`;
                   name="companyName"
                   value={quotationForm.companyName}
                   onChange={handleFormChange}
+                  autoComplete="organization"
                   placeholder="Your organization name"
                   required
                   className="mt-1"
@@ -305,6 +307,7 @@ Please provide a quotation for the above product and delivery terms.`;
                   name="contactPerson"
                   value={quotationForm.contactPerson}
                   onChange={handleFormChange}
+                  autoComplete="name"
                   placeholder="Your full name"
                   className="mt-1"
                 />
@@ -321,6 +324,7 @@ Please provide a quotation for the above product and delivery terms.`;
                   type="email"
                   value={quotationForm.email}
                   onChange={handleFormChange}
+                  autoComplete="email"
                   placeholder="your.email@example.com"
                   required
                   className="mt-1"
@@ -338,6 +342,7 @@ Please provide a quotation for the above product and delivery terms.`;
                   type="tel"
                   value={quotationForm.phone}
                   onChange={handleFormChange}
+                  autoComplete="tel"
                   placeholder="+254 XXX XXX XXX"
                   required
                   className="mt-1"
@@ -355,6 +360,7 @@ Please provide a quotation for the above product and delivery terms.`;
                 name="additionalNotes"
                 value={quotationForm.additionalNotes}
                 onChange={handleFormChange}
+                autoComplete="off"
                 rows={4}
                 placeholder="Any special requirements or additional information..."
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mt-1"

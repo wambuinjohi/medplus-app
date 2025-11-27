@@ -85,23 +85,6 @@ export default function Landing() {
     { name: 'UNHCR', icon: '🤝', type: 'NGO' },
   ];
 
-  const productCategories = [
-    'Bandages, Tapes and Dressings',
-    'Bottles and Containers',
-    'Catheters and Tubes',
-    'Cotton Wool',
-    'Diapers and Sanitary',
-    'Gloves',
-    'Hospital Equipments',
-    'Hospital Furniture',
-    'Hospital Instruments',
-    'Hospital Linen',
-    'Infection Control',
-    'Others',
-    'PPE',
-    'Spirits, Detergents and Disinfectants',
-    'Syringes and Needles',
-  ];
 
   return (
     <div className="min-h-screen bg-white">

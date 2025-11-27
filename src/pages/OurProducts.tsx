@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/PublicHeader';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import ProductCategorySidebar from '@/components/ProductCategorySidebar';
 import { useSEO } from '@/hooks/useSEO';
 import { generateWebPageSchema } from '@/utils/seoHelpers';
 
@@ -31,7 +32,7 @@ export default function OurProducts() {
     { name: 'Hospital Instruments', icon: '⚕️', description: 'Surgical and diagnostic instruments' },
     { name: 'Hospital Linen', icon: '🧺', description: 'Medical-grade sheets, pillows, and linens' },
     { name: 'Infection Control', icon: '🛡️', description: 'Disinfectants, sanitizers, and safety equipment' },
-    { name: 'Others', icon: '📦', description: 'Additional medical supplies and accessories' },
+    { name: 'Others', icon: '����', description: 'Additional medical supplies and accessories' },
     { name: 'PPE', icon: '🦺', description: 'Personal protective equipment and safety gear' },
     { name: 'Spirits, Detergents and Disinfectants', icon: '🧼', description: 'Cleaning and sterilization products' },
     { name: 'Syringes and Needles', icon: '💊', description: 'Sterile syringes and hypodermic needles' },

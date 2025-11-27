@@ -47,14 +47,18 @@ const App = () => {
       <Sonner />
       <Layout>
         <Routes>
+          {/* Landing Page - Public */}
+          <Route path="/" element={<Landing />} />
+
+          {/* App Routes - Protected */}
           {/* Dashboard */}
-          <Route 
-            path="/" 
+          <Route
+            path="/app"
             element={
               <ProtectedRoute>
                 <Index />
               </ProtectedRoute>
-            } 
+            }
           />
 
           {/* Sales & Customer Management */}

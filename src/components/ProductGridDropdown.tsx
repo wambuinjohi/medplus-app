@@ -52,7 +52,7 @@ const productCategories: ProductCategory[] = [
   },
   {
     name: 'Diapers and Sanitary',
-    icon: '��',
+    icon: '👶',
     products: [
       { name: 'Incontinence Diapers', icon: '👶' },
       { name: 'Sanitary Pads', icon: '🩸' },
@@ -203,30 +203,30 @@ export default function ProductGridDropdown() {
 
             {/* Products List */}
             <div className="p-4 md:p-6 space-y-3">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Available Products</h3>
+              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4">Available Products</h3>
               {selectedCategory.products.map((product) => (
                 <div
                   key={product.name}
-                  className="group/product flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-300 cursor-pointer"
+                  className="group/product flex items-center gap-3 p-3 md:p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="text-3xl flex-shrink-0">{product.icon}</div>
-                  <div className="flex-grow">
-                    <p className="font-semibold text-gray-900 group-hover/product:text-blue-600 transition-colors">
+                  <div className="text-2xl md:text-3xl flex-shrink-0">{product.icon}</div>
+                  <div className="flex-grow min-w-0">
+                    <p className="font-semibold text-gray-900 group-hover/product:text-blue-600 transition-colors text-sm md:text-base truncate">
                       {product.name}
                     </p>
-                    <p className="text-sm text-gray-600">In stock • Quick delivery</p>
+                    <p className="text-xs md:text-sm text-gray-600">In stock • Quick delivery</p>
                   </div>
-                  <ChevronRight className="text-gray-400 group-hover/product:text-blue-600 transition-colors flex-shrink-0" />
+                  <ChevronRight className="text-gray-400 group-hover/product:text-blue-600 transition-colors flex-shrink-0 w-5 h-5" />
                 </div>
               ))}
 
               {/* CTA Button */}
-              <div className="pt-6 border-t border-gray-200">
+              <div className="pt-4 md:pt-6 border-t border-gray-200">
                 <a
                   href={`https://wa.me/?text=Hi, I'm interested in ${selectedCategory.name} products. Could you provide more details?`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-3 px-4 rounded-lg hover:shadow-lg transition-all duration-300 text-center"
+                  className="block w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-2.5 md:py-3 px-4 rounded-lg hover:shadow-lg transition-all duration-300 text-center text-sm md:text-base"
                 >
                   Request Quote
                 </a>

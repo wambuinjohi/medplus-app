@@ -1,140 +1,127 @@
-import { useState } from 'react';
-import { ChevronRight, X } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 interface Product {
   id: string;
   name: string;
   slug: string;
-  icon: string;
   description: string;
-  url: string;
+  image: string;
 }
 
 export default function ProductsSection() {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
   const products: Product[] = [
     {
       id: '1',
       name: 'Bandages, Tapes and Dressings',
       slug: 'bandages-tapes-and-dressings',
-      icon: '🩹',
-      description: 'High-quality bandages, tapes, and medical dressings for wound care and protection. Our selection includes sterile and non-sterile options suitable for various medical applications.',
-      url: 'https://alphamedicalafrica.com/product-category/bandages-tapes-and-dressings/'
+      description: 'High-quality bandages, tapes, and medical dressings for wound care and protection.',
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=400&fit=crop'
     },
     {
       id: '2',
       name: 'Bottles and Containers',
       slug: 'bottles-and-containers',
-      icon: '🧴',
-      description: 'Medical-grade bottles and containers for safe storage and transportation of pharmaceutical products, specimens, and medical solutions.',
-      url: 'https://alphamedicalafrica.com/product-category/bottles-and-containers/'
+      description: 'Medical-grade bottles and containers for safe storage and transportation.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '3',
       name: 'Catheters and Tubes',
       slug: 'catheters-and-tubes',
-      icon: '🔬',
-      description: 'Premium catheters and medical tubing for various clinical procedures. Sterile, latex-free options available for patient safety.',
-      url: 'https://alphamedicalafrica.com/product-category/catheters-and-tubes/'
+      description: 'Premium catheters and medical tubing for various clinical procedures.',
+      image: 'https://images.unsplash.com/photo-1579154204601-01d82b06ae57?w=500&h=400&fit=crop'
     },
     {
       id: '4',
       name: 'Cotton Wool',
       slug: 'cotton-wool',
-      icon: '☁️',
-      description: 'Pure cotton wool products for medical and healthcare applications. Sterilized and packaged for hospital use.',
-      url: 'https://alphamedicalafrica.com/product-category/cotton-wool/'
+      description: 'Pure cotton wool products for medical and healthcare applications.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '5',
       name: 'Diapers and Sanitary',
       slug: 'diapers-and-sanitary',
-      icon: '👶',
-      description: 'Medical-grade incontinence products and sanitary supplies for hospitals and care facilities.',
-      url: 'https://alphamedicalafrica.com/product-category/diapers-and-sanitary/'
+      description: 'Medical-grade incontinence and sanitary supplies for healthcare facilities.',
+      image: 'https://images.unsplash.com/photo-1631217314830-68f7d8fb3d7c?w=500&h=400&fit=crop'
     },
     {
       id: '6',
       name: 'Gloves',
       slug: 'gloves',
-      icon: '🧤',
-      description: 'Protective medical gloves in latex, nitrile, and vinyl options. Available in multiple sizes for clinical and non-clinical use.',
-      url: 'https://alphamedicalafrica.com/product-category/gloves/'
+      description: 'Protective medical gloves in latex, nitrile, and vinyl options.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '7',
       name: 'Hospital Equipments',
       slug: 'hospital-equipments',
-      icon: '🏥',
-      description: 'Essential hospital equipment including monitors, stands, carts, and other critical care devices for healthcare facilities.',
-      url: 'https://alphamedicalafrica.com/product-category/hospital-equipments/'
+      description: 'Essential hospital equipment including monitors and critical care devices.',
+      image: 'https://images.unsplash.com/photo-1576091160668-112b348f1a20?w=500&h=400&fit=crop'
     },
     {
       id: '8',
       name: 'Hospital Furniture',
       slug: 'hospital-furniture',
-      icon: '🛏️',
-      description: 'Professional hospital beds, patient chairs, examination tables, and healthcare furniture designed for comfort and durability.',
-      url: 'https://alphamedicalafrica.com/product-category/hospital-furniture/'
+      description: 'Professional hospital beds, patient chairs, and examination tables.',
+      image: 'https://images.unsplash.com/photo-1631217314830-68f7d8fb3d7c?w=500&h=400&fit=crop'
     },
     {
       id: '9',
       name: 'Hospital Instruments',
       slug: 'hospital-instruments',
-      icon: '⚕️',
-      description: 'Surgical and diagnostic instruments including forceps, specula, scissors, and other precision medical tools.',
-      url: 'https://alphamedicalafrica.com/product-category/hospital-instruments/'
+      description: 'Surgical and diagnostic instruments including precision medical tools.',
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&h=400&fit=crop'
     },
     {
       id: '10',
       name: 'Hospital Linen',
       slug: 'hospital-linen',
-      icon: '🧻',
-      description: 'Medical-grade linens including sheets, pillowcases, and gowns. Sterilizable and designed for healthcare settings.',
-      url: 'https://alphamedicalafrica.com/product-category/hospital-linen/'
+      description: 'Medical-grade linens including sheets, pillowcases, and gowns.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '11',
       name: 'Infection Control',
       slug: 'infection-control',
-      icon: '🛡️',
-      description: 'Comprehensive infection prevention products including disinfectants, sterilization equipment, and protective barriers.',
-      url: 'https://alphamedicalafrica.com/product-category/infection-control/'
+      description: 'Comprehensive infection prevention products and sterilization equipment.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '12',
       name: 'PPE',
       slug: 'ppe',
-      icon: '👕',
-      description: 'Personal Protective Equipment including gowns, masks, respirators, and face shields for healthcare workers and patients.',
-      url: 'https://alphamedicalafrica.com/product-category/ppe/'
+      description: 'Personal Protective Equipment including gowns, masks, and face shields.',
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?w=500&h=400&fit=crop'
     },
     {
       id: '13',
       name: 'Spirits, Detergents and Disinfectants',
       slug: 'spirits-detergents-and-disinfectants',
-      icon: '🧼',
-      description: 'Pharmaceutical-grade disinfectants, cleaning agents, and sterilization solutions for hospital sanitation.',
-      url: 'https://alphamedicalafrica.com/product-category/spirits-detergents-and-disinfectants/'
+      description: 'Pharmaceutical-grade disinfectants and sterilization solutions.',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f6?w=500&h=400&fit=crop'
     },
     {
       id: '14',
       name: 'Syringes and Needles',
       slug: 'syringes-and-needles',
-      icon: '💉',
-      description: 'Sterile syringes and needles in various gauges and sizes. Single-use, safety-engineered options available.',
-      url: 'https://alphamedicalafrica.com/product-category/syringes-and-needles/'
+      description: 'Sterile syringes and needles in various gauges and sizes.',
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?w=500&h=400&fit=crop'
     },
     {
       id: '15',
       name: 'Others',
       slug: 'others',
-      icon: '📦',
-      description: 'Additional medical supplies and healthcare products not covered in other categories.',
-      url: 'https://alphamedicalafrica.com/product-category/others/'
+      description: 'Additional medical supplies and healthcare products.',
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=400&fit=crop'
     }
   ];
+
+  const generateWhatsAppLink = (product: Product) => {
+    const message = `Hi, I'm interested in requesting a quote for: ${product.name}. Could you please provide pricing and availability details?`;
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/?text=${encodedMessage}`;
+  };
 
   return (
     <section className="py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">

@@ -115,7 +115,7 @@ const productCategories: ProductCategory[] = [
   },
   {
     name: 'PPE',
-    icon: '👕',
+    icon: '��',
     products: [
       { name: 'Face Masks', icon: '😷' },
       { name: 'Protective Gowns', icon: '👕' },
@@ -202,7 +202,7 @@ export default function ProductGridDropdown() {
             </div>
 
             {/* Products List */}
-            <div className="p-4 md:p-6 space-y-3">
+            <div className="p-4 md:p-6 space-y-3 pb-20">
               <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4">Available Products</h3>
               {selectedCategory.products.map((product) => (
                 <div
@@ -220,8 +220,8 @@ export default function ProductGridDropdown() {
                 </div>
               ))}
 
-              {/* CTA Button */}
-              <div className="pt-4 md:pt-6 border-t border-gray-200">
+              {/* CTA Button - Sticky at bottom */}
+              <div className="fixed right-0 bottom-0 w-full md:w-96 p-4 md:p-6 bg-gradient-to-t from-white to-white/95 border-t border-gray-200">
                 <a
                   href={`https://wa.me/?text=Hi, I'm interested in ${selectedCategory.name} products. Could you provide more details?`}
                   target="_blank"

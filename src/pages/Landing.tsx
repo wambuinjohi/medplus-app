@@ -409,7 +409,7 @@ export default function Landing() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">Application</h3>
+              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">Company</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
                 <li>
                   <Link to="/app" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
@@ -417,19 +417,14 @@ export default function Landing() {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                  <Link to="/about-us" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                    Our Mission
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                    News
-                  </a>
+                  <Link to="/contact" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                    Contact Us
+                  </Link>
                 </li>
               </ul>
             </div>

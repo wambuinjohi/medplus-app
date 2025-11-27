@@ -333,20 +333,20 @@ export default function Landing() {
       </section>
 
       {/* Talk to Us Section */}
-      <section id="talk-to-us" className="bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 text-white py-32 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      <section id="talk-to-us" className="bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 text-white py-16 sm:py-24 md:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 hidden sm:block">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-48 -mb-48"></div>
         </div>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Talk to us</h2>
-          <p className="text-xl md:text-2xl text-white/95 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">Talk to us</h2>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-6 sm:mb-10 max-w-3xl mx-auto leading-relaxed font-light">
             Interested in our products? Let's connect and discuss how we can support your healthcare needs across Africa.
           </p>
           <Link to="/app">
             <Button
               size="lg"
-              className="bg-white text-blue-600 hover:bg-gray-100 font-bold text-lg px-10 py-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              className="bg-white text-blue-600 hover:bg-gray-100 font-bold text-base sm:text-lg px-6 sm:px-10 py-3 sm:py-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
             >
               Access Our Application
             </Button>

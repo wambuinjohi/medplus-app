@@ -10,21 +10,21 @@ export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const productIconMap: { [key: string]: React.ReactNode } = {
-    'Bandages, Tapes and Dressings': <Bandage size={24} />,
-    'Bottles and Containers': <Package size={24} />,
-    'Catheters and Tubes': <Pipette size={24} />,
-    'Cotton Wool': <Wind size={24} />,
-    'Diapers and Sanitary': <Baby size={24} />,
-    'Gloves': <Hand size={24} />,
-    'Hospital Equipments': <Monitor size={24} />,
-    'Hospital Furniture': <Sofa size={24} />,
-    'Hospital Instruments': <Wrench size={24} />,
-    'Hospital Linen': <Shirt size={24} />,
-    'Infection Control': <Shield size={24} />,
-    'Others': <MoreHorizontal size={24} />,
-    'PPE': <AlertCircle size={24} />,
-    'Spirits, Detergents and Disinfectants': <Droplet size={24} />,
-    'Syringes and Needles': <Syringe size={24} />,
+    'Bandages, Tapes and Dressings': <Bandage size={24} className="text-red-500" />,
+    'Bottles and Containers': <Package size={24} className="text-blue-600" />,
+    'Catheters and Tubes': <Pipette size={24} className="text-purple-600" />,
+    'Cotton Wool': <Wind size={24} className="text-gray-500" />,
+    'Diapers and Sanitary': <Baby size={24} className="text-pink-500" />,
+    'Gloves': <Hand size={24} className="text-yellow-600" />,
+    'Hospital Equipments': <Monitor size={24} className="text-indigo-600" />,
+    'Hospital Furniture': <Sofa size={24} className="text-amber-600" />,
+    'Hospital Instruments': <Wrench size={24} className="text-orange-600" />,
+    'Hospital Linen': <Shirt size={24} className="text-cyan-600" />,
+    'Infection Control': <Shield size={24} className="text-green-600" />,
+    'Others': <MoreHorizontal size={24} className="text-slate-600" />,
+    'PPE': <AlertCircle size={24} className="text-rose-600" />,
+    'Spirits, Detergents and Disinfectants': <Droplet size={24} className="text-teal-600" />,
+    'Syringes and Needles': <Syringe size={24} className="text-lime-600" />,
   };
 
   const navigationItems = [

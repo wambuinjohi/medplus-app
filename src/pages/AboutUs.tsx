@@ -1,22 +1,30 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/PublicHeader';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function AboutUs() {
+  useSEO(
+    {
+      title: 'About Us',
+      description: 'Learn about Medplus Africa, our journey, mission, and commitment to healthcare excellence. Over 10 years of trusted service in medical supplies and hospital equipment distribution.',
+      keywords: 'about medplus, healthcare distributor, medical supplies, hospital equipment, Africa',
+      url: 'https://medplusafrica.com/about-us',
+    },
+    generateWebPageSchema({
+      title: 'About Medplus Africa',
+      description: 'Learn about our company, mission, and commitment to healthcare excellence',
+      url: 'https://medplusafrica.com/about-us',
+    })
+  );
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader currentPage="about" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">About Us</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'About Us', href: '/about-us' }]} />
 
       {/* Page Hero */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">

@@ -72,7 +72,7 @@ const productCategories: ProductCategory[] = [
     name: 'Hospital Equipments',
     icon: '🏥',
     products: [
-      { name: 'Patient Monitors', icon: '���' },
+      { name: 'Patient Monitors', icon: '📊' },
       { name: 'Hospital Carts', icon: '🛒' },
       { name: 'Infusion Pumps', icon: '💧' },
     ]
@@ -90,7 +90,7 @@ const productCategories: ProductCategory[] = [
     name: 'Hospital Instruments',
     icon: '⚕️',
     products: [
-      { name: 'Surgical Scissors', icon: '���️' },
+      { name: 'Surgical Scissors', icon: '�����️' },
       { name: 'Specula', icon: '⚕️' },
       { name: 'Forceps', icon: '🔧' },
     ]
@@ -157,7 +157,7 @@ export default function ProductGridDropdown() {
   return (
     <>
       {/* Grid Dropdown */}
-      <div className="absolute top-full mt-2 left-0 bg-white shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-6 px-4 sm:py-8 sm:px-8 z-50 border border-gray-100" style={{ width: 'calc(100vw - 1rem)', maxWidth: 'calc(100vw - 1rem)', marginLeft: 'calc(-100vw / 2 + 50%)' }}>
+      <div className="absolute top-full mt-2 bg-white shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-6 px-4 sm:py-8 sm:px-8 z-50 border border-gray-100" style={{ left: '50%', transform: 'translateX(calc(-50vw + 50%))', width: 'calc(100vw - 1rem)', maxWidth: 'calc(100vw - 1rem)' }}>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 w-full">
           {productCategories.map((category) => (
             <button

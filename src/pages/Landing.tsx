@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import HeroSlider from '@/components/HeroSlider';
+import ProductsSection from '@/components/ProductsSection';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -183,6 +184,9 @@ export default function Landing() {
 
       {/* Hero Section with Slider */}
       <HeroSlider />
+
+      {/* Products Section */}
+      <ProductsSection />
 
       {/* Our Goals Section */}
       <section className="py-24 bg-gradient-to-b from-white to-blue-50/30">

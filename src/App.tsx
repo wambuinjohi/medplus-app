@@ -62,37 +62,37 @@ const App = () => {
           />
 
           {/* Sales & Customer Management */}
-          <Route 
-            path="/quotations" 
+          <Route
+            path="/app/quotations"
             element={
               <ProtectedRoute>
                 <Quotations />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/quotations/new" 
+          <Route
+            path="/app/quotations/new"
             element={
               <ProtectedRoute>
                 <Quotations />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/customers" 
+          <Route
+            path="/app/customers"
             element={
               <ProtectedRoute>
                 <Customers />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/customers/new" 
+          <Route
+            path="/app/customers/new"
             element={
               <ProtectedRoute>
                 <Customers />
               </ProtectedRoute>
-            } 
+            }
           />
 
           {/* Financial Management */}

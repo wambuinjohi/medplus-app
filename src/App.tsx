@@ -163,45 +163,45 @@ const App = () => {
           />
 
           {/* Procurement & Inventory */}
-          <Route 
-            path="/lpos" 
+          <Route
+            path="/app/lpos"
             element={
               <ProtectedRoute>
                 <LPOs />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/lpos/new" 
+          <Route
+            path="/app/lpos/new"
             element={
               <ProtectedRoute>
                 <LPOs />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/inventory" 
+          <Route
+            path="/app/inventory"
             element={
               <ProtectedRoute>
                 <Inventory />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/inventory/new" 
+          <Route
+            path="/app/inventory/new"
             element={
               <ProtectedRoute>
                 <Inventory />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/delivery-notes" 
+          <Route
+            path="/app/delivery-notes"
             element={
               <ProtectedRoute>
                 <DeliveryNotes />
               </ProtectedRoute>
-            } 
+            }
           />
 
           {/* Additional Features */}

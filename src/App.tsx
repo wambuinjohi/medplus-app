@@ -46,6 +46,9 @@ const App = () => {
     // Suppress ResizeObserver loop errors
     enableResizeObserverErrorSuppression();
 
+    // Add global Organization schema for SEO
+    addStructuredData(generateOrganizationSchema());
+
   }, []);
 
   return (

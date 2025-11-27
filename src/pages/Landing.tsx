@@ -116,13 +116,13 @@ export default function Landing() {
                     {item.submenu && <ChevronDown size={16} className="group-hover:rotate-180 transition-transform duration-200" />}
                   </a>
                   {item.submenu && (
-                    <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-auto bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-3 px-3 z-10 border border-gray-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:w-3 before:h-3 before:bg-white before:border-t before:border-l before:border-gray-100 before:rotate-45">
-                      <div className="grid grid-cols-5 gap-x-6 gap-y-2">
+                    <div className="absolute left-1/2 -translate-x-1/2 mt-2 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 border border-gray-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:w-3 before:h-3 before:bg-white before:border-t before:border-l before:border-gray-100 before:rotate-45" style={{ minWidth: '600px' }}>
+                      <div className="grid grid-cols-5 gap-x-8 gap-y-3 p-4">
                         {item.submenu.map((sub) => (
                           <a
                             key={sub}
                             href="#"
-                            className="whitespace-nowrap text-xs text-gray-700 hover:text-primary hover:font-semibold transition-colors py-1"
+                            className="text-sm text-gray-700 hover:text-primary hover:font-semibold transition-colors whitespace-normal leading-tight"
                           >
                             {sub}
                           </a>

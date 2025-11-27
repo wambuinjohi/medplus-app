@@ -2,17 +2,21 @@ import { Link } from 'react-router-dom';
 import { getProductBySlug } from '@/data/products';
 
 interface ProductCategory {
-  name: string;
+  name?: string;
   icon?: string;
   description?: string;
   slug?: string;
 }
 
 interface PublicFooterProps {
-  productCategories?: ProductCategory[];
+  productCategories?: (ProductCategory | string)[];
 }
 
 export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
+  const getCategoryName = (category: ProductCategory | string): string => {
+    return typeof category === 'string' ? category : category.name || '';
+  };
+
   const getProductSlug = (category: string) => {
     const product = getProductBySlug(category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
     return product?.slug || category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

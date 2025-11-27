@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Landing from "./pages/Landing";
 import AboutUs from "./pages/AboutUs";
 import OurProducts from "./pages/OurProducts";
+import ProductDetail from "./pages/ProductDetail";
 import Contact from "./pages/Contact";
 import Media from "./pages/Media";
 import Offers from "./pages/Offers";
@@ -56,6 +57,7 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/products" element={<OurProducts />} />
+          <Route path="/products/:productSlug" element={<ProductDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/media" element={<Media />} />
           <Route path="/offers" element={<Offers />} />

@@ -101,7 +101,7 @@ export default function Landing() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 flex-1">
+            <nav className="hidden md:flex items-center space-x-8 ml-auto">
               {navigationItems.map((item) => {
               if (item.label === 'Talk to us') {
                 return (

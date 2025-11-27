@@ -1,8 +1,24 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/PublicHeader';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function OurProducts() {
+  useSEO(
+    {
+      title: 'Our Products',
+      description: 'Browse our comprehensive range of medical supplies and hospital equipment. From bandages and dressings to hospital furniture and instruments.',
+      keywords: 'medical products, hospital supplies, healthcare equipment, medical equipment',
+      url: 'https://medplusafrica.com/products',
+    },
+    generateWebPageSchema({
+      title: 'Our Products - Medical Supplies & Equipment',
+      description: 'Comprehensive range of hospital consumables, medical equipment, and furniture',
+      url: 'https://medplusafrica.com/products',
+    })
+  );
   const productCategories = [
     { name: 'Bandages, Tapes and Dressings', icon: '🩹', description: 'Complete range of medical dressings and bandages for wound care' },
     { name: 'Bottles and Containers', icon: '🧴', description: 'Sterile containers for specimen collection and storage' },
@@ -26,18 +42,10 @@ export default function OurProducts() {
       <PublicHeader currentPage="products" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Our Products</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'Our Products', href: '/products' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
           <p className="text-xl text-white/90">Comprehensive range of medical supplies and hospital equipment</p>
@@ -49,7 +57,7 @@ export default function OurProducts() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-lg text-gray-700 leading-relaxed">
-              Alpha Medical offers a comprehensive range of hospital consumables, medical equipment, and furniture to meet all your healthcare facility needs. Our products are sourced from trusted manufacturers and meet international quality standards.
+              Medplus Africa offers a comprehensive range of hospital consumables, medical equipment, and furniture to meet all your healthcare facility needs. Our products are sourced from trusted manufacturers and meet international quality standards.
             </p>
           </div>
         </div>
@@ -131,7 +139,7 @@ export default function OurProducts() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Need More Information?</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
@@ -164,7 +172,7 @@ export default function OurProducts() {
               </a>
             </div>
             <p className="text-gray-400 text-sm mt-6 text-center">
-              © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+              © 2025 Medplus Africa. All rights reserved.
             </p>
           </div>
         </div>

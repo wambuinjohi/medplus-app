@@ -1,13 +1,28 @@
 import { useState } from 'react';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PublicHeader } from '@/components/PublicHeader';
 import { useToast } from '@/hooks/use-toast';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function Contact() {
+  useSEO(
+    {
+      title: 'Contact Us',
+      description: 'Get in touch with Medplus Africa for inquiries and support. We provide quality medical supplies and hospital equipment to healthcare facilities across Africa.',
+      keywords: 'contact medplus, medical supplies contact, customer support',
+      url: 'https://medplusafrica.com/contact',
+    },
+    generateWebPageSchema({
+      title: 'Contact Medplus Africa',
+      description: 'Get in touch with our team for inquiries and support',
+      url: 'https://medplusafrica.com/contact',
+    })
+  );
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -64,18 +79,10 @@ export default function Contact() {
       <PublicHeader currentPage="contact" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Contact Us</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'Contact Us', href: '/contact' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
           <p className="text-xl text-white/90">Get in touch with our team for inquiries and support</p>
@@ -187,8 +194,8 @@ export default function Contact() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Sales & Inquiries</h3>
                   <p className="text-gray-600 mb-1">
-                    <a href="mailto:sales@alphamedicalafrica.com" className="text-primary hover:underline">
-                      sales@alphamedicalafrica.com
+                    <a href="mailto:sales@medplusafrica.com" className="text-primary hover:underline">
+                      sales@medplusafrica.com
                     </a>
                   </p>
                   <p className="text-gray-600">
@@ -201,8 +208,8 @@ export default function Contact() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">General Inquiries</h3>
                   <p className="text-gray-600 mb-1">
-                    <a href="mailto:admin@alphamedicalafrica.com" className="text-primary hover:underline">
-                      admin@alphamedicalafrica.com
+                    <a href="mailto:info@medplusafrica.com" className="text-primary hover:underline">
+                      info@medplusafrica.com
                     </a>
                   </p>
                   <p className="text-gray-600">
@@ -267,7 +274,7 @@ export default function Contact() {
               </a>
             </div>
             <p className="text-gray-400 text-sm mt-6 text-center">
-              © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+              © 2025 Medplus Africa. All rights reserved.
             </p>
           </div>
         </div>

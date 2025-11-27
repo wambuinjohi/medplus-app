@@ -1,27 +1,35 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/PublicHeader';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function AboutUs() {
+  useSEO(
+    {
+      title: 'About Us',
+      description: 'Learn about Medplus Africa, our journey, mission, and commitment to healthcare excellence. Over 10 years of trusted service in medical supplies and hospital equipment distribution.',
+      keywords: 'about medplus, healthcare distributor, medical supplies, hospital equipment, Africa',
+      url: 'https://medplusafrica.com/about-us',
+    },
+    generateWebPageSchema({
+      title: 'About Medplus Africa',
+      description: 'Learn about our company, mission, and commitment to healthcare excellence',
+      url: 'https://medplusafrica.com/about-us',
+    })
+  );
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader currentPage="about" />
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">About Us</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'About Us', href: '/about-us' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">About Alpha Medical</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">About Medplus Africa</h1>
           <p className="text-xl text-white/90">Learn about our journey, mission, and commitment to healthcare excellence</p>
         </div>
       </section>
@@ -34,7 +42,7 @@ export default function AboutUs() {
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
               <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
                 <p>
-                  Founded in 1989, Alpha Medical has been a trusted distributor of critical care, hospital consumables, and furniture for over three decades. What started as a small operation has grown into a leading healthcare solutions provider across Africa.
+                  With over 10 years of trusted service, Medplus Africa has been a leading distributor of critical care, hospital consumables, and furniture. What started as a small operation has grown into a leading healthcare solutions provider across Africa.
                 </p>
                 <p>
                   Our journey is built on the foundation of quality, reliability, and a deep commitment to improving healthcare delivery. We understand the challenges faced by hospitals and healthcare facilities, and we're dedicated to providing solutions that make a difference.
@@ -131,7 +139,7 @@ export default function AboutUs() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Partner With Us?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -168,7 +176,7 @@ export default function AboutUs() {
               </a>
             </div>
             <p className="text-gray-400 text-sm mt-6 text-center">
-              © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+              © 2025 Medplus Africa. All rights reserved.
             </p>
           </div>
         </div>

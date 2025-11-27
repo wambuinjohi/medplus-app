@@ -1,13 +1,29 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BiolegendLogo } from '@/components/ui/biolegend-logo';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateWebPageSchema } from '@/utils/seoHelpers';
 
 export default function Media() {
+  useSEO(
+    {
+      title: 'Media Center',
+      description: 'Latest news, CME sessions, and events from Medplus Africa. Stay updated on industry news and healthcare developments.',
+      keywords: 'healthcare news, medical news, healthcare events, CME sessions',
+      url: 'https://medplusafrica.com/media',
+    },
+    generateWebPageSchema({
+      title: 'Media Center - News & Events',
+      description: 'News, CME sessions, and events',
+      url: 'https://medplusafrica.com/media',
+    })
+  );
   const newsItems = [
     {
       id: 1,
       date: 'January 15, 2025',
-      title: 'Alpha Medical Expands Operations to East Africa',
+      title: 'Medplus Africa Expands Operations to East Africa',
       excerpt: 'We are excited to announce the opening of our new distribution center in Kampala, Uganda...',
       category: 'News'
     },
@@ -15,7 +31,7 @@ export default function Media() {
       id: 2,
       date: 'January 8, 2025',
       title: 'New Partnership with International Healthcare Organization',
-      excerpt: 'Alpha Medical has partnered with leading international healthcare organizations to improve access...',
+      excerpt: 'Medplus Africa has partnered with leading international healthcare organizations to improve access...,',
       category: 'News'
     },
     {
@@ -28,7 +44,7 @@ export default function Media() {
     {
       id: 4,
       date: 'December 15, 2024',
-      title: 'Alpha Medical Achieves ISO 9001 Certification',
+      title: 'Medplus Africa Achieves ISO 9001 Certification',
       excerpt: 'We are proud to announce that we have successfully obtained ISO 9001 certification...',
       category: 'News'
     },
@@ -72,7 +88,7 @@ export default function Media() {
     {
       id: 2,
       date: 'February 28, 2025',
-      title: 'Alpha Medical Product Exhibition',
+      title: 'Medplus Africa Product Exhibition',
       location: 'Kenyatta International Convention Center',
       description: 'Showcase of our latest products and solutions in medical supplies and equipment.',
     },
@@ -105,18 +121,10 @@ export default function Media() {
       </header>
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Media</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[{ label: 'Media', href: '/media' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Media Center</h1>
           <p className="text-xl text-white/90">News, CME sessions, and events</p>
@@ -175,7 +183,7 @@ export default function Media() {
                     <p className="text-gray-600 mb-2">{item.description}</p>
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <span>📅 {item.date}</span>
-                      <span>📍 {item.location}</span>
+                      <span>�� {item.location}</span>
                     </div>
                   </div>
                   <Button className="bg-primary hover:bg-primary/90 text-white font-semibold whitespace-nowrap">
@@ -221,7 +229,7 @@ export default function Media() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="bg-gradient-to-r from-primary/90 to-primary text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Stay Updated</h2>
           <p className="text-xl text-white/90 mb-8">
@@ -259,7 +267,7 @@ export default function Media() {
               </a>
             </div>
             <p className="text-gray-400 text-sm mt-6 text-center">
-              © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+              © 2025 Medplus Africa. All rights reserved.
             </p>
           </div>
         </div>

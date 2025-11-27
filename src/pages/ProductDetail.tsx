@@ -7,12 +7,34 @@ import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import { useToast } from '@/hooks/use-toast';
 import { getProductBySlug } from '@/data/products';
 import { MessageCircle, ArrowLeft, Check } from 'lucide-react';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { useSEO } from '@/hooks/useSEO';
+import { generateProductSchema, SITE_CONFIG } from '@/utils/seoHelpers';
 
 export default function ProductDetail() {
   const { productSlug } = useParams<{ productSlug: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const product = productSlug ? getProductBySlug(productSlug) : undefined;
+
+  // Set SEO for product
+  useSEO(
+    {
+      title: product?.name || 'Product',
+      description: product?.description || 'Medical product from Medplus Africa',
+      keywords: `${product?.name}, medical supplies, ${product?.category}`,
+      url: `${SITE_CONFIG.url}/products/${productSlug}`,
+      type: 'product',
+      image: product?.image,
+    },
+    product ? generateProductSchema({
+      name: product.name,
+      description: product.description,
+      image: product.image,
+      url: `${SITE_CONFIG.url}/products/${productSlug}`,
+      category: product.category,
+    }) : undefined
+  );
 
   const [quotationForm, setQuotationForm] = useState({
     quantity: '',
@@ -133,17 +155,10 @@ Please provide a quotation for the above product and delivery terms.`;
       </header>
 
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="text-sm text-gray-600 flex items-center gap-2">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/products" className="hover:text-primary transition-colors">Products</Link>
-            <span>/</span>
-            <span className="text-gray-900 font-medium">{product.name}</span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav items={[
+        { label: 'Products', href: '/products' },
+        { label: product.name, href: `/products/${productSlug}` }
+      ]} />
 
       {/* Product Details */}
       <section className="py-12">
@@ -349,7 +364,7 @@ Please provide a quotation for the above product and delivery terms.`;
               Have questions about this product or need more information?
             </p>
             <p className="text-gray-600 mb-6">
-              Sales Email: <a href="mailto:sales@alphamedicalafrica.com" className="text-primary hover:underline font-semibold">sales@alphamedicalafrica.com</a><br />
+              Sales Email: <a href="mailto:sales@medplusafrica.com" className="text-primary hover:underline font-semibold">sales@medplusafrica.com</a><br />
               Phone: <a href="tel:+254734785363" className="text-primary hover:underline font-semibold">+254 734 785 363</a>
             </p>
             <Link to="/contact">
@@ -380,7 +395,7 @@ Please provide a quotation for the above product and delivery terms.`;
               </a>
             </div>
             <p className="text-gray-400 text-sm text-center">
-              © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+              © 2025 Medplus Africa. All rights reserved.
             </p>
           </div>
         </div>

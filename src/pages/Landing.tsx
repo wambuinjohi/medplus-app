@@ -6,9 +6,21 @@ import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import HeroSlider from '@/components/HeroSlider';
 import ProductsSection from '@/components/ProductsSection';
 import { getProductBySlug } from '@/data/products';
+import { useSEO } from '@/hooks/useSEO';
+import { generateOrganizationSchema } from '@/utils/seoHelpers';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useSEO(
+    {
+      title: 'Home - Medical Supplies & Hospital Equipment',
+      description: 'Medplus Africa - Trusted distributor of critical care supplies, hospital consumables, and furniture. Over 10 years of serving healthcare facilities across Africa.',
+      keywords: 'medical supplies, hospital equipment, critical care, healthcare distributor, Africa',
+      url: 'https://medplusafrica.com/',
+    },
+    generateOrganizationSchema()
+  );
 
   const productIconMap: { [key: string]: React.ReactNode } = {
     'Bandages, Tapes and Dressings': <Bandage size={24} className="text-red-500" />,
@@ -409,7 +421,7 @@ export default function Landing() {
           <div className="border-t border-gray-700 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
-                © 2025 Alpha Medical Manufacturers Limited. All rights reserved.
+                © 2025 Medplus Africa. All rights reserved.
               </p>
               <div className="flex gap-6">
                 <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">

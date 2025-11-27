@@ -113,10 +113,10 @@ export default function Landing() {
                     className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1 font-medium"
                   >
                     {item.label}
-                    {item.submenu && <ChevronDown size={16} />}
+                    {item.submenu && <ChevronDown size={16} className="group-hover:rotate-180 transition-transform duration-200" />}
                   </a>
                   {item.submenu && (
-                    <div className="absolute left-0 mt-0 w-64 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10 border border-gray-100">
+                    <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10 border border-gray-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:w-3 before:h-3 before:bg-white before:border-t before:border-l before:border-gray-100 before:rotate-45">
                       {item.submenu.map((sub) => (
                         <a
                           key={sub}

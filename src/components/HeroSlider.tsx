@@ -20,8 +20,8 @@ export default function HeroSlider() {
     },
     {
       id: 2,
-      image: 'https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?w=1200&h=800&fit=crop',
-      alt: 'Stethoscope and heart health medical equipment'
+      image: 'https://images.pexels.com/photos/20041997/pexels-photo-20041997.jpeg?w=1200&h=800&fit=crop',
+      alt: 'Modern hospital examination room with medical equipment'
     },
     {
       id: 3,

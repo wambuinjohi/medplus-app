@@ -115,22 +115,18 @@ export default function Landing() {
                     {item.label}
                     {item.submenu && <ChevronDown size={16} />}
                   </a>
-                  {item.label === 'Our Products' ? (
-                    <ProductGridDropdown />
-                  ) : (
-                    item.submenu && (
-                      <div className="absolute left-0 mt-0 w-64 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10 border border-gray-100">
-                        {item.submenu.map((sub) => (
-                          <a
-                            key={sub}
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
-                          >
-                            {sub}
-                          </a>
-                        ))}
-                      </div>
-                    )
+                  {item.submenu && (
+                    <div className="absolute left-0 mt-0 w-64 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-10 border border-gray-100">
+                      {item.submenu.map((sub) => (
+                        <a
+                          key={sub}
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
+                        >
+                          {sub}
+                        </a>
+                      ))}
+                    </div>
                   )}
                 </div>
               );

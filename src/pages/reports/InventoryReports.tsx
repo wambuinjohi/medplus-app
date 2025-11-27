@@ -337,7 +337,7 @@ export default function InventoryReports() {
               <Package className="h-8 w-8 text-primary" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Items In Stock</p>
-                <p className="text-2xl font-bold text-primary">{stats.totalItems}</p>
+                <p className="text-lg font-bold text-primary">{stats.totalItems}</p>
                 <p className="text-xs text-muted-foreground">Total quantity</p>
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function InventoryReports() {
               <TrendingUp className="h-8 w-8 text-success" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Stock Value</p>
-                <p className="text-2xl font-bold text-success">${stats.stockValue.toFixed(2)}</p>
+                <p className="text-lg font-bold text-success">${stats.stockValue.toFixed(2)}</p>
                 <p className="text-xs text-success">At cost price</p>
               </div>
             </div>
@@ -363,7 +363,7 @@ export default function InventoryReports() {
               <TrendingDown className="h-8 w-8 text-warning" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Low Stock Items</p>
-                <p className="text-2xl font-bold text-warning">{stats.lowStock}</p>
+                <p className="text-lg font-bold text-warning">{stats.lowStock}</p>
                 <p className="text-xs text-warning">Need attention</p>
               </div>
             </div>
@@ -376,7 +376,7 @@ export default function InventoryReports() {
               <AlertTriangle className="h-8 w-8 text-destructive" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Out of Stock</p>
-                <p className="text-2xl font-bold text-destructive">{stats.outOfStock}</p>
+                <p className="text-lg font-bold text-destructive">{stats.outOfStock}</p>
                 <p className="text-xs text-destructive">Urgent reorder</p>
               </div>
             </div>

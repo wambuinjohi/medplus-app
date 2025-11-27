@@ -96,56 +96,56 @@ const App = () => {
           />
 
           {/* Financial Management */}
-          <Route 
-            path="/invoices" 
+          <Route
+            path="/app/invoices"
             element={
               <ProtectedRoute>
                 <Invoices />
               </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/invoices/new" 
-            element={
-              <ProtectedRoute>
-                <Invoices />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/payments" 
-            element={
-              <ProtectedRoute>
-                <Payments />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/payments/new" 
-            element={
-              <ProtectedRoute>
-                <Payments />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/credit-notes" 
-            element={
-              <ProtectedRoute>
-                <CreditNotes />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/credit-notes/new" 
-            element={
-              <ProtectedRoute>
-                <CreditNotes />
-              </ProtectedRoute>
-            } 
+            }
           />
           <Route
-            path="/proforma"
+            path="/app/invoices/new"
+            element={
+              <ProtectedRoute>
+                <Invoices />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/payments"
+            element={
+              <ProtectedRoute>
+                <Payments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/payments/new"
+            element={
+              <ProtectedRoute>
+                <Payments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/credit-notes"
+            element={
+              <ProtectedRoute>
+                <CreditNotes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/credit-notes/new"
+            element={
+              <ProtectedRoute>
+                <CreditNotes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/proforma"
             element={
               <ProtectedRoute>
                 <Proforma />
@@ -154,7 +154,7 @@ const App = () => {
           />
 
           <Route
-            path="/admin/audit-logs"
+            path="/app/admin/audit-logs"
             element={
               <ProtectedRoute>
                 <AuditLogs />

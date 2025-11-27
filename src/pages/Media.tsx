@@ -7,7 +7,7 @@ export default function Media() {
     {
       id: 1,
       date: 'January 15, 2025',
-      title: 'Alpha Medical Expands Operations to East Africa',
+      title: 'Medplus Africa Expands Operations to East Africa',
       excerpt: 'We are excited to announce the opening of our new distribution center in Kampala, Uganda...',
       category: 'News'
     },
@@ -15,7 +15,7 @@ export default function Media() {
       id: 2,
       date: 'January 8, 2025',
       title: 'New Partnership with International Healthcare Organization',
-      excerpt: 'Alpha Medical has partnered with leading international healthcare organizations to improve access...',
+      excerpt: 'Medplus Africa has partnered with leading international healthcare organizations to improve access...,',
       category: 'News'
     },
     {
@@ -28,7 +28,7 @@ export default function Media() {
     {
       id: 4,
       date: 'December 15, 2024',
-      title: 'Alpha Medical Achieves ISO 9001 Certification',
+      title: 'Medplus Africa Achieves ISO 9001 Certification',
       excerpt: 'We are proud to announce that we have successfully obtained ISO 9001 certification...',
       category: 'News'
     },
@@ -72,7 +72,7 @@ export default function Media() {
     {
       id: 2,
       date: 'February 28, 2025',
-      title: 'Alpha Medical Product Exhibition',
+      title: 'Medplus Africa Product Exhibition',
       location: 'Kenyatta International Convention Center',
       description: 'Showcase of our latest products and solutions in medical supplies and equipment.',
     },

@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { enableResizeObserverErrorSuppression } from "@/utils/resizeObserverErrorHandler";
 import { useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
+import { addStructuredData, generateOrganizationSchema } from "@/utils/seoHelpers";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Landing from "./pages/Landing";
 import AboutUs from "./pages/AboutUs";

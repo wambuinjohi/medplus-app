@@ -16,7 +16,7 @@ export default function ProductsSection() {
       name: 'Bandages, Tapes and Dressings',
       slug: 'bandages-tapes-and-dressings',
       description: 'High-quality bandages, tapes, and medical dressings for wound care and protection.',
-      image: 'https://images.pexels.com/photos-7469494/pexels-photo-7469494.jpeg?w=500&h=400&fit=crop'
+      image: 'https://images.pexels.com/photos/7469494/pexels-photo-7469494.jpeg?w=500&h=400&fit=crop'
     },
     {
       id: '2',

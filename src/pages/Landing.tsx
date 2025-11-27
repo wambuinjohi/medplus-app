@@ -363,37 +363,49 @@ export default function Landing() {
             <div>
               <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">Products</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(0, 5).map((cat) => (
-                  <li key={cat}>
-                    <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      {cat}
-                    </a>
-                  </li>
-                ))}
+                {productCategories.slice(0, 5).map((cat) => {
+                  const product = getProductBySlug(cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+                  const productSlug = product?.slug || cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                  return (
+                    <li key={cat}>
+                      <Link to={`/products/${productSlug}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                        {cat}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">More Products</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(5, 10).map((cat) => (
-                  <li key={cat}>
-                    <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      {cat}
-                    </a>
-                  </li>
-                ))}
+                {productCategories.slice(5, 10).map((cat) => {
+                  const product = getProductBySlug(cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+                  const productSlug = product?.slug || cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                  return (
+                    <li key={cat}>
+                      <Link to={`/products/${productSlug}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                        {cat}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">Additional</h3>
               <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(10).map((cat) => (
-                  <li key={cat}>
-                    <a href="#" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      {cat}
-                    </a>
-                  </li>
-                ))}
+                {productCategories.slice(10).map((cat) => {
+                  const product = getProductBySlug(cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+                  const productSlug = product?.slug || cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                  return (
+                    <li key={cat}>
+                      <Link to={`/products/${productSlug}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                        {cat}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div>

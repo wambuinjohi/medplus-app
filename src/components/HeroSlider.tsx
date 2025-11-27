@@ -126,19 +126,25 @@ export default function HeroSlider() {
 
             {/* Right: Image Section */}
             <div className="hidden md:flex justify-center items-center h-full">
-              <div className="relative w-full max-w-md h-96">
+              <div className="relative w-full max-w-md h-96 overflow-hidden rounded-2xl">
                 {/* Main Image */}
-                <div
-                  className="absolute inset-0 transition-opacity duration-1200 rounded-2xl overflow-hidden shadow-2xl"
-                >
-                  <img
-                    src={slides[currentSlide].image}
-                    alt={slides[currentSlide].alt}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Subtle overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                </div>
+                {slides.map((slide, index) => (
+                  <div
+                    key={slide.id}
+                    className="absolute inset-0 transition-transform duration-1200 ease-out rounded-2xl overflow-hidden shadow-2xl"
+                    style={{
+                      transform: `translateX(${(index - currentSlide) * 100}%)`
+                    }}
+                  >
+                    <img
+                      src={slide.image}
+                      alt={slide.alt}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Subtle overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+                ))}
 
                 {/* Navigation Arrows */}
                 <div className="absolute inset-0 flex items-center justify-between px-4">

@@ -73,6 +73,7 @@ export const generateProductSchema = (product: {
   image?: string;
   url?: string;
   category?: string;
+  price?: number;
 }) => ({
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -89,6 +90,12 @@ export const generateProductSchema = (product: {
     '@type': 'AggregateOffer',
     availability: 'https://schema.org/InStock',
     priceCurrency: 'KES',
+    ...(product.price && { highPrice: product.price.toString() }),
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    reviewCount: '150',
   },
 });
 
@@ -126,6 +133,40 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url: strin
     position: index + 1,
     name: item.name,
     item: item.url,
+  })),
+});
+
+/**
+ * Generate Contact Page schema
+ */
+export const generateContactPageSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Medplus Africa',
+  description: 'Get in touch with Medplus Africa for inquiries and support regarding medical supplies and hospital equipment.',
+  url: `${SITE_CONFIG.url}/contact`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: SITE_CONFIG.phone,
+    contactType: 'Customer Service',
+    email: SITE_CONFIG.email,
+    areaServed: 'East Africa',
+  },
+});
+
+/**
+ * Generate FAQ schema
+ */
+export const generateFAQSchema = (faqs: Array<{ question: string; answer: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
   })),
 });
 

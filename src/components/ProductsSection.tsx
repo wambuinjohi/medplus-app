@@ -184,11 +184,11 @@ export default function ProductsSection() {
         </div>
 
         {/* View All Button */}
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-8 sm:mt-12">
           <Link to="/products">
-            <button className="bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-4 px-10 rounded-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2 text-lg">
+            <button className="bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-3 sm:py-4 px-6 sm:px-10 rounded-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2 text-base sm:text-lg w-full sm:w-auto">
               View All Products
-              <ArrowRight size={20} />
+              <ArrowRight size={18} className="sm:w-5 sm:h-5" />
             </button>
           </Link>
         </div>

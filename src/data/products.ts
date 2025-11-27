@@ -21,7 +21,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 'bandages-tapes-dressings',
-    slug: 'bandages-tapes-dressings',
+    slug: 'bandages-tapes-and-dressings',
     name: 'Bandages, Tapes and Dressings',
     image: 'https://images.unsplash.com/photo-1584308666744-24d5f400f6f0?w=500&h=400&fit=crop',
     description: 'Complete range of medical dressings and bandages for wound care',

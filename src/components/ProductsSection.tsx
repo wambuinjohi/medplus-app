@@ -23,7 +23,7 @@ export default function ProductsSection() {
       name: 'Bottles and Containers',
       slug: 'bottles-and-containers',
       description: 'Medical-grade bottles and containers for safe storage and transportation.',
-      image: 'https://images.pexels.com/photos/10051525/pexels-photo-10051525.jpeg?w=500&h=400&fit=crop'
+      image: 'https://images.pexels.com/photos/5921726/pexels-photo-5921726.jpeg?w=500&h=400&fit=crop'
     },
     {
       id: '3',

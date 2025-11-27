@@ -13,6 +13,7 @@ import { generateOrganizationSchema } from '@/utils/seoHelpers';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
 
   useSEO(
     {

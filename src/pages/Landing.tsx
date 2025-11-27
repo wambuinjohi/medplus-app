@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import HeroSlider from '@/components/HeroSlider';
 import ProductsSection from '@/components/ProductsSection';
-import ProductGridDropdown from '@/components/ProductGridDropdown';
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -14,42 +14,37 @@ Product variant images are now uploaded directly to Supabase Storage instead of 
    - **Public bucket**: Yes (so images can be accessed publicly)
    - **File size limit**: 5 MB
 
-### 2. Set Storage Policies
+### 2. Disable Row Level Security (RLS)
 
-For the `product-images` bucket, set these RLS policies:
+To allow unrestricted public uploads:
 
-#### Allow Authenticated Users to Upload
+1. Go to **Authentication** → **Policies** in your Supabase dashboard
+2. Find the **storage.objects** table
+3. **Disable RLS** on the `storage.objects` table (this removes all RLS restrictions)
+
+Alternatively, if you want to keep RLS enabled but allow public access:
+
 ```sql
--- Allow authenticated users to upload images
-CREATE POLICY "Allow authenticated users to upload images"
-ON storage.objects
-FOR INSERT
-WITH CHECK (
-  bucket_id = 'product-images'
-  AND auth.role() = 'authenticated'
-);
-```
-
-#### Allow Public Read Access
-```sql
--- Allow public read access to all images
-CREATE POLICY "Allow public read access"
+-- Allow public read access
+CREATE POLICY "Allow public read"
 ON storage.objects
 FOR SELECT
 USING (bucket_id = 'product-images');
-```
 
-#### Allow Users to Delete Their Own Files (Optional)
-```sql
--- Allow authenticated users to delete their own images
-CREATE POLICY "Allow users to delete their own images"
+-- Allow public upload
+CREATE POLICY "Allow public upload"
+ON storage.objects
+FOR INSERT
+WITH CHECK (bucket_id = 'product-images');
+
+-- Allow public delete
+CREATE POLICY "Allow public delete"
 ON storage.objects
 FOR DELETE
-USING (
-  bucket_id = 'product-images'
-  AND auth.role() = 'authenticated'
-);
+USING (bucket_id = 'product-images');
 ```
+
+**Note:** Disabling RLS entirely is simpler but less secure. Use public policies if you want some protection.
 
 ### 3. Verify Setup
 

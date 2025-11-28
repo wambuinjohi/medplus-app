@@ -9,9 +9,11 @@ import { useWebCategories } from '@/hooks/useWebCategories';
 
 export function AuthTest() {
   const { user, isAuthenticated, loading } = useAuth();
+  const { categories } = useWebCategories();
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto p-6">
+    <div className="flex flex-col min-h-screen">
+      <div className="space-y-6 max-w-4xl mx-auto p-6 flex-1">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-foreground mb-2">Authentication Test</h1>
         <p className="text-muted-foreground">
@@ -142,6 +144,8 @@ export function AuthTest() {
           </div>
         </CardContent>
       </Card>
+      </div>
+      <PublicFooter productCategories={categories} />
     </div>
   );
 }

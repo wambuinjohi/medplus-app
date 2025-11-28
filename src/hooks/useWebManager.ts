@@ -164,15 +164,10 @@ export const useWebManager = () => {
     try {
       setError(null);
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
       const { error: err } = await supabase
         .from('web_categories')
         .update({
           is_active: isActive,
-          updated_by: user?.id,
         })
         .eq('id', id);
 

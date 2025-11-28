@@ -118,11 +118,6 @@ export default function ProductsSection() {
     }
   ];
 
-  const generateWhatsAppLink = (product: Product) => {
-    const message = `Hi, I'm interested in requesting a quote for: ${product.name}. Could you please provide pricing and availability details?`;
-    const encodedMessage = encodeURIComponent(message);
-    return `https://wa.me/?text=${encodedMessage}`;
-  };
 
   return (
     <section className="py-12 sm:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">

@@ -239,17 +239,9 @@ export const useWebManager = () => {
       setLoading(true);
       setError(null);
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
       const { data: newVariant, error: err } = await supabase
         .from('web_variants')
-        .insert({
-          ...data,
-          created_by: user?.id,
-          updated_by: user?.id,
-        })
+        .insert(data)
         .select()
         .single();
 

@@ -660,9 +660,9 @@ Website: www.biolegendscientific.co.ke`;
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
-                        {invoice.status === 'draft' && (
-                          <Button 
-                            variant="ghost" 
+                        {calculateActualStatus(invoice) === 'draft' && (
+                          <Button
+                            variant="ghost"
                             size="icon"
                             onClick={() => handleEditInvoice(invoice)}
                             title="Edit invoice"

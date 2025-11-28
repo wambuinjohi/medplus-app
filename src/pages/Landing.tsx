@@ -179,20 +179,16 @@ export default function Landing() {
                       </button>
                       {item.submenu && productsDropdownOpen && (
                         <div className="bg-gray-50 pl-4 py-1">
-                          {item.submenu.map((sub) => {
-                            const product = getProductBySlug(sub.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-                            const productSlug = product?.slug || sub.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-                            return (
-                              <Link
-                                key={sub}
-                                to={`/products/${productSlug}`}
-                                className="block px-4 py-2 text-xs text-gray-700 hover:text-primary transition-colors"
-                                onClick={() => setMobileMenuOpen(false)}
-                              >
-                                {sub}
-                              </Link>
-                            );
-                          })}
+                          {item.submenu.map((sub) => (
+                            <Link
+                              key={sub.slug}
+                              to={`/products/${sub.slug}`}
+                              className="block px-4 py-2 text-xs text-gray-700 hover:text-primary transition-colors"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {sub.name}
+                            </Link>
+                          ))}
                         </div>
                       )}
                     </>

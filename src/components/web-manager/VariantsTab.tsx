@@ -58,7 +58,8 @@ export const VariantsTab = () => {
   };
 
   const loadVariants = async () => {
-    const data = await fetchVariants(selectedCategory || undefined, search || undefined);
+    const categoryId = selectedCategory && selectedCategory !== 'all' ? selectedCategory : undefined;
+    const data = await fetchVariants(categoryId, search || undefined);
     setVariants(data);
   };
 

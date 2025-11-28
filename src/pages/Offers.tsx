@@ -244,7 +244,7 @@ export default function Offers() {
         </div>
       </section>
 
-      <PublicFooter productCategories={productCategoryNames} />
+      <PublicFooter productCategories={categories} />
     </div>
   );
 }

@@ -4,9 +4,12 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PaymentSynchronization } from '@/components/PaymentSynchronization';
+import { PublicFooter } from '@/components/PublicFooter';
+import { useWebCategories } from '@/hooks/useWebCategories';
 
 export default function PaymentSynchronizationPage() {
   const navigate = useNavigate();
+  const { categories } = useWebCategories();
 
   useEffect(() => {
     // Set page title
@@ -14,8 +17,9 @@ export default function PaymentSynchronizationPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5 p-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5">
+      <div className="p-4 flex-1">
+        <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <BiolegendLogo size="lg" showText={false} />
@@ -61,7 +65,9 @@ export default function PaymentSynchronizationPage() {
             This process ensures all payments are properly linked to invoices with accurate balance calculations.
           </p>
         </div>
+        </div>
       </div>
+      <PublicFooter productCategories={categories} />
     </div>
   );
 }

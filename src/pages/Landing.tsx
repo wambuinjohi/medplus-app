@@ -48,7 +48,7 @@ export default function Landing() {
     { name: 'MEDS', icon: '🏢', type: 'Organization' },
     { name: 'Metro', icon: '🏪', type: 'Organization' },
     { name: 'Stiegelmeyer Group', icon: '🛏️', type: 'Corporate' },
-    { name: 'PSI', icon: '���️', type: 'NGO' },
+    { name: 'PSI', icon: '💉', type: 'NGO' },
     { name: 'UNHCR', icon: '🤝', type: 'NGO' },
   ];
 

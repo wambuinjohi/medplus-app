@@ -616,9 +616,14 @@ Website: www.biolegendscientific.co.ke`;
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={getStatusColor(invoice.status)}>
-                        {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-                      </Badge>
+                      {(() => {
+                        const actualStatus = calculateActualStatus(invoice);
+                        return (
+                          <Badge variant="outline" className={getStatusColor(actualStatus)}>
+                            {actualStatus.charAt(0).toUpperCase() + actualStatus.slice(1)}
+                          </Badge>
+                        );
+                      })()}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end space-x-2">

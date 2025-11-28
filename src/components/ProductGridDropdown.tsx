@@ -11,6 +11,7 @@ interface ProductCategory {
   name: string;
   icon: string;
   products: Product[];
+  slug: string;
 }
 
 const productCategories: ProductCategory[] = [

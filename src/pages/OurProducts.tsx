@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PublicHeader } from '@/components/PublicHeader';
 import { PublicFooter } from '@/components/PublicFooter';
+import { Button } from '@/components/ui/button';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import ProductCategorySidebar from '@/components/ProductCategorySidebar';
 import { useWebCategories } from '@/hooks/useWebCategories';

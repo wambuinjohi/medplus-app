@@ -168,16 +168,13 @@ export default function ProductsSection() {
                   {product.description}
                 </p>
 
-                {/* Request Quote Button */}
-                <a
-                  href={generateWhatsAppLink(product)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* View More Button */}
+                <Link
+                  to={`/products/${product.slug}`}
                   className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-2 sm:py-3 px-4 rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 text-sm sm:text-base"
                 >
-                  <MessageCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  Request Quote
-                </a>
+                  View More....
+                </Link>
               </div>
             </div>
           ))}

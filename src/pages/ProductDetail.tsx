@@ -7,8 +7,7 @@ import { BiolegendLogo } from '@/components/ui/biolegend-logo';
 import { PublicFooter } from '@/components/PublicFooter';
 import ProductCategorySidebar from '@/components/ProductCategorySidebar';
 import { useToast } from '@/hooks/use-toast';
-import { getProductBySlug, getProductsByCategory } from '@/data/products';
-import { productCategoryNames } from '@/data/categories';
+import { useWebCategoryBySlug, useWebVariantBySlug } from '@/hooks/useWebCategories';
 import { MessageCircle, ArrowLeft, Check } from 'lucide-react';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
@@ -18,27 +17,30 @@ export default function ProductDetail() {
   const { productSlug } = useParams<{ productSlug: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const product = productSlug ? getProductBySlug(productSlug) : undefined;
-  const categoryProducts = productSlug ? getProductsByCategory(productSlug) : [];
-  const isCategory = categoryProducts.length > 0;
-  const categoryName = isCategory && categoryProducts.length > 0 ? categoryProducts[0].category : undefined;
+
+  // Try to fetch as category first, then as variant
+  const { category, variants } = useWebCategoryBySlug(productSlug || '');
+  const { variant } = useWebVariantBySlug(productSlug || '');
+
+  const isCategory = !!category && variants.length > 0;
+  const isVariant = !!variant && !isCategory;
 
   // Set SEO for product
   useSEO(
     {
-      title: product?.name || categoryName || 'Product',
-      description: product?.description || `Browse our ${categoryName} collection`,
-      keywords: `${product?.name || categoryName}, medical supplies, healthcare`,
+      title: variant?.name || category?.name || 'Product',
+      description: variant?.description || category?.description || 'Browse our product collection',
+      keywords: `${variant?.name || category?.name}, medical supplies, healthcare`,
       url: `${SITE_CONFIG.url}/products/${productSlug}`,
       type: isCategory ? 'website' : 'product',
-      image: product?.image || (categoryProducts[0]?.image),
+      image: variant?.image_path || undefined,
     },
-    product && !isCategory ? generateProductSchema({
-      name: product.name,
-      description: product.description,
-      image: product.image,
+    variant ? generateProductSchema({
+      name: variant.name,
+      description: variant.description || '',
+      image: variant.image_path || '',
       url: `${SITE_CONFIG.url}/products/${productSlug}`,
-      category: product.category,
+      category: category?.name || '',
     }) : undefined
   );
 
@@ -73,7 +75,7 @@ export default function ProductDetail() {
 ━━━━━━━━━━━━━━━━━━━━━━
 
 *Product:*
-${product?.name}
+${variant?.name || category?.name}
 
 *Customer Details:*
 Company: ${quotationForm.companyName}
@@ -82,7 +84,7 @@ Email: ${quotationForm.email}
 Phone: ${quotationForm.phone}
 
 *Order Details:*
-Quantity: ${quotationForm.quantity} ${product?.pricing.unit || 'units'}
+Quantity: ${quotationForm.quantity} units
 ${quotationForm.additionalNotes ? `Additional Notes: ${quotationForm.additionalNotes}` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━
@@ -109,7 +111,7 @@ Please provide a quotation for the above product and delivery terms.`;
     });
   };
 
-  if (!product && !isCategory) {
+  if (!variant && !isCategory) {
     return (
       <div className="min-h-screen bg-white">
         <header className="sticky top-0 bg-white shadow-sm z-50 border-b border-gray-200">

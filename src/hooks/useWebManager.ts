@@ -94,17 +94,9 @@ export const useWebManager = () => {
       setLoading(true);
       setError(null);
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
       const { data: newCategory, error: err } = await supabase
         .from('web_categories')
-        .insert({
-          ...data,
-          created_by: user?.id,
-          updated_by: user?.id,
-        })
+        .insert(data)
         .select()
         .single();
 

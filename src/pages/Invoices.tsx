@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -70,6 +70,27 @@ interface Invoice {
   created_by_profile?: { full_name?: string } | null;
 }
 
+function calculateActualStatus(invoice: Invoice): 'draft' | 'sent' | 'paid' | 'partial' | 'overdue' {
+  // If balance is fully paid (0 or less) and there was some payment, mark as paid
+  if ((invoice.balance_due || 0) <= 0 && (invoice.paid_amount || 0) > 0) {
+    return 'paid';
+  }
+  // If there's a payment but balance remains, mark as partial
+  if ((invoice.paid_amount || 0) > 0 && (invoice.balance_due || 0) > 0) {
+    return 'partial';
+  }
+  // If status is overdue, preserve that
+  if (invoice.status === 'overdue') {
+    return 'overdue';
+  }
+  // If status is sent, preserve that
+  if (invoice.status === 'sent') {
+    return 'sent';
+  }
+  // Default to draft (no payments)
+  return 'draft';
+}
+
 function getStatusColor(status: string) {
   switch (status) {
     case 'draft':
@@ -107,11 +128,35 @@ export default function Invoices() {
 
   const { data: companies } = useCompanies();
   const currentCompany = companies?.[0];
-  
+
   // Use the fixed invoices hook
   const { data: invoices, isLoading, error, refetch } = useInvoices(currentCompany?.id);
   const deleteInvoice = useDeleteInvoice();
 
+  // Auto-reconcile invoices on component mount to fix any status mismatches
+  useEffect(() => {
+    if (currentCompany?.id && !isLoading) {
+      const autoReconcile = async () => {
+        try {
+          console.log('Auto-reconciling invoices for company:', currentCompany.id);
+          const result = await reconcileAllInvoiceBalances(currentCompany.id, true);
+
+          if (result.fixed > 0) {
+            console.log(`Auto-reconciliation fixed ${result.fixed} invoices`);
+            // Refetch invoices to show corrected status
+            refetch();
+          }
+        } catch (error) {
+          console.warn('Auto-reconciliation warning (non-critical):', error);
+          // Don't show error toast for auto-reconciliation, it's a background operation
+        }
+      };
+
+      // Run reconciliation with a small delay to allow initial data load
+      const timer = setTimeout(autoReconcile, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [currentCompany?.id, isLoading, refetch]);
 
   // Filter and search logic
   const filteredInvoices = invoices?.filter(invoice => {
@@ -121,8 +166,9 @@ export default function Invoices() {
       invoice.customers?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       invoice.customers?.email?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Status filter
-    const matchesStatus = statusFilter === 'all' || invoice.status === statusFilter;
+    // Status filter (use calculated status to show correct values)
+    const actualInvoiceStatus = calculateActualStatus(invoice);
+    const matchesStatus = statusFilter === 'all' || actualInvoiceStatus === statusFilter;
 
     // Date filter
     const invoiceDate = new Date(invoice.invoice_date);
@@ -595,9 +641,14 @@ Website: www.biolegendscientific.co.ke`;
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={getStatusColor(invoice.status)}>
-                        {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-                      </Badge>
+                      {(() => {
+                        const actualStatus = calculateActualStatus(invoice);
+                        return (
+                          <Badge variant="outline" className={getStatusColor(actualStatus)}>
+                            {actualStatus.charAt(0).toUpperCase() + actualStatus.slice(1)}
+                          </Badge>
+                        );
+                      })()}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end space-x-2">
@@ -609,9 +660,9 @@ Website: www.biolegendscientific.co.ke`;
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
-                        {invoice.status === 'draft' && (
-                          <Button 
-                            variant="ghost" 
+                        {calculateActualStatus(invoice) === 'draft' && (
+                          <Button
+                            variant="ghost"
                             size="icon"
                             onClick={() => handleEditInvoice(invoice)}
                             title="Edit invoice"
@@ -628,77 +679,83 @@ Website: www.biolegendscientific.co.ke`;
                           <Download className="h-4 w-4" />
                         </Button>
                         {/* Create Delivery Note - Available for sent/paid invoices */}
-                        {(invoice.status === 'sent' || invoice.status === 'paid' || invoice.status === 'partial') && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleCreateDeliveryNote(invoice)}
-                            title="Create delivery note"
-                          >
-                            <Truck className="h-4 w-4" />
-                          </Button>
-                        )}
-                        {invoice.status !== 'paid' && (
-                          <>
-                            {invoice.status === 'draft' && (
+                        {(() => {
+                          const status = calculateActualStatus(invoice);
+                          return (status === 'sent' || status === 'paid' || status === 'partial') && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleCreateDeliveryNote(invoice)}
+                              title="Create delivery note"
+                            >
+                              <Truck className="h-4 w-4" />
+                            </Button>
+                          );
+                        })()}
+                        {(() => {
+                          const status = calculateActualStatus(invoice);
+                          return status !== 'paid' && (
+                            <>
+                              {status === 'draft' && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleSendInvoice(invoice.id)}
+                                  className="bg-primary-light text-primary border-primary/20 hover:bg-primary hover:text-primary-foreground"
+                                >
+                                  <Send className="h-4 w-4 mr-1" />
+                                  Send
+                                </Button>
+                              )}
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handleSendInvoice(invoice.id)}
-                                className="bg-primary-light text-primary border-primary/20 hover:bg-primary hover:text-primary-foreground"
+                                onClick={() => handleRecordPayment(invoice)}
+                                className="bg-success-light text-success border-success/20 hover:bg-success hover:text-success-foreground"
                               >
-                                <Send className="h-4 w-4 mr-1" />
-                                Send
+                                <DollarSign className="h-4 w-4 mr-1" />
+                                {(invoice.balance_due || 0) > 0 ? 'Record Payment' : 'Payment Adjustment'}
                               </Button>
-                            )}
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleRecordPayment(invoice)}
-                              className="bg-success-light text-success border-success/20 hover:bg-success hover:text-success-foreground"
-                            >
-                              <DollarSign className="h-4 w-4 mr-1" />
-                              {(invoice.balance_due || 0) > 0 ? 'Record Payment' : 'Payment Adjustment'}
-                            </Button>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  title="Delete invoice"
-                                  className="text-destructive"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-48">
-                                <div className="text-sm mb-2">Delete invoice {invoice.invoice_number}?</div>
-                                <div className="flex justify-end space-x-2">
-                                  <Button variant="ghost" size="sm" onClick={() => {}}>
-                                    Cancel
-                                  </Button>
+                              <Popover>
+                                <PopoverTrigger asChild>
                                   <Button
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={async () => {
-                                      try {
-                                        await deleteInvoice.mutateAsync(invoice.id);
-                                        refetch();
-                                        setSelectedInvoice(null);
-                                        toast.success('Invoice deleted');
-                                      } catch (e) {
-                                        console.error('Delete failed:', e);
-                                        toast.error('Failed to delete invoice');
-                                      }
-                                    }}
+                                    variant="ghost"
+                                    size="icon"
+                                    title="Delete invoice"
+                                    className="text-destructive"
                                   >
-                                    Delete
+                                    <Trash2 className="h-4 w-4" />
                                   </Button>
-                                </div>
-                              </PopoverContent>
-                            </Popover>
-                          </>
-                        )}
+                                </PopoverTrigger>
+                                <PopoverContent className="w-48">
+                                  <div className="text-sm mb-2">Delete invoice {invoice.invoice_number}?</div>
+                                  <div className="flex justify-end space-x-2">
+                                    <Button variant="ghost" size="sm" onClick={() => {}}>
+                                      Cancel
+                                    </Button>
+                                    <Button
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={async () => {
+                                        try {
+                                          await deleteInvoice.mutateAsync(invoice.id);
+                                          refetch();
+                                          setSelectedInvoice(null);
+                                          toast.success('Invoice deleted');
+                                        } catch (e) {
+                                          console.error('Delete failed:', e);
+                                          toast.error('Failed to delete invoice');
+                                        }
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </PopoverContent>
+                              </Popover>
+                            </>
+                          );
+                        })()}
                       </div>
                     </TableCell>
                   </TableRow>

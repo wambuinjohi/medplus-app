@@ -5,6 +5,8 @@ export interface Product {
   image: string;
   description: string;
   longDescription: string;
+  category?: string;
+  sku?: string;
   pricing: {
     basePrice: string;
     currency: string;

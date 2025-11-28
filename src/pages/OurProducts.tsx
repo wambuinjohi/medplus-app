@@ -158,7 +158,7 @@ export default function OurProducts() {
         </div>
       </section>
 
-      <PublicFooter />
+      <PublicFooter productCategories={categories} />
     </div>
   );
 }

@@ -94,19 +94,23 @@ export const ImageUploadField = ({ value, onChange, variantName }: ImageUploadFi
             type="button"
             variant="outline"
             className="w-full mt-4 cursor-pointer"
+            disabled={uploading}
             asChild
           >
-            <span>{uploading ? 'Uploading...' : preview ? 'Change Image' : 'Upload Image'}</span>
+            <span className="flex items-center justify-center gap-2">
+              {uploading && <Loader2 size={16} className="animate-spin" />}
+              {uploading ? 'Uploading...' : preview ? 'Change Image' : 'Upload Image'}
+            </span>
           </Button>
         </label>
       </div>
       {value && !preview && (
-        <div className="text-sm text-muted-foreground">
-          Current: {value}
+        <div className="text-sm text-muted-foreground break-all">
+          Uploaded: {new URL(value).pathname.split('/').pop()}
         </div>
       )}
       <p className="text-xs text-muted-foreground">
-        Images will be stored in /public/products/ directory
+        Images are securely stored in cloud storage (max 5MB)
       </p>
     </div>
   );

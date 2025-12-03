@@ -145,8 +145,8 @@ export function DeletePaymentModal({
                 <div className="space-y-1">
                   {payment.payment_allocations.map((alloc, idx) => (
                     <div key={idx} className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground">{alloc.invoice_number}</span>
-                      <span className="font-medium">-{formatCurrency(alloc.amount_allocated)}</span>
+                      <span className="text-muted-foreground">{alloc.invoice_number || 'Unknown Invoice'}</span>
+                      <span className="font-medium">{formatCurrency(alloc.amount_allocated || 0)}</span>
                     </div>
                   ))}
                 </div>

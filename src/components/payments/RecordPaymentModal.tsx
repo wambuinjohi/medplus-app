@@ -156,6 +156,12 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       return;
     }
 
+    await processPayment();
+  };
+
+  const processPayment = async () => {
+    const selectedInvoice = availableInvoices.find(inv => inv.id === paymentData.invoice_id);
+
     setIsSubmitting(true);
     try {
       // Generate payment number
@@ -164,7 +170,7 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       const paymentRecord = {
         company_id: selectedInvoice?.company_id || currentCompany.id,
         customer_id: selectedInvoice?.customer_id || null,
-        invoice_id: paymentData.invoice_id, // Required for payment allocation
+        invoice_id: paymentData.invoice_id,
         payment_number: paymentNumber,
         payment_date: paymentData.payment_date,
         amount: paymentData.amount,
@@ -199,8 +205,6 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
             }
           } catch (creditNoteError) {
             console.error('Failed to create overpayment credit note:', creditNoteError);
-            // Don't fail the payment if credit note creation fails
-            // The overpayment is still recorded on the invoice
           }
         }
       }

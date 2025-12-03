@@ -1299,10 +1299,14 @@ export const useCreateOverpaymentCreditNote = () => {
       // Create a single line item for the credit note
       const creditNoteItem = {
         credit_note_id: createdCreditNote.id,
+        product_id: null,
         description: `Overpayment credit from invoice ${invoice.invoice_number}`,
         quantity: 1,
         unit_price: overpayment_amount,
-        tax_rate: 0,
+        tax_percentage: 0,
+        tax_amount: 0,
+        tax_inclusive: false,
+        tax_setting_id: null,
         line_total: overpayment_amount,
         sort_order: 0
       };

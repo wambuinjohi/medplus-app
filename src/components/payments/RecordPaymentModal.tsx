@@ -63,6 +63,12 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
   });
   const [isCreatingMethod, setIsCreatingMethod] = useState(false);
   const [createdCreditNoteNumber, setCreatedCreditNoteNumber] = useState<string | null>(null);
+  const [showOverpaymentConfirm, setShowOverpaymentConfirm] = useState(false);
+  const [pendingOverpaymentData, setPendingOverpaymentData] = useState<{
+    amount: number;
+    currentBalance: number;
+    overpaymentAmount: number;
+  } | null>(null);
 
   // Reset allocation failed state when modal closes
   useEffect(() => {

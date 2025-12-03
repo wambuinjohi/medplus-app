@@ -1434,7 +1434,41 @@ export const useDeletePayment = () => {
         }
       }
 
-      // 3. Delete the payment
+      // 3. Delete associated overpayment credit notes
+      // Look for credit notes that were auto-generated for this payment's overpayment
+      const { data: associatedCreditNotes, error: fetchCreditNotesError } = await supabase
+        .from('credit_notes')
+        .select('id')
+        .eq('reason', 'Overpayment from Payment')
+        .like('notes', `%Payment Ref: ${payment.reference_number}%`);
+
+      if (fetchCreditNotesError) {
+        console.warn('Could not fetch associated credit notes:', fetchCreditNotesError);
+      } else if (associatedCreditNotes && associatedCreditNotes.length > 0) {
+        // Delete credit note items first (due to foreign key constraints)
+        for (const creditNote of associatedCreditNotes) {
+          const { error: deleteItemsError } = await supabase
+            .from('credit_note_items')
+            .delete()
+            .eq('credit_note_id', creditNote.id);
+
+          if (deleteItemsError) {
+            console.warn(`Failed to delete credit note items for ${creditNote.id}:`, deleteItemsError);
+          }
+
+          // Then delete the credit note
+          const { error: deleteCreditNoteError } = await supabase
+            .from('credit_notes')
+            .delete()
+            .eq('id', creditNote.id);
+
+          if (deleteCreditNoteError) {
+            console.warn(`Failed to delete credit note ${creditNote.id}:`, deleteCreditNoteError);
+          }
+        }
+      }
+
+      // 4. Delete the payment
       const { error: deletePaymentError } = await supabase
         .from('payments')
         .delete()
@@ -1445,7 +1479,8 @@ export const useDeletePayment = () => {
       return {
         success: true,
         payment_id: paymentId,
-        invoices_updated: payment.payment_allocations?.length || 0
+        invoices_updated: payment.payment_allocations?.length || 0,
+        credit_notes_deleted: associatedCreditNotes?.length || 0
       };
     },
     onSuccess: (result) => {

@@ -40,13 +40,18 @@ export function DeletePaymentModal({
   const [isDeleting, setIsDeleting] = useState(false);
   const deletePaymentMutation = useDeletePayment();
 
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: any) => {
+    // Ensure amount is a valid number
+    const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+    if (!numAmount || isNaN(numAmount)) {
+      return 'N/A';
+    }
     return new Intl.NumberFormat('en-KE', {
       style: 'currency',
       currency: 'KES',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(amount);
+    }).format(numAmount);
   };
 
   const handleDelete = async () => {
@@ -59,8 +64,13 @@ export function DeletePaymentModal({
     try {
       const result = await deletePaymentMutation.mutateAsync(payment.id);
 
+      let description = `Invoice balances updated for ${result.invoices_updated} invoice(s)`;
+      if (result.credit_notes_deleted && result.credit_notes_deleted > 0) {
+        description += `. Deleted ${result.credit_notes_deleted} associated credit note(s).`;
+      }
+
       toast.success(`Payment ${payment.payment_number} deleted successfully!`, {
-        description: `Invoice balances updated for ${result.invoices_updated} invoice(s)`
+        description
       });
 
       onSuccess();
@@ -121,7 +131,7 @@ export function DeletePaymentModal({
               <div>
                 <p className="text-xs text-muted-foreground">Amount</p>
                 <p className="font-medium text-sm text-destructive">
-                  {formatCurrency(payment.amount)}
+                  {formatCurrency(payment.amount || 0)}
                 </p>
               </div>
             </div>
@@ -140,8 +150,8 @@ export function DeletePaymentModal({
                 <div className="space-y-1">
                   {payment.payment_allocations.map((alloc, idx) => (
                     <div key={idx} className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground">{alloc.invoice_number}</span>
-                      <span className="font-medium">-{formatCurrency(alloc.amount_allocated)}</span>
+                      <span className="text-muted-foreground">{alloc.invoice_number || 'Unknown Invoice'}</span>
+                      <span className="font-medium">{formatCurrency(alloc.amount_allocated || 0)}</span>
                     </div>
                   ))}
                 </div>

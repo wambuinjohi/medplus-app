@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { parseErrorMessageWithCodes } from '@/utils/errorHelpers';
-import { useCreatePayment, usePaymentMethods, useCreatePaymentMethod } from '@/hooks/useDatabase';
+import { useCreatePayment, usePaymentMethods, useCreatePaymentMethod, useCreateOverpaymentCreditNote } from '@/hooks/useDatabase';
 import { useInvoicesFixed as useInvoices } from '@/hooks/useInvoicesFixed';
 import { useCurrentCompany } from '@/contexts/CompanyContext';
 import { PaymentAllocationQuickFix } from './PaymentAllocationQuickFix';
@@ -62,11 +62,19 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
     description: ''
   });
   const [isCreatingMethod, setIsCreatingMethod] = useState(false);
+  const [createdCreditNoteNumber, setCreatedCreditNoteNumber] = useState<string | null>(null);
+  const [showOverpaymentConfirm, setShowOverpaymentConfirm] = useState(false);
+  const [pendingOverpaymentData, setPendingOverpaymentData] = useState<{
+    amount: number;
+    currentBalance: number;
+    overpaymentAmount: number;
+  } | null>(null);
 
   // Reset allocation failed state when modal closes
   useEffect(() => {
     if (!open) {
       setAllocationFailed(false);
+      setCreatedCreditNoteNumber(null);
     }
   }, [open]);
 
@@ -74,6 +82,7 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
   const { currentCompany } = useCurrentCompany();
   const { data: invoices = [] } = useInvoices(currentCompany?.id);
   const createPaymentMutation = useCreatePayment();
+  const createOverpaymentCreditNoteMutation = useCreateOverpaymentCreditNote();
 
   // Fetch available payment methods
   const { data: paymentMethods = [], isLoading: methodsLoading } = usePaymentMethods(currentCompany?.id);
@@ -125,15 +134,16 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
     const selectedInvoice = availableInvoices.find(inv => inv.id === paymentData.invoice_id);
     const currentBalance = selectedInvoice?.balance_due || (selectedInvoice?.total_amount || 0) - (selectedInvoice?.paid_amount || 0);
 
-    // Warn about overpayments but allow them for flexibility
+    // Check for overpayments and show modal confirmation
     if (paymentData.amount > currentBalance && currentBalance > 0) {
       const overpaymentAmount = paymentData.amount - currentBalance;
-      const confirmOverpayment = window.confirm(
-        `Warning: Payment amount (${formatCurrency(paymentData.amount)}) exceeds outstanding balance (${formatCurrency(currentBalance)}).\n\nThis will create an overpayment of ${formatCurrency(overpaymentAmount)}.\n\nContinue?`
-      );
-      if (!confirmOverpayment) {
-        return;
-      }
+      setPendingOverpaymentData({
+        amount: paymentData.amount,
+        currentBalance,
+        overpaymentAmount
+      });
+      setShowOverpaymentConfirm(true);
+      return;
     }
 
     if (!paymentData.payment_method) {
@@ -146,6 +156,12 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       return;
     }
 
+    await processPayment();
+  };
+
+  const processPayment = async () => {
+    const selectedInvoice = availableInvoices.find(inv => inv.id === paymentData.invoice_id);
+
     setIsSubmitting(true);
     try {
       // Generate payment number
@@ -154,7 +170,7 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       const paymentRecord = {
         company_id: selectedInvoice?.company_id || currentCompany.id,
         customer_id: selectedInvoice?.customer_id || null,
-        invoice_id: paymentData.invoice_id, // Required for payment allocation
+        invoice_id: paymentData.invoice_id,
         payment_number: paymentNumber,
         payment_date: paymentData.payment_date,
         amount: paymentData.amount,
@@ -165,20 +181,75 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
 
       const result = await createPaymentMutation.mutateAsync(paymentRecord);
 
+      // Check if this is an overpayment and create a credit note automatically
+      let creditNoteNumber: string | null = null;
+      const invoiceData = invoices.find(inv => inv.id === paymentData.invoice_id);
+      if (invoiceData) {
+        const invoiceBalance = invoiceData.balance_due || (invoiceData.total_amount || 0) - (invoiceData.paid_amount || 0);
+        const overpaymentAmount = paymentData.amount > invoiceBalance ? paymentData.amount - invoiceBalance : 0;
+
+        if (overpaymentAmount > 0.01) {
+          try {
+            const creditNoteResult = await createOverpaymentCreditNoteMutation.mutateAsync({
+              invoice_id: paymentData.invoice_id,
+              company_id: selectedInvoice?.company_id || currentCompany.id,
+              customer_id: selectedInvoice?.customer_id || null,
+              overpayment_amount: overpaymentAmount,
+              payment_date: paymentData.payment_date,
+              payment_reference: paymentRecord.reference_number
+            });
+
+            if (creditNoteResult.success) {
+              creditNoteNumber = creditNoteResult.credit_note_number;
+              setCreatedCreditNoteNumber(creditNoteNumber);
+            }
+          } catch (creditNoteError: any) {
+            console.error('Failed to create overpayment credit note:', {
+              message: creditNoteError?.message,
+              code: creditNoteError?.code,
+              details: creditNoteError?.details,
+              hint: creditNoteError?.hint
+            });
+            // Log warning to user but don't fail the payment
+            toast.warning('Credit note creation failed', {
+              description: creditNoteError?.message || 'Overpayment was recorded but credit note could not be created'
+            });
+          }
+        }
+      }
+
       // Check if payment was recorded but allocation might have failed
       if (result.fallback_used) {
         if (result.allocation_failed) {
           setAllocationFailed(true);
-          toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
-            description: "However, payment allocation failed. See the fix options below."
-          });
+          if (creditNoteNumber) {
+            toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
+              description: `Credit note ${creditNoteNumber} created for overpayment. However, payment allocation failed. See the fix options below.`
+            });
+          } else {
+            toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
+              description: "However, payment allocation failed. See the fix options below."
+            });
+          }
         } else {
-          toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
-            description: "Payment allocation may require manual setup. Check the payments list."
-          });
+          if (creditNoteNumber) {
+            toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
+              description: `Credit note ${creditNoteNumber} created for overpayment.`
+            });
+          } else {
+            toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
+              description: "Payment allocation may require manual setup. Check the payments list."
+            });
+          }
         }
       } else {
-        toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`);
+        if (creditNoteNumber) {
+          toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
+            description: `Credit note ${creditNoteNumber} created for overpayment.`
+          });
+        } else {
+          toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`);
+        }
         setAllocationFailed(false);
       }
       onSuccess();
@@ -197,6 +268,20 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleOverpaymentConfirm = async () => {
+    setShowOverpaymentConfirm(false);
+    if (!paymentData.payment_method) {
+      toast.error('Please select a payment method');
+      return;
+    }
+    await processPayment();
+  };
+
+  const handleOverpaymentCancel = () => {
+    setShowOverpaymentConfirm(false);
+    setPendingOverpaymentData(null);
   };
 
   const resetForm = () => {
@@ -525,36 +610,45 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
               </div>
 
               {/* Payment Summary */}
-              {paymentData.invoice_id && (
-                <div className="border-t pt-4 bg-muted/50 p-4 rounded-lg">
-                  <h4 className="font-medium mb-2">Payment Summary</h4>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>Payment Amount:</span>
-                      <span className="font-semibold">{formatCurrency(paymentData.amount)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Remaining Balance:</span>
-                      <span className="font-semibold">
-                        {formatCurrency((() => {
-                          const selectedInv = invoice || availableInvoices.find(inv => inv.id === paymentData.invoice_id);
-                          const balance = selectedInv?.balance_due || selectedInv?.total_amount || 0;
-                          return Math.max(0, balance - paymentData.amount);
-                        })())}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Payment Method:</span>
-                      <div className="flex items-center space-x-1">
-                        {getMethodIcon(paymentData.payment_method)}
-                        <span className="font-semibold capitalize">
-                          {paymentData.payment_method.replace('_', ' ')}
+              {paymentData.invoice_id && (() => {
+                const selectedInv = invoice || availableInvoices.find(inv => inv.id === paymentData.invoice_id);
+                const balance = selectedInv?.balance_due || selectedInv?.total_amount || 0;
+                const remainingBalance = Math.max(0, balance - paymentData.amount);
+                const creditNoteAmount = Math.max(0, paymentData.amount - balance);
+
+                return (
+                  <div className="border-t pt-4 bg-muted/50 p-4 rounded-lg">
+                    <h4 className="font-medium mb-2">Payment Summary</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Payment Amount:</span>
+                        <span className="font-semibold">{formatCurrency(paymentData.amount)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Remaining Balance:</span>
+                        <span className={`font-semibold ${remainingBalance > 0 ? 'text-destructive' : 'text-success'}`}>
+                          {formatCurrency(remainingBalance)}
                         </span>
+                      </div>
+                      {creditNoteAmount > 0.01 && (
+                        <div className="flex justify-between pt-2 border-t">
+                          <span className="text-warning font-medium">Credit Note:</span>
+                          <span className="font-semibold text-warning">{formatCurrency(creditNoteAmount)}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span>Payment Method:</span>
+                        <div className="flex items-center space-x-1">
+                          {getMethodIcon(paymentData.payment_method)}
+                          <span className="font-semibold capitalize">
+                            {paymentData.payment_method.replace('_', ' ')}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
             </CardContent>
           </Card>
         </div>
@@ -642,6 +736,58 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
               className="bg-primary hover:bg-primary/90"
             >
               {isCreatingMethod ? 'Creating...' : 'Create Method'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Overpayment Confirmation Modal */}
+      <Dialog open={showOverpaymentConfirm} onOpenChange={setShowOverpaymentConfirm}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center space-x-2">
+              <AlertTriangle className="h-5 w-5 text-warning" />
+              <span>Overpayment Confirmation</span>
+            </DialogTitle>
+            <DialogDescription>
+              This payment will result in an overpayment
+            </DialogDescription>
+          </DialogHeader>
+
+          {pendingOverpaymentData && (
+            <div className="space-y-4">
+              <div className="bg-warning/10 border border-warning/20 rounded-lg p-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Payment amount ({formatCurrency(pendingOverpaymentData.amount)}) exceeds outstanding balance ({formatCurrency(pendingOverpaymentData.currentBalance)}).
+                </p>
+                <p className="text-sm font-semibold text-warning">
+                  This will create an overpayment of {formatCurrency(pendingOverpaymentData.overpaymentAmount)}
+                </p>
+              </div>
+
+              <div className="bg-info/10 border border-info/20 rounded-lg p-4">
+                <p className="text-sm text-muted-foreground">
+                  ℹ️ A credit note will be automatically created for the overpayment amount. The credit note can be applied to this or other invoices.
+                </p>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="space-x-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleOverpaymentCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleOverpaymentConfirm}
+              className="bg-warning hover:bg-warning/90"
+            >
+              <AlertTriangle className="h-4 w-4 mr-2" />
+              Confirm Overpayment
             </Button>
           </DialogFooter>
         </DialogContent>

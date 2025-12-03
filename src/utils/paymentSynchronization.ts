@@ -305,10 +305,12 @@ export async function recalculateAllInvoiceBalances(): Promise<{ updated: number
       const newBalanceDue = invoice.total_amount - totalAllocated;
       let newStatus = invoice.status;
 
-      // Determine status based on balance and payment activity
-      if (newBalanceDue <= 0 && totalAllocated !== 0) {
+      // Determine status based on balance and payment activity (using tolerance for floating-point precision)
+      const tolerance = 0.01;
+      const adjustedBalance = Math.abs(newBalanceDue) < tolerance ? 0 : newBalanceDue;
+      if (adjustedBalance <= 0 && totalAllocated !== 0) {
         newStatus = 'paid';
-      } else if (totalAllocated !== 0 && newBalanceDue > 0) {
+      } else if (totalAllocated !== 0 && adjustedBalance > 0) {
         newStatus = 'partial';
       } else {
         newStatus = 'draft';

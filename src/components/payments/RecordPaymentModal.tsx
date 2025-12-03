@@ -169,6 +169,7 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       const result = await createPaymentMutation.mutateAsync(paymentRecord);
 
       // Check if this is an overpayment and create a credit note automatically
+      let creditNoteNumber: string | null = null;
       const invoiceData = invoices.find(inv => inv.id === paymentData.invoice_id);
       if (invoiceData) {
         const invoiceBalance = invoiceData.balance_due || (invoiceData.total_amount || 0) - (invoiceData.paid_amount || 0);
@@ -186,7 +187,8 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
             });
 
             if (creditNoteResult.success) {
-              setCreatedCreditNoteNumber(creditNoteResult.credit_note_number);
+              creditNoteNumber = creditNoteResult.credit_note_number;
+              setCreatedCreditNoteNumber(creditNoteNumber);
             }
           } catch (creditNoteError) {
             console.error('Failed to create overpayment credit note:', creditNoteError);
@@ -200,9 +202,9 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
       if (result.fallback_used) {
         if (result.allocation_failed) {
           setAllocationFailed(true);
-          if (createdCreditNoteNumber) {
+          if (creditNoteNumber) {
             toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
-              description: `Credit note ${createdCreditNoteNumber} created for overpayment. However, payment allocation failed. See the fix options below.`
+              description: `Credit note ${creditNoteNumber} created for overpayment. However, payment allocation failed. See the fix options below.`
             });
           } else {
             toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
@@ -210,9 +212,9 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
             });
           }
         } else {
-          if (createdCreditNoteNumber) {
+          if (creditNoteNumber) {
             toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
-              description: `Credit note ${createdCreditNoteNumber} created for overpayment.`
+              description: `Credit note ${creditNoteNumber} created for overpayment.`
             });
           } else {
             toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
@@ -221,9 +223,9 @@ export function RecordPaymentModal({ open, onOpenChange, onSuccess, invoice }: R
           }
         }
       } else {
-        if (createdCreditNoteNumber) {
+        if (creditNoteNumber) {
           toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`, {
-            description: `Credit note ${createdCreditNoteNumber} created for overpayment.`
+            description: `Credit note ${creditNoteNumber} created for overpayment.`
           });
         } else {
           toast.success(`Payment of ${formatCurrency(paymentData.amount)} recorded successfully!`);

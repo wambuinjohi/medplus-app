@@ -410,6 +410,16 @@ export default function Payments() {
                         <Button
                           variant="ghost"
                           size="icon"
+                          onClick={() => handleEditPayment(payment)}
+                          title="Edit payment"
+                          className="text-primary hover:text-primary hover:bg-primary/10"
+                          disabled={!canEditPayment('edit_payment')}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           onClick={() => handleDownloadReceipt(payment)}
                           title="Download receipt"
                         >

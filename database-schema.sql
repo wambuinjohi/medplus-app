@@ -300,7 +300,7 @@ CREATE TABLE stock_movements (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     company_id UUID REFERENCES companies(id) ON DELETE CASCADE,
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
-    movement_type VARCHAR(50) NOT NULL, -- 'in', 'out', 'adjustment'
+    movement_type VARCHAR(50) NOT NULL, -- 'IN', 'OUT', 'ADJUSTMENT'
     quantity DECIMAL(10,3) NOT NULL,
     unit_cost DECIMAL(15,2),
     reference_type VARCHAR(50), -- 'invoice', 'delivery_note', 'adjustment', 'purchase'

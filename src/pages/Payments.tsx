@@ -188,9 +188,6 @@ export default function Payments() {
             <p className="text-destructive">Error loading payments: {parseErrorMessage(error)}</p>
           </div>
         </div>
-
-        {/* Show auto-fix if there's an error */}
-        <PaymentAllocationAutoFix />
       </div>
     );
   }

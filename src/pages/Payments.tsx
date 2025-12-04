@@ -118,6 +118,15 @@ export default function Payments() {
     setShowViewModal(true);
   };
 
+  const handleEditPayment = (payment: Payment) => {
+    if (!canEditPayment('edit_payment')) {
+      toast.error('You do not have permission to edit payments');
+      return;
+    }
+    setSelectedPayment(payment);
+    setShowEditModal(true);
+  };
+
   const handleDeletePayment = (payment: Payment) => {
     if (!canDeletePayment('delete_payment')) {
       toast.error('You do not have permission to delete payments');

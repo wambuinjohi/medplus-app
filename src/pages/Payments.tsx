@@ -26,7 +26,8 @@ import {
   DollarSign,
   Download,
   Lock,
-  Trash2
+  Trash2,
+  Edit
 } from 'lucide-react';
 import { usePayments, useCompanies } from '@/hooks/useDatabase';
 import { useInvoicesFixed as useInvoices } from '@/hooks/useInvoicesFixed';

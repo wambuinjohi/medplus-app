@@ -275,23 +275,23 @@ export default function Landing() {
             {partners.map((partner) => (
               <div
                 key={partner.name}
-                className="group relative bg-white rounded-xl sm:rounded-2xl p-3 sm:p-6 flex flex-col items-center justify-center min-h-32 sm:h-40 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-2 hover:border-blue-400 cursor-pointer"
+                className="group relative bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-start min-h-auto shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2 hover:border-blue-400 cursor-pointer"
               >
                 {/* Gradient background on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-transparent to-green-500/0 group-hover:from-blue-500/10 group-hover:to-green-500/10 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-transparent to-green-500/0 group-hover:from-blue-500/10 group-hover:to-green-500/10 transition-all duration-300 rounded-xl sm:rounded-2xl"></div>
 
                 {/* Gradient border accent */}
                 <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-r from-blue-500 to-green-500 opacity-0 group-hover:opacity-20 pointer-events-none transition-opacity duration-300"></div>
 
                 {/* Content */}
-                <div className="relative z-10 flex flex-col items-center justify-center text-center">
+                <div className="relative z-10 flex flex-col items-center justify-start text-center w-full gap-2 sm:gap-3">
                   {/* Icon */}
-                  <div className="mb-2 sm:mb-3 group-hover:scale-125 transition-transform duration-300">
+                  <div className="group-hover:scale-125 transition-transform duration-300 flex-shrink-0">
                     {partner.image ? (
                       <img
                         src={partner.image}
                         alt={partner.name}
-                        className="h-16 sm:h-24 w-auto object-contain"
+                        className="h-12 sm:h-20 w-auto object-contain"
                       />
                     ) : (
                       <div className="text-2xl sm:text-4xl">
@@ -301,12 +301,12 @@ export default function Landing() {
                   </div>
 
                   {/* Partner Name */}
-                  <p className="text-xs sm:text-sm font-bold text-gray-900 leading-tight mb-1 sm:mb-2 line-clamp-2">
+                  <p className="text-xs sm:text-sm font-bold text-gray-900 leading-snug line-clamp-3 break-words">
                     {partner.name}
                   </p>
 
                   {/* Partner Type Badge */}
-                  <span className="inline-block text-xs font-semibold px-2 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-blue-100 to-green-100 text-gray-700 group-hover:from-blue-200 group-hover:to-green-200 transition-colors duration-300 text-[10px] sm:text-xs">
+                  <span className="inline-block text-[10px] sm:text-xs font-semibold px-2 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-green-100 text-gray-700 group-hover:from-blue-200 group-hover:to-green-200 transition-colors duration-300 flex-shrink-0">
                     {partner.type}
                   </span>
                 </div>

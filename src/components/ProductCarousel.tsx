@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, MessageCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
   DialogClose,
 } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { openWhatsAppQuotation } from '@/utils/whatsappQuotation';
+import { useToast } from '@/hooks/use-toast';
 
 interface Product {
   id: number;
@@ -110,6 +113,30 @@ export default function ProductCarousel() {
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const { toast } = useToast();
+
+  const handleRequestQuotation = (product: Product) => {
+    try {
+      openWhatsAppQuotation({
+        productName: product.title,
+        quantity: '1',
+        companyName: 'Your Company',
+        email: 'your@email.com',
+        phone: 'your-phone-number'
+      });
+
+      toast({
+        title: "Success!",
+        description: `Opening WhatsApp to request quotation for ${product.title}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to open WhatsApp. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
@@ -245,6 +272,16 @@ export default function ProductCarousel() {
                 <p className="text-white text-lg font-semibold text-center mt-4">
                   {selectedProduct.title}
                 </p>
+                <Button
+                  onClick={() => {
+                    handleRequestQuotation(selectedProduct);
+                    setSelectedProduct(null);
+                  }}
+                  className="mt-4 bg-green-600 hover:bg-green-700 text-white flex items-center gap-2"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Request Quotation on WhatsApp
+                </Button>
               </div>
             )}
             <DialogClose className="absolute right-4 top-4 text-white hover:bg-white/20 rounded-full p-2 transition-colors">

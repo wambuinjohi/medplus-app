@@ -102,6 +102,8 @@ const productImages: Product[] = [
 
 export default function ProductCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
@@ -116,6 +118,41 @@ export default function ProductCarousel() {
       });
     }
   };
+
+  const startAutoScroll = () => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+
+    autoScrollIntervalRef.current = setInterval(() => {
+      if (carouselRef.current && !isHovering) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+        const scrollAmount = 400;
+
+        if (scrollLeft + clientWidth >= scrollWidth - 50) {
+          carouselRef.current.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+          });
+        } else {
+          carouselRef.current.scrollTo({
+            left: scrollLeft + scrollAmount,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }, 4000);
+  };
+
+  useEffect(() => {
+    startAutoScroll();
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+    };
+  }, [isHovering]);
 
   return (
     <section className="py-12 sm:py-24 bg-white">

@@ -90,9 +90,9 @@ ${quotationForm.additionalNotes ? `Additional Notes: ${quotationForm.additionalN
 ━━━━━━━━━━━━━━━━━━━━━━
 Please provide a quotation for the above product and delivery terms.`;
 
-    const whatsappPhone = '+254734785363';
+    const whatsappPhone = '254713416022';
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodedMessage}`;
 
     window.open(whatsappUrl, '_blank');
 
@@ -228,7 +228,7 @@ Please provide a quotation for the above product and delivery terms.`;
                       onClick={() => {
                         const message = `Hi, I'm interested in requesting a quotation for: ${variant.name} (SKU: ${variant.sku}). Could you please provide pricing and availability details?`;
                         const encodedMessage = encodeURIComponent(message);
-                        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+                        const whatsappUrl = `https://api.whatsapp.com/send?phone=254713416022&text=${encodedMessage}`;
                         window.open(whatsappUrl, '_blank');
                       }}
                       className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-2 px-4 rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105 text-sm flex items-center justify-center gap-2"
@@ -488,7 +488,7 @@ Please provide a quotation for the above product and delivery terms.`;
             </p>
             <p className="text-gray-600 mb-6">
               Sales Email: <a href="mailto:sales@medplusafrica.com" className="text-primary hover:underline font-semibold">sales@medplusafrica.com</a><br />
-              Phone: <a href="tel:+254734785363" className="text-primary hover:underline font-semibold">+254 734 785 363</a>
+              Phone: <a href="tel:+254713416022" className="text-primary hover:underline font-semibold">+254 713 416 022</a>
             </p>
             <Link to="/contact">
               <Button className="bg-primary hover:bg-primary/90 text-white font-semibold">

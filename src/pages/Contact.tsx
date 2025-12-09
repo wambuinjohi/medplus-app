@@ -127,9 +127,9 @@ ${formData.message}
 
 ━━━━━━━━━━━━━━━━━━━━━━`;
 
-      const whatsappPhone = '+254713416022';
+      const whatsappPhone = '254713416022';
       const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodedMessage}`;
 
       window.open(whatsappUrl, '_blank');
 

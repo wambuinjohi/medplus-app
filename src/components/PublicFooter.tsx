@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MessageCircle } from 'lucide-react';
 import { getProductBySlug } from '@/data/products';
 
 interface ProductCategory {
@@ -27,7 +28,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
       <div className="absolute inset-0 opacity-5 bg-gradient-to-r from-blue-500 to-green-500"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {productCategories.length > 0 && (
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+          <div className="grid md:grid-cols-3 gap-8 mb-12 pb-12 border-b border-gray-700">
             <div>
               <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Products
@@ -46,81 +47,19 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                     </li>
                   );
                 })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                More Products
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(5, 10).map((cat) => {
-                  const catName = getCategoryName(cat);
-                  return (
-                    <li key={catName}>
-                      <Link
-                        to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                      >
-                        {catName}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Additional
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(10).map((cat) => {
-                  const catName = getCategoryName(cat);
-                  return (
-                    <li key={catName}>
-                      <Link
-                        to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                      >
-                        {catName}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Company
-              </h3>
-              <ul className="text-gray-300 space-y-3 text-sm">
-                <li>
+                <li className="pt-2">
                   <Link
-                    to="/about-us"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    to="/products"
+                    className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
                   >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                  >
-                    Contact Us
+                    View More →
                   </Link>
                 </li>
               </ul>
             </div>
-          </div>
-        )}
 
-        <div className="border-t border-gray-700 pt-8 mb-8">
-          <div className="grid md:grid-cols-2 gap-8 pb-8">
             <div>
-              <h3 className="text-lg font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Contact Us
               </h3>
               <div className="text-gray-300 space-y-3 text-sm">
@@ -131,16 +70,27 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 </div>
                 <div>
                   <p className="font-semibold mb-1">Phone:</p>
-                  <p>
-                    <a href="tel:+254713416022" className="hover:text-white transition-colors">
-                      +254 713 416 022
-                    </a>
-                  </p>
-                  <p>
-                    <a href="tel:+254786830610" className="hover:text-white transition-colors">
-                      +254 786 830 610
-                    </a>
-                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <a href="tel:+254713416022" className="hover:text-white transition-colors">
+                        +254 713 416 022
+                      </a>
+                      <a
+                        href="https://api.whatsapp.com/send?phone=254713416022&text=Hello%20Medplus%20Africa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Chat on WhatsApp"
+                        className="text-green-400 hover:text-green-300 transition-colors"
+                      >
+                        <MessageCircle size={16} />
+                      </a>
+                    </div>
+                    <p>
+                      <a href="tel:+254786830610" className="hover:text-white transition-colors">
+                        +254 786 830 610
+                      </a>
+                    </p>
+                  </div>
                 </div>
                 <div>
                   <p className="font-semibold mb-1">Email:</p>
@@ -152,8 +102,9 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 </div>
               </div>
             </div>
+
             <div>
-              <h3 className="text-lg font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Quick Links
               </h3>
               <ul className="text-gray-300 space-y-3 text-sm">
@@ -194,9 +145,9 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
               </ul>
             </div>
           </div>
-        </div>
+        )}
 
-        <div className="border-t border-gray-700 pt-8">
+        <div className="pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
               © 2025 Medplus Africa. All rights reserved.

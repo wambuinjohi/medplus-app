@@ -76,7 +76,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                         +254 713 416 022
                       </a>
                       <a
-                        href="https://wa.me/254713416022?text=Hello%20Medplus%20Africa"
+                        href="https://api.whatsapp.com/send?phone=254713416022&text=Hello%20Medplus%20Africa"
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Chat on WhatsApp"

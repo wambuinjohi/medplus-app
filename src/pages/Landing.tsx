@@ -286,8 +286,18 @@ export default function Landing() {
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center justify-center text-center">
                   {/* Icon */}
-                  <div className="text-2xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-125 transition-transform duration-300">
-                    {partner.icon}
+                  <div className="mb-2 sm:mb-3 group-hover:scale-125 transition-transform duration-300">
+                    {partner.image ? (
+                      <img
+                        src={partner.image}
+                        alt={partner.name}
+                        className="h-16 sm:h-24 w-auto object-contain"
+                      />
+                    ) : (
+                      <div className="text-2xl sm:text-4xl">
+                        {partner.icon}
+                      </div>
+                    )}
                   </div>
 
                   {/* Partner Name */}

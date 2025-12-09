@@ -204,6 +204,9 @@ export default function Landing() {
       {/* Intro Section */}
       <IntroSection />
 
+      {/* Product Carousel Section */}
+      <ProductCarousel />
+
       {/* Our Goals Section */}
       <section className="py-12 sm:py-24 bg-gradient-to-b from-white to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

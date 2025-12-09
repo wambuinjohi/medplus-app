@@ -70,16 +70,27 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 </div>
                 <div>
                   <p className="font-semibold mb-1">Phone:</p>
-                  <p>
-                    <a href="tel:+254713416022" className="hover:text-white transition-colors">
-                      +254 713 416 022
-                    </a>
-                  </p>
-                  <p>
-                    <a href="tel:+254786830610" className="hover:text-white transition-colors">
-                      +254 786 830 610
-                    </a>
-                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <a href="tel:+254713416022" className="hover:text-white transition-colors">
+                        +254 713 416 022
+                      </a>
+                      <a
+                        href="https://wa.me/254713416022?text=Hello%20Medplus%20Africa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Chat on WhatsApp"
+                        className="text-green-400 hover:text-green-300 transition-colors"
+                      >
+                        <MessageCircle size={16} />
+                      </a>
+                    </div>
+                    <p>
+                      <a href="tel:+254786830610" className="hover:text-white transition-colors">
+                        +254 786 830 610
+                      </a>
+                    </p>
+                  </div>
                 </div>
                 <div>
                   <p className="font-semibold mb-1">Email:</p>

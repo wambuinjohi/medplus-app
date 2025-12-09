@@ -40,13 +40,13 @@ export default function Landing() {
   const partners = [
     { name: 'Kenya Red Cross', icon: '❤️', image: '/partner-logos/kenya-red-cross.webp', type: 'NGO' },
     { name: 'USAID Kenya', icon: '🌍', image: '/partner-logos/usaid.webp', type: 'Government' },
-    { name: 'Gertrudes Children\'s Hospital', icon: '👶', type: 'Hospital' },
-    { name: 'Bliss Healthcare Hospital', icon: '🏥', type: 'Hospital' },
-    { name: 'Africa Muslim Agency Hospital', icon: '🏥', type: 'Hospital' },
-    { name: 'PCEA Hospital Kikuyu', icon: '⛪', type: 'Hospital' },
-    { name: 'The Nairobi Women\'s Hospital', icon: '👩‍⚕️', type: 'Hospital' },
-    { name: 'Jacaranda Maternity', icon: '👶', type: 'Hospital' },
-    { name: 'Royal Ear and Eye Hospital', icon: '👁️', type: 'Hospital' },
+    { name: 'Gertrudes Children\'s Hospital', icon: '👶', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2F59197c239a3447e8a469d7b1b67b51c9?format=webp&width=800', type: 'Hospital' },
+    { name: 'Bliss Healthcare Hospital', icon: '🏥', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2Fbbba7fb775d44121a0dfc6a2db9d419e?format=webp&width=800', type: 'Hospital' },
+    { name: 'Africa Muslim Agency Hospital', icon: '🏥', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2F854ebc2fe0184807af4103ce25ab792d?format=webp&width=800', type: 'Hospital' },
+    { name: 'PCEA Hospital Kikuyu', icon: '⛪', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2Fafbe9821adc5456c98409f602f34e779?format=webp&width=800', type: 'Hospital' },
+    { name: 'The Nairobi Women\'s Hospital', icon: '👩‍⚕️', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2Feeadacf1901f402cbd380aea73df1fba?format=webp&width=800', type: 'Hospital' },
+    { name: 'Jacaranda Maternity', icon: '👶', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2Ffc2b4838a01c41d5968ea8beb0e2fa75?format=webp&width=800', type: 'Hospital' },
+    { name: 'Royal Ear and Eye Hospital', icon: '👁️', image: 'https://cdn.builder.io/api/v1/image/assets%2Fbab480d8499049228a14c82c33a4e489%2F57b7c421157846d1828020dc16f928ca?format=webp&width=800', type: 'Hospital' },
   ];
 
 

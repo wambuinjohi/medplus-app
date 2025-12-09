@@ -109,6 +109,7 @@ export default function ProductCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {

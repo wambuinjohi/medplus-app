@@ -18,8 +18,8 @@ export default function Contact() {
   useSEO(
     {
       title: 'Contact Us',
-      description: 'Get in touch with Medplus Africa for inquiries and support. We provide quality medical supplies and hospital equipment to healthcare facilities across Africa. Call +254 741 207 690 or email us directly.',
-      keywords: 'contact medplus, medical supplies contact, customer support, healthcare inquiries, hospital equipment support',
+      description: 'Get in touch with Medplus Africa Limited. Located at Siens Plaza River Road, Nairobi. Call +254 713 416 022 or +254 786 830 610, or email sales@medplusafrica.com for inquiries and support.',
+      keywords: 'contact medplus, medical supplies contact, customer support, healthcare inquiries, hospital equipment support, nairobi',
       url: 'https://medplusafrica.com/contact',
       type: 'website',
     },

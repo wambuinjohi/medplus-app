@@ -27,92 +27,29 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
       <div className="absolute inset-0 opacity-5 bg-gradient-to-r from-blue-500 to-green-500"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {productCategories.length > 0 && (
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Products
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(0, 5).map((cat) => {
-                  const catName = getCategoryName(cat);
-                  return (
-                    <li key={catName}>
-                      <Link
-                        to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                      >
-                        {catName}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                More Products
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(5, 10).map((cat) => {
-                  const catName = getCategoryName(cat);
-                  return (
-                    <li key={catName}>
-                      <Link
-                        to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                      >
-                        {catName}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Additional
-              </h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                {productCategories.slice(10).map((cat) => {
-                  const catName = getCategoryName(cat);
-                  return (
-                    <li key={catName}>
-                      <Link
-                        to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                      >
-                        {catName}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Company
-              </h3>
-              <ul className="text-gray-300 space-y-3 text-sm">
-                <li>
+          <div className="mb-12">
+            <h3 className="text-lg font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              Products
+            </h3>
+            <div className="flex flex-wrap gap-4 items-center">
+              {productCategories.slice(0, 5).map((cat) => {
+                const catName = getCategoryName(cat);
+                return (
                   <Link
-                    to="/about-us"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    key={catName}
+                    to={`/products/${getProductSlug(catName)}`}
+                    className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block text-sm"
                   >
-                    About Us
+                    {catName}
                   </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
+                );
+              })}
+              <Link
+                to="/products"
+                className="ml-auto text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 text-sm"
+              >
+                View More →
+              </Link>
             </div>
           </div>
         )}

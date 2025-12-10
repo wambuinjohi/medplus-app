@@ -388,7 +388,7 @@ ${formData.message}
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Business Hours</h3>
                   <ul className="space-y-2 text-gray-700">
                     <li>Monday - Friday: 8:00 AM - 5:00 PM</li>
-                    <li>Saturday: 9:00 AM - 1:00 PM</li>
+                    <li>Saturday: Closed</li>
                     <li>Sunday & Public Holidays: Closed</li>
                   </ul>
                 </div>

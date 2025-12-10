@@ -25,6 +25,11 @@ export default function OurProducts() {
     })
   );
 
+  useBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Our Products', url: '/products' }
+  ]);
+
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader currentPage="products" />

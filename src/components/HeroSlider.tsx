@@ -148,17 +148,17 @@ export default function HeroSlider() {
                 ))}
 
                 {/* Navigation Arrows */}
-                <div className="absolute inset-0 flex items-center justify-between px-4">
+                <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4">
                   <button
                     onClick={prevSlide}
-                    className="bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-200 transform hover:scale-110"
+                    className="bg-white/30 hover:bg-white/50 active:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Previous slide"
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button
                     onClick={nextSlide}
-                    className="bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-200 transform hover:scale-110"
+                    className="bg-white/30 hover:bg-white/50 active:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Next slide"
                   >
                     <ChevronRight size={24} />

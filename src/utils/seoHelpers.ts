@@ -132,9 +132,16 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url: strin
     '@type': 'ListItem',
     position: index + 1,
     name: item.name,
-    item: item.url,
+    item: `${SITE_CONFIG.url}${item.url}`,
   })),
 });
+
+/**
+ * Use breadcrumb schema and add to page
+ */
+export const useBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => {
+  addStructuredData(generateBreadcrumbSchema(items));
+};
 
 /**
  * Generate Contact Page schema

@@ -331,8 +331,8 @@ ${formData.message}
 
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
-              <div className="space-y-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
+              <div className="space-y-6 sm:space-y-8">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Medplus Africa Limited</h3>
                   <div className="text-gray-600 space-y-2 text-sm">

@@ -8,7 +8,7 @@ import { PublicFooter } from '@/components/PublicFooter';
 import { useToast } from '@/hooks/use-toast';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
-import { generateContactPageSchema } from '@/utils/seoHelpers';
+import { generateContactPageSchema, useBreadcrumbSchema } from '@/utils/seoHelpers';
 import { useWebCategories } from '@/hooks/useWebCategories';
 import emailjs from 'emailjs-com';
 import { Mail, MessageCircle } from 'lucide-react';
@@ -25,6 +25,11 @@ export default function Contact() {
     },
     generateContactPageSchema()
   );
+
+  useBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Contact Us', url: '/contact' }
+  ]);
 
   // Initialize EmailJS
   emailjs.init('dK906nDGwBHoPvOsr');
@@ -165,72 +170,73 @@ ${formData.message}
       <BreadcrumbNav items={[{ label: 'Contact Us', href: '/contact' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-white/90">Get in touch with our team for inquiries and support</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">Contact Us</h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90">Get in touch with our team for inquiries and support</p>
         </div>
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {/* Form */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
 
               {/* Contact Method Toggle */}
               <fieldset className="mb-6">
                 <legend className="sr-only">Choose contact method</legend>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   <button
                     onClick={() => setContactMethod('email')}
                     role="option"
                     aria-selected={contactMethod === 'email'}
                     aria-label="Send message via email"
-                    className={`flex-1 py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors ${
+                    className={`flex-1 py-3 px-3 sm:px-4 rounded-lg font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-colors min-h-[44px] sm:min-h-auto active:scale-95 ${
                       contactMethod === 'email'
                         ? 'bg-primary text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     <Mail size={18} />
-                    Email
+                    <span>Email</span>
                   </button>
                   <button
                     onClick={() => setContactMethod('whatsapp')}
                     role="option"
                     aria-selected={contactMethod === 'whatsapp'}
                     aria-label="Send message via WhatsApp"
-                    className={`flex-1 py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors ${
+                    className={`flex-1 py-3 px-3 sm:px-4 rounded-lg font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-colors min-h-[44px] sm:min-h-auto active:scale-95 ${
                       contactMethod === 'whatsapp'
                         ? 'bg-green-600 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     <MessageCircle size={18} />
-                    WhatsApp
+                    <span>WhatsApp</span>
                   </button>
                 </div>
               </fieldset>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div>
-                  <Label htmlFor="name" className="text-gray-700 mb-2">Full Name *</Label>
+                  <Label htmlFor="name" className="text-gray-700 mb-2 block text-sm sm:text-base">Full Name *</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="mt-1"
+                    className="mt-1 min-h-[44px] text-base"
                     placeholder="Your full name"
+                    autoComplete="name"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-gray-700 mb-2">Email Address *</Label>
+                  <Label htmlFor="email" className="text-gray-700 mb-2 block text-sm sm:text-base">Email Address *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -238,51 +244,54 @@ ${formData.message}
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="mt-1"
+                    className="mt-1 min-h-[44px] text-base"
                     placeholder="your.email@example.com"
+                    autoComplete="email"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="phone" className="text-gray-700 mb-2">Phone Number</Label>
+                  <Label htmlFor="phone" className="text-gray-700 mb-2 block text-sm sm:text-base">Phone Number</Label>
                   <Input
                     id="phone"
                     name="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mt-1"
+                    className="mt-1 min-h-[44px] text-base"
                     placeholder="+254 XXX XXX XXX"
+                    autoComplete="tel"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="company" className="text-gray-700 mb-2">Company/Institution</Label>
+                  <Label htmlFor="company" className="text-gray-700 mb-2 block text-sm sm:text-base">Company/Institution</Label>
                   <Input
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="mt-1"
+                    className="mt-1 min-h-[44px] text-base"
                     placeholder="Your organization name"
+                    autoComplete="organization"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="subject" className="text-gray-700 mb-2">Subject *</Label>
+                  <Label htmlFor="subject" className="text-gray-700 mb-2 block text-sm sm:text-base">Subject *</Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="mt-1"
+                    className="mt-1 min-h-[44px] text-base"
                     placeholder="What is this about?"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="message" className="text-gray-700 mb-2">Message *</Label>
+                  <Label htmlFor="message" className="text-gray-700 mb-2 block text-sm sm:text-base">Message *</Label>
                   <textarea
                     id="message"
                     name="message"
@@ -290,7 +299,7 @@ ${formData.message}
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mt-1"
+                    className="w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mt-1 text-base min-h-[120px]"
                     placeholder="Please provide details about your inquiry..."
                   />
                 </div>
@@ -298,7 +307,7 @@ ${formData.message}
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full text-white font-semibold flex items-center justify-center gap-2 ${
+                  className={`w-full text-white font-semibold flex items-center justify-center gap-2 min-h-[44px] text-base sm:text-lg ${
                     contactMethod === 'email'
                       ? 'bg-primary hover:bg-primary/90'
                       : 'bg-green-600 hover:bg-green-700'
@@ -307,12 +316,12 @@ ${formData.message}
                 >
                   {contactMethod === 'email' ? (
                     <>
-                      <Mail size={18} />
+                      <Mail size={20} />
                       {isSubmitting ? 'Sending via Email...' : 'Send via Email'}
                     </>
                   ) : (
                     <>
-                      <MessageCircle size={18} />
+                      <MessageCircle size={20} />
                       {isSubmitting ? 'Opening WhatsApp...' : 'Send via WhatsApp'}
                     </>
                   )}
@@ -322,8 +331,8 @@ ${formData.message}
 
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
-              <div className="space-y-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
+              <div className="space-y-6 sm:space-y-8">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Medplus Africa Limited</h3>
                   <div className="text-gray-600 space-y-2 text-sm">
@@ -379,7 +388,7 @@ ${formData.message}
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Business Hours</h3>
                   <ul className="space-y-2 text-gray-700">
                     <li>Monday - Friday: 8:00 AM - 5:00 PM</li>
-                    <li>Saturday: 9:00 AM - 1:00 PM</li>
+                    <li>Saturday: Closed</li>
                     <li>Sunday & Public Holidays: Closed</li>
                   </ul>
                 </div>

@@ -62,14 +62,15 @@ export default function Landing() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 ml-auto">
+            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 ml-auto">
               {navigationItems.map((item) => {
               if (item.label === 'Talk to us') {
                 return (
                   <Link
                     key={item.label}
                     to="/contact"
-                    className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    aria-label="Talk to us - Contact Medplus Africa"
                   >
                     {item.label}
                   </Link>
@@ -80,7 +81,8 @@ export default function Landing() {
                   <Link
                     key={item.label}
                     to="/about-us"
-                    className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    aria-label="About Us - Learn about Medplus Africa"
                   >
                     {item.label}
                   </Link>
@@ -90,24 +92,27 @@ export default function Landing() {
                 <div key={item.label} className="relative group">
                   <a
                     href={item.href}
-                    className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1 font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1 font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    role="button"
+                    aria-haspopup="true"
                   >
                     {item.label}
                     {item.submenu && <ChevronDown size={16} className="group-hover:rotate-180 transition-transform duration-200" />}
                   </a>
                   {item.submenu && (
-                    <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 border border-gray-100 before:absolute before:bottom-full before:right-8 before:w-6 before:h-4 before:bg-white before:border-t-2 before:border-l-2 before:border-gray-100 before:rotate-45" style={{ minWidth: '750px' }}>
-                      <div className="grid grid-cols-5 gap-x-8 gap-y-4 p-6">
+                    <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 border border-gray-100 before:absolute before:bottom-full before:right-8 before:w-6 before:h-4 before:bg-white before:border-t-2 before:border-l-2 before:border-gray-100 before:rotate-45" style={{ minWidth: 'min(500px, calc(100vw - 2rem))' }}>
+                      <div className="grid grid-cols-3 lg:grid-cols-5 gap-x-4 lg:gap-x-8 gap-y-4 p-4 lg:p-6">
                         {item.submenu.map((sub) => (
                           <Link
                             key={sub.slug}
                             to={`/products/${sub.slug}`}
                             className="flex flex-col items-center text-center group/item transition-all duration-200 hover:scale-110"
+                            role="menuitem"
                           >
-                            <div className="mb-2 transition-transform group-hover/item:scale-125 text-2xl">
+                            <div className="mb-2 transition-transform group-hover/item:scale-125 text-xl lg:text-2xl">
                               {categories.find((c) => c.slug === sub.slug)?.icon || '📦'}
                             </div>
-                            <span className="text-xs text-gray-700 group-hover/item:text-primary group-hover/item:font-semibold transition-colors leading-tight">
+                            <span className="text-xs lg:text-sm text-gray-700 group-hover/item:text-primary group-hover/item:font-semibold transition-colors leading-tight">
                               {sub.name}
                             </span>
                           </Link>
@@ -122,8 +127,11 @@ export default function Landing() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden ml-auto p-2"
+              className="md:hidden ml-auto p-2 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -131,13 +139,13 @@ export default function Landing() {
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <nav className="md:hidden pb-4 space-y-1 border-t border-gray-200">
+            <nav className="md:hidden pb-4 space-y-1 border-t border-gray-200" id="mobile-nav" role="navigation" aria-label="Mobile menu">
               {navigationItems.map((item) => (
                 <div key={item.label}>
                   {item.label === 'Talk to us' ? (
                     <Link
                       to="/contact"
-                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 rounded font-medium text-sm"
+                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 active:bg-primary/20 rounded font-medium text-base transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -145,7 +153,7 @@ export default function Landing() {
                   ) : item.label === 'About Us' ? (
                     <Link
                       to="/about-us"
-                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 rounded font-medium text-sm"
+                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 active:bg-primary/20 rounded font-medium text-base transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -153,7 +161,7 @@ export default function Landing() {
                   ) : item.label === 'Home' ? (
                     <Link
                       to="/"
-                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 rounded font-medium text-sm"
+                      className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 active:bg-primary/20 rounded font-medium text-base transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -164,23 +172,26 @@ export default function Landing() {
                         onClick={() =>
                           item.submenu && setProductsDropdownOpen(!productsDropdownOpen)
                         }
-                        className="w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 rounded flex justify-between items-center font-medium text-sm"
+                        className="w-full text-left px-4 py-3 text-gray-700 hover:bg-primary/10 active:bg-primary/20 rounded flex justify-between items-center font-medium text-base transition-colors"
+                        aria-expanded={productsDropdownOpen}
+                        aria-controls="mobile-products-submenu"
                       >
                         {item.label}
                         {item.submenu && item.submenu.length > 0 && (
                           <ChevronDown
                             size={16}
                             className={`transition-transform ${productsDropdownOpen ? 'rotate-180' : ''}`}
+                            aria-hidden="true"
                           />
                         )}
                       </button>
                       {item.submenu && productsDropdownOpen && (
-                        <div className="bg-gray-50 pl-4 py-1">
+                        <div className="bg-gray-50 pl-4 py-2 space-y-1" id="mobile-products-submenu">
                           {item.submenu.map((sub) => (
                             <Link
                               key={sub.slug}
                               to={`/products/${sub.slug}`}
-                              className="block px-4 py-2 text-xs text-gray-700 hover:text-primary transition-colors"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:text-primary hover:bg-primary/5 active:bg-primary/10 rounded transition-colors"
                               onClick={() => setMobileMenuOpen(false)}
                             >
                               {sub.name}

@@ -4,7 +4,7 @@ import { PublicHeader } from '@/components/PublicHeader';
 import { PublicFooter } from '@/components/PublicFooter';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
-import { generateWebPageSchema } from '@/utils/seoHelpers';
+import { generateWebPageSchema, useBreadcrumbSchema } from '@/utils/seoHelpers';
 import { useWebCategories } from '@/hooks/useWebCategories';
 
 export default function AboutUs() {
@@ -22,6 +22,11 @@ export default function AboutUs() {
       url: 'https://medplusafrica.com/about-us',
     })
   );
+
+  useBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'About Us', url: '/about-us' }
+  ]);
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader currentPage="about" />
@@ -30,10 +35,10 @@ export default function AboutUs() {
       <BreadcrumbNav items={[{ label: 'About Us', href: '/about-us' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">About Medplus Africa</h1>
-          <p className="text-xl text-white/90">Learn about our journey, mission, and commitment to healthcare excellence</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">About Medplus Africa</h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90">Learn about our journey, mission, and commitment to healthcare excellence</p>
         </div>
       </section>
 

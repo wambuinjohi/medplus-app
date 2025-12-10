@@ -83,23 +83,24 @@ export default function HeroSlider() {
                     <span className="inline-block bg-gradient-to-r from-blue-500 to-green-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                       OVER 10 YEARS
                     </span>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 leading-tight">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 leading-tight">
                       OF TRUSTED SERVICE
                     </h1>
                   </div>
 
                   <div className="space-y-3 sm:space-y-4">
-                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white font-semibold leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white font-semibold leading-relaxed">
                       World Class Critical Care, Hospital Consumables and Furniture Distributors.
                     </p>
-                    <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-white/90 leading-relaxed">
                       Bettering lives together.
                     </p>
                   </div>
 
                   <div className="pt-4 sm:pt-6">
-                    <Link to="/about-us">
-                      <button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base">
+                    <Link to="/about-us" className="block sm:inline-block">
+                      <button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 sm:px-8 py-3 sm:py-3 rounded-lg font-semibold hover:shadow-lg active:shadow-md transform hover:scale-105 active:scale-100 transition-all duration-200 text-base sm:text-base min-h-[44px] sm:min-h-auto flex items-center justify-center"
+                        aria-label="Learn more about Medplus Africa">
                         Learn More
                       </button>
                     </Link>
@@ -113,12 +114,13 @@ export default function HeroSlider() {
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
+                    className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
                       index === currentSlide
                         ? 'bg-white w-6 sm:w-8'
                         : 'bg-white/50 w-2 hover:bg-white/75'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
+                    aria-pressed={index === currentSlide}
                   />
                 ))}
               </div>
@@ -147,17 +149,17 @@ export default function HeroSlider() {
                 ))}
 
                 {/* Navigation Arrows */}
-                <div className="absolute inset-0 flex items-center justify-between px-4">
+                <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4">
                   <button
                     onClick={prevSlide}
-                    className="bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-200 transform hover:scale-110"
+                    className="bg-white/30 hover:bg-white/50 active:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Previous slide"
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button
                     onClick={nextSlide}
-                    className="bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-200 transform hover:scale-110"
+                    className="bg-white/30 hover:bg-white/50 active:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label="Next slide"
                   >
                     <ChevronRight size={24} />

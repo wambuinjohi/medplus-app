@@ -11,7 +11,7 @@ import { useWebCategoryBySlug, useWebVariantBySlug } from '@/hooks/useWebCategor
 import { MessageCircle, ArrowLeft, Check } from 'lucide-react';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
-import { generateProductSchema, SITE_CONFIG } from '@/utils/seoHelpers';
+import { generateProductSchema, SITE_CONFIG, useBreadcrumbSchema } from '@/utils/seoHelpers';
 import { openWhatsAppQuotation } from '@/utils/whatsappQuotation';
 
 export default function ProductDetail() {
@@ -44,6 +44,12 @@ export default function ProductDetail() {
       category: category?.name || '',
     }) : undefined
   );
+
+  useBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Products', url: '/products' },
+    { name: variant?.name || category?.name || 'Product', url: `/products/${productSlug}` }
+  ]);
 
   const [quotationForm, setQuotationForm] = useState({
     quantity: '',

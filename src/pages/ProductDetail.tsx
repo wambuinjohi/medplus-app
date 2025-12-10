@@ -45,6 +45,12 @@ export default function ProductDetail() {
     }) : undefined
   );
 
+  useBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Products', url: '/products' },
+    { name: variant?.name || category?.name || 'Product', url: `/products/${productSlug}` }
+  ]);
+
   const [quotationForm, setQuotationForm] = useState({
     quantity: '',
     companyName: '',

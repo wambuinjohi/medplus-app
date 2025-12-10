@@ -38,18 +38,18 @@ export default function OurProducts() {
       <BreadcrumbNav items={[{ label: 'Our Products', href: '/products' }]} />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
-          <p className="text-xl text-white/90">Comprehensive range of medical supplies and hospital equipment</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">Our Products</h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90">Comprehensive range of medical supplies and hospital equipment</p>
         </div>
       </section>
 
       {/* Introduction */}
-      <section className="py-12">
+      <section className="py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-base sm:text-base md:text-lg text-gray-700 leading-relaxed">
               Medplus Africa offers a comprehensive range of hospital consumables, medical equipment, and furniture to meet all your healthcare facility needs. Our products are sourced from trusted manufacturers and meet international quality standards.
             </p>
           </div>

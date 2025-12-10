@@ -127,8 +127,11 @@ export default function Landing() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden ml-auto p-2"
+              className="md:hidden ml-auto p-2 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

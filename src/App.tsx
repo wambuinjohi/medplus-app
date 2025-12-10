@@ -67,6 +67,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/media" element={<Media />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/sitemap.xml" element={<Sitemap />} />
 
           {/* App Routes - Protected */}
           {/* Dashboard */}

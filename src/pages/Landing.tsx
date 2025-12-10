@@ -62,14 +62,15 @@ export default function Landing() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8 ml-auto">
+            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 ml-auto">
               {navigationItems.map((item) => {
               if (item.label === 'Talk to us') {
                 return (
                   <Link
                     key={item.label}
                     to="/contact"
-                    className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    aria-label="Talk to us - Contact Medplus Africa"
                   >
                     {item.label}
                   </Link>
@@ -80,7 +81,8 @@ export default function Landing() {
                   <Link
                     key={item.label}
                     to="/about-us"
-                    className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    aria-label="About Us - Learn about Medplus Africa"
                   >
                     {item.label}
                   </Link>
@@ -90,7 +92,9 @@ export default function Landing() {
                 <div key={item.label} className="relative group">
                   <a
                     href={item.href}
-                    className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1 font-medium"
+                    className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1 font-medium text-sm lg:text-base px-2 py-2 rounded hover:bg-gray-100"
+                    role="button"
+                    aria-haspopup="true"
                   >
                     {item.label}
                     {item.submenu && <ChevronDown size={16} className="group-hover:rotate-180 transition-transform duration-200" />}

@@ -6,7 +6,7 @@ import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import ProductCategorySidebar from '@/components/ProductCategorySidebar';
 import { useWebCategories } from '@/hooks/useWebCategories';
 import { useSEO } from '@/hooks/useSEO';
-import { generateWebPageSchema, useBreadcrumbSchema } from '@/utils/seoHelpers';
+import { generateWebPageSchema, useBreadcrumbSchema, generateCollectionSchema } from '@/utils/seoHelpers';
 
 export default function OurProducts() {
   const { categories } = useWebCategories();

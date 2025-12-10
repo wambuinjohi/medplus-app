@@ -30,7 +30,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
         {productCategories.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12 pb-8 sm:pb-12 border-b border-gray-700">
             <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Products
               </h3>
               <ul className="text-gray-300 space-y-2 text-sm">
@@ -40,7 +40,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                     <li key={catName}>
                       <Link
                         to={`/products/${getProductSlug(catName)}`}
-                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                        className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block py-1"
                       >
                         {catName}
                       </Link>
@@ -50,7 +50,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 <li className="pt-2">
                   <Link
                     to="/products"
-                    className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
+                    className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 py-1"
                   >
                     View More →
                   </Link>
@@ -59,10 +59,10 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Contact Us
               </h3>
-              <div className="text-gray-300 space-y-3 text-sm">
+              <address className="text-gray-300 space-y-3 text-sm not-italic">
                 <div>
                   <p className="font-semibold">Medplus Africa Limited</p>
                   <p>Siens Plaza River Road</p>
@@ -72,7 +72,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                   <p className="font-semibold mb-1">Phone:</p>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <a href="tel:+254713416022" className="hover:text-white transition-colors">
+                      <a href="tel:+254713416022" className="hover:text-white transition-colors py-1 block" aria-label="Call us at +254 713 416 022">
                         +254 713 416 022
                       </a>
                       <a
@@ -80,13 +80,14 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Chat on WhatsApp"
-                        className="text-green-400 hover:text-green-300 transition-colors"
+                        className="text-green-400 hover:text-green-300 transition-colors p-1"
+                        aria-label="Chat with us on WhatsApp"
                       >
-                        <MessageCircle size={16} />
+                        <MessageCircle size={18} />
                       </a>
                     </div>
                     <p>
-                      <a href="tel:+254786830610" className="hover:text-white transition-colors">
+                      <a href="tel:+254786830610" className="hover:text-white transition-colors py-1 block" aria-label="Call us at +254 786 830 610">
                         +254 786 830 610
                       </a>
                     </p>
@@ -95,23 +96,23 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 <div>
                   <p className="font-semibold mb-1">Email:</p>
                   <p>
-                    <a href="mailto:sales@medplusafrica.com" className="hover:text-white transition-colors">
+                    <a href="mailto:sales@medplusafrica.com" className="hover:text-white transition-colors py-1 block" aria-label="Email us at sales@medplusafrica.com">
                       sales@medplusafrica.com
                     </a>
                   </p>
                 </div>
-              </div>
+              </address>
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Quick Links
               </h3>
-              <ul className="text-gray-300 space-y-3 text-sm">
+              <ul className="text-gray-300 space-y-2 sm:space-y-3 text-sm">
                 <li>
                   <Link
                     to="/about-us"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block py-1"
                   >
                     About Us
                   </Link>
@@ -119,7 +120,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 <li>
                   <Link
                     to="/contact"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block py-1"
                   >
                     Contact Us
                   </Link>
@@ -127,7 +128,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                 <li>
                   <Link
                     to="/products"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block py-1"
                   >
                     Our Products
                   </Link>
@@ -137,7 +138,7 @@ export const PublicFooter = ({ productCategories = [] }: PublicFooterProps) => {
                     href="https://www.medplusafrica.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block py-1"
                   >
                     Visit Website
                   </a>

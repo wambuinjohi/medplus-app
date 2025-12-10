@@ -8,7 +8,7 @@ import { PublicFooter } from '@/components/PublicFooter';
 import { useToast } from '@/hooks/use-toast';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
-import { generateContactPageSchema } from '@/utils/seoHelpers';
+import { generateContactPageSchema, useBreadcrumbSchema } from '@/utils/seoHelpers';
 import { useWebCategories } from '@/hooks/useWebCategories';
 import emailjs from 'emailjs-com';
 import { Mail, MessageCircle } from 'lucide-react';

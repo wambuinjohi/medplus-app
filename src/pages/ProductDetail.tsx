@@ -324,21 +324,13 @@ export default function ProductDetail() {
             {/* Main Content */}
             <div className="flex-1">
               <div className="grid md:grid-cols-2 gap-12">
-                {/* Variant Image */}
+                {/* Variant Images Gallery */}
                 <div>
-                  <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200">
-                    {variant?.image_path ? (
-                      <img
-                        src={variant.image_path}
-                        alt={variant.name}
-                        className="w-full h-96 object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-96 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 text-gray-400">
-                        <span className="text-6xl">📦</span>
-                      </div>
-                    )}
-                  </div>
+                  <ImageGallery
+                    images={variantImages}
+                    fallbackImage={variant?.image_path}
+                    fallbackAlt={variant?.name}
+                  />
                 </div>
 
                 {/* Variant Info */}

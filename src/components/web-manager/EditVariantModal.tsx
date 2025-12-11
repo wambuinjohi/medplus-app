@@ -74,14 +74,18 @@ export const EditVariantModal = ({
     setVariantImages(images);
   };
 
-  const handleImagePathChange = (path: string) => {
-    setFormData((prev) => ({ ...prev, image_path: path }));
+  const handleImagesChange = (images: VariantImage[]) => {
+    setVariantImages(images);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateVariant(variant.id, formData);
+
+      // Save images
+      await saveVariantImages(variant.id, variantImages);
+
       onOpenChange(false);
       onSuccess();
     } catch (error) {

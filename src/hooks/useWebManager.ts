@@ -38,6 +38,13 @@ export interface CategoryFormData {
   is_active: boolean;
 }
 
+export interface VariantImage {
+  id?: string;
+  url: string;
+  altText?: string;
+  displayOrder: number;
+}
+
 export interface VariantFormData {
   category_id: string;
   name: string;
@@ -47,6 +54,11 @@ export interface VariantFormData {
   image_path?: string;
   display_order: number;
   is_active: boolean;
+  images?: VariantImage[];
+}
+
+export interface WebVariantWithImages extends WebVariant {
+  images?: VariantImage[];
 }
 
 export const useWebManager = () => {

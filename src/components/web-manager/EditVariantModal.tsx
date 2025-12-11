@@ -166,10 +166,10 @@ export const EditVariantModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label>Product Image</Label>
-            <ImageUploadField
-              value={formData.image_path}
-              onChange={handleImagePathChange}
+            <Label>Product Images</Label>
+            <MultiImageUploadField
+              value={variantImages}
+              onChange={handleImagesChange}
               variantName={formData.name}
             />
           </div>

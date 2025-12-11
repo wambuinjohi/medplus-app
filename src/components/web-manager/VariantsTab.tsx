@@ -57,12 +57,23 @@ export const VariantsTab = () => {
     setCategories(cats);
     const vars = await fetchVariants();
     setVariants(vars);
+    await loadImagesForVariants(vars);
   };
 
   const loadVariants = async () => {
     const categoryId = selectedCategory && selectedCategory !== 'all' ? selectedCategory : undefined;
     const data = await fetchVariants(categoryId, search || undefined);
     setVariants(data);
+    await loadImagesForVariants(data);
+  };
+
+  const loadImagesForVariants = async (vars: WebVariant[]) => {
+    const imagesMap: Record<string, VariantImage[]> = {};
+    for (const variant of vars) {
+      const images = await fetchVariantImages(variant.id);
+      imagesMap[variant.id] = images;
+    }
+    setVariantImages(imagesMap);
   };
 
   const handleSearch = (value: string) => {

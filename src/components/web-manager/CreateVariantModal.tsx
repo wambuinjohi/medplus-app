@@ -64,14 +64,20 @@ export const CreateVariantModal = ({
     }));
   };
 
-  const handleImagePathChange = (path: string) => {
-    setFormData((prev) => ({ ...prev, image_path: path }));
+  const handleImagesChange = (images: VariantImage[]) => {
+    setVariantImages(images);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createVariant(formData);
+      const newVariant = await createVariant(formData);
+
+      // Save images if any were uploaded
+      if (variantImages.length > 0 && newVariant) {
+        await saveVariantImages(newVariant.id, variantImages);
+      }
+
       setFormData({
         category_id: '',
         name: '',
@@ -81,7 +87,9 @@ export const CreateVariantModal = ({
         image_path: '',
         display_order: 0,
         is_active: true,
+        images: [],
       });
+      setVariantImages([]);
       onOpenChange(false);
       onSuccess();
     } catch (error) {

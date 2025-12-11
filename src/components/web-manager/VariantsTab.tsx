@@ -33,6 +33,7 @@ import { EditVariantModal } from './EditVariantModal';
 export const VariantsTab = () => {
   const [variants, setVariants] = useState<WebVariant[]>([]);
   const [categories, setCategories] = useState<WebCategory[]>([]);
+  const [variantImages, setVariantImages] = useState<Record<string, VariantImage[]>>({});
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedVariant, setSelectedVariant] = useState<WebVariant | null>(null);
@@ -41,6 +42,7 @@ export const VariantsTab = () => {
   const {
     fetchVariants,
     fetchCategories,
+    fetchVariantImages,
     deleteVariant,
     toggleVariantStatus,
     loading,

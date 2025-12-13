@@ -65,24 +65,33 @@ export function CompleteInvitationModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError('');
 
     if (!validateForm() || !invitation) {
       return;
     }
 
-    const result = await onCompleteInvitation(invitation.id, {
-      password: formData.password,
-      full_name: formData.full_name || undefined,
-      phone: formData.phone || undefined,
-      department: formData.department || undefined,
-      position: formData.position || undefined,
-    });
+    try {
+      const result = await onCompleteInvitation(invitation.id, {
+        password: formData.password,
+        full_name: formData.full_name || undefined,
+        phone: formData.phone || undefined,
+        department: formData.department || undefined,
+        position: formData.position || undefined,
+      });
 
-    if (result.success) {
-      handleClose();
-    } else if (result.error) {
-      // Ensure error is a string
-      const errorMsg = typeof result.error === 'string' ? result.error : String(result.error);
+      if (result.success) {
+        toast.success(`Account created for ${invitation.email}`);
+        handleClose();
+      } else if (result.error) {
+        // Ensure error is a string
+        const errorMsg = typeof result.error === 'string' ? result.error : String(result.error);
+        setSubmitError(errorMsg);
+        toast.error(errorMsg);
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to complete invitation';
+      setSubmitError(errorMsg);
       toast.error(errorMsg);
     }
   };

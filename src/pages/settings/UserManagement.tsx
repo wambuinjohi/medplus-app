@@ -190,6 +190,19 @@ export default function UserManagement() {
     }
   };
 
+  const handleCompleteInvitation = async (
+    invitationId: string,
+    userData: {
+      password: string;
+      full_name?: string;
+      phone?: string;
+      department?: string;
+      position?: string;
+    }
+  ) => {
+    return await completeInvitation(invitationId, userData);
+  };
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="users" className="w-full">

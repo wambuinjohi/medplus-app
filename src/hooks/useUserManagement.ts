@@ -5,6 +5,9 @@ import { toast } from 'sonner';
 import { parseErrorMessage, parseErrorMessageWithCodes } from '@/utils/errorHelpers';
 import { logUserCreation, logUserApproval } from '@/utils/auditLogger';
 
+// Supabase URL - same as used in client initialization
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://klifzjcfnlaxminytmyh.supabase.co';
+
 export interface UserInvitation {
   id: string;
   email: string;
@@ -206,7 +209,63 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Check for existing pending or accepted invitations
+      // If password is provided, create the user directly using the edge function
+      if (userData.password) {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          const token = session?.access_token;
+
+          if (!token) {
+            return { success: false, error: 'Authentication token not found. Please log in again.' };
+          }
+
+          const response = await fetch(`${SUPABASE_URL}/functions/v1/admin-create-user`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              email: userData.email,
+              password: userData.password,
+              full_name: userData.full_name,
+              role: userData.role,
+              company_id: finalCompanyId,
+              invited_by: currentUser?.id,
+              phone: userData.phone,
+              department: userData.department,
+              position: userData.position,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            console.error('Edge function error:', result);
+            return { success: false, error: result.error || 'Failed to create user' };
+          }
+
+          if (!result.success) {
+            return { success: false, error: result.error || 'Failed to create user' };
+          }
+
+          // Log user creation in audit trail
+          try {
+            await logUserCreation(result.user_id, userData.email, userData.role as UserRole, finalCompanyId);
+          } catch (auditError) {
+            console.error('Failed to log user creation:', auditError);
+          }
+
+          toast.success(`User ${userData.email} created successfully and is ready to login.`);
+          await fetchUsers();
+          return { success: true, password: userData.password };
+        } catch (err) {
+          console.error('Error calling admin-create-user function:', err);
+          return { success: false, error: `Failed to create user: ${err instanceof Error ? err.message : String(err)}` };
+        }
+      }
+
+      // If no password provided, create an invitation instead
       const { data: existingInvitation } = await supabase
         .from('user_invitations')
         .select('*')

@@ -393,6 +393,11 @@ export const useWebManager = () => {
       try {
         setError(null);
 
+        // Skip if no images to save
+        if (images.length === 0) {
+          return true;
+        }
+
         // Delete existing images for this variant
         const { error: deleteErr } = await supabase
           .from('variant_images')
@@ -400,6 +405,16 @@ export const useWebManager = () => {
           .eq('variant_id', variantId);
 
         if (deleteErr) {
+          // Check if it's a "table not found" error
+          const deleteErrorStr = String(deleteErr);
+          if (deleteErrorStr.includes('variant_images') && deleteErrorStr.includes('schema cache')) {
+            console.warn('variant_images table not found - images will not be saved. Run the migration first.');
+            toast.warning(
+              'Images table not set up yet. Please run the database migration and try again.'
+            );
+            // Don't throw - allow variant to be created without images
+            return false;
+          }
           console.error('Error deleting existing variant images:', deleteErr);
           throw deleteErr;
         }
@@ -424,6 +439,16 @@ export const useWebManager = () => {
             .select();
 
           if (insertErr) {
+            // Check if it's a "table not found" error
+            const insertErrorStr = String(insertErr);
+            if (insertErrorStr.includes('variant_images') && insertErrorStr.includes('schema cache')) {
+              console.warn('variant_images table not found - images will not be saved. Run the migration first.');
+              toast.warning(
+                'Images table not set up yet. Variant created but images could not be saved.'
+              );
+              // Don't throw - variant was created successfully
+              return false;
+            }
             console.error('Error inserting variant images:', insertErr);
             console.error('Attempted to insert:', imagesToInsert);
             throw insertErr;
@@ -446,7 +471,7 @@ export const useWebManager = () => {
               message = 'Variant not found. Please create the variant first.';
             } else if (code === '42P01') {
               // Table does not exist
-              message = 'Database table not found. Please contact support.';
+              message = 'Database table not found. Please run the migration.';
             } else if ('message' in err && typeof err.message === 'string') {
               message = err.message;
             } else {

@@ -438,17 +438,38 @@ export const useWebManager = () => {
       } catch (err) {
         let message = 'Failed to save variant images';
 
-        // Handle Supabase errors
+        // Handle Supabase errors with specific error codes
         if (err && typeof err === 'object') {
-          if ('message' in err && typeof err.message === 'string') {
+          if ('code' in err) {
+            const code = err.code;
+            if (code === '23503') {
+              // Foreign key constraint violation
+              message = 'Variant not found. Please create the variant first.';
+            } else if (code === '42P01') {
+              // Table does not exist
+              message = 'Database table not found. Please contact support.';
+            } else if ('message' in err && typeof err.message === 'string') {
+              message = err.message;
+            } else {
+              message = `Database Error (${code})`;
+            }
+          } else if ('message' in err && typeof err.message === 'string') {
             message = err.message;
-          } else if ('code' in err && typeof err.code === 'string') {
-            message = `Error: ${err.code}`;
           } else {
-            message = JSON.stringify(err);
+            try {
+              message = JSON.stringify(err);
+            } catch {
+              message = String(err);
+            }
           }
         } else if (err instanceof Error) {
           message = err.message;
+        } else {
+          try {
+            message = String(err);
+          } catch {
+            message = 'Failed to save variant images';
+          }
         }
 
         console.error('saveVariantImages error:', message, err);

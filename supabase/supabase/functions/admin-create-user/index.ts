@@ -60,45 +60,47 @@ Deno.serve(async (req) => {
     let userId: string;
     let userCreatedNow = false;
 
-    // Try to create auth user
+    // Try to create auth user with minimal data to avoid trigger issues
     try {
       const { data: authData, error: authError } = await supabase.auth.admin.createUser({
         email: body.email,
         password: body.password,
         email_confirm: true,
-        user_metadata: {
-          full_name: body.full_name,
-          role: body.role,
-          company_id: body.company_id,
-        },
       });
 
       if (authError) {
         // If user already exists, try to get them
         if (authError.message?.includes('already exists') || authError.message?.includes('already registered')) {
           console.log('User already exists, retrieving existing user');
-          
-          // Get existing user via query
-          const { data: { users }, error: listError } = await supabase.auth.admin.listUsers();
-          
-          if (listError || !users) {
-            console.error('Could not retrieve existing user:', listError);
+
+          try {
+            const { data: { users }, error: listError } = await supabase.auth.admin.listUsers();
+
+            if (listError || !users) {
+              console.error('Could not retrieve existing user:', listError);
+              return new Response(
+                JSON.stringify({ success: false, error: 'User exists but could not be retrieved' }),
+                { status: 400, headers: corsHeaders }
+              );
+            }
+
+            const existingUser = users.find(u => u.email === body.email);
+            if (!existingUser?.id) {
+              return new Response(
+                JSON.stringify({ success: false, error: 'User exists but has no ID' }),
+                { status: 400, headers: corsHeaders }
+              );
+            }
+
+            userId = existingUser.id;
+            userCreatedNow = false;
+          } catch (retrieveErr) {
+            console.error('Error retrieving existing user:', retrieveErr);
             return new Response(
               JSON.stringify({ success: false, error: 'User exists but could not be retrieved' }),
               { status: 400, headers: corsHeaders }
             );
           }
-
-          const existingUser = users.find(u => u.email === body.email);
-          if (!existingUser?.id) {
-            return new Response(
-              JSON.stringify({ success: false, error: 'User exists but has no ID' }),
-              { status: 400, headers: corsHeaders }
-            );
-          }
-
-          userId = existingUser.id;
-          userCreatedNow = false;
         } else {
           console.error('Auth creation error:', authError);
           return new Response(
@@ -126,7 +128,7 @@ Deno.serve(async (req) => {
     // Handle profile - using upsert to avoid conflicts
     try {
       const now = new Date().toISOString();
-      
+
       // Use upsert which handles both insert and update cases
       const { error: profileError } = await supabase
         .from('profiles')
@@ -140,9 +142,8 @@ Deno.serve(async (req) => {
           company_id: body.company_id,
           role: body.role,
           status: 'active',
-          is_active: true,
-          invited_by: body.invited_by,
-          auth_user_id: userId,
+          invited_by: body.invited_by || null,
+          invited_at: body.invited_by ? now : null,
           created_at: now,
           updated_at: now,
         }, {
@@ -157,7 +158,7 @@ Deno.serve(async (req) => {
           message: profileError.message,
           details: profileError.details
         });
-        
+
         // If profile fails but user was just created, clean up
         if (userCreatedNow) {
           try {
@@ -166,15 +167,38 @@ Deno.serve(async (req) => {
             console.error('Cleanup failed:', cleanup);
           }
         }
-        
+
         return new Response(
-          JSON.stringify({ 
-            success: false, 
+          JSON.stringify({
+            success: false,
             error: `Database error: ${profileError.message}`,
-            code: profileError.code 
+            code: profileError.code
           }),
           { status: 400, headers: corsHeaders }
         );
+      }
+
+      // Assign permissions based on role
+      try {
+        if (body.role === 'admin' || body.role === 'super_admin') {
+          // Grant dashboard permission to admin and super_admin roles
+          const { error: permissionError } = await supabase
+            .from('user_permissions')
+            .insert({
+              user_id: userId,
+              permission_name: 'view_dashboard_summary',
+              granted: true,
+            })
+            .select()
+            .single();
+
+          if (permissionError && !permissionError.message?.includes('duplicate')) {
+            console.error('Permission assignment error:', permissionError);
+          }
+        }
+      } catch (permErr) {
+        console.error('Error assigning permissions:', permErr);
+        // Don't fail the user creation if permission assignment fails
       }
     } catch (err) {
       console.error('Profile error:', err);

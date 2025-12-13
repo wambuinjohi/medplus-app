@@ -10,7 +10,7 @@ import { ImageGallery } from '@/components/ImageGallery';
 import { useToast } from '@/hooks/use-toast';
 import { useWebCategoryBySlug, useWebVariantBySlug } from '@/hooks/useWebCategories';
 import { useWebManager, VariantImage } from '@/hooks/useWebManager';
-import { MessageCircle, ArrowLeft, Check } from 'lucide-react';
+import { MessageCircle, ArrowLeft, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { useSEO } from '@/hooks/useSEO';
 import { generateProductSchema, SITE_CONFIG, useBreadcrumbSchema } from '@/utils/seoHelpers';
@@ -28,6 +28,7 @@ export default function ProductDetail() {
 
   const [variantImages, setVariantImages] = useState<VariantImage[]>([]);
   const [categoryVariantImages, setCategoryVariantImages] = useState<Record<string, VariantImage[]>>({});
+  const [variantImageIndex, setVariantImageIndex] = useState<Record<string, number>>({});
 
   const isCategory = !!category && variants.length > 0;
   const isVariant = !!variant && !isCategory;

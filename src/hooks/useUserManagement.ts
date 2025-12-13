@@ -5,6 +5,9 @@ import { toast } from 'sonner';
 import { parseErrorMessage, parseErrorMessageWithCodes } from '@/utils/errorHelpers';
 import { logUserCreation, logUserApproval } from '@/utils/auditLogger';
 
+// Supabase URL - same as used in client initialization
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://klifzjcfnlaxminytmyh.supabase.co';
+
 export interface UserInvitation {
   id: string;
   email: string;

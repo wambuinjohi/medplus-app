@@ -413,6 +413,37 @@ export const useUserManagement = () => {
     }
   };
 
+  // Delete invitation permanently
+  const deleteInvitation = async (invitationId: string): Promise<{ success: boolean; error?: string }> => {
+    if (!isAdmin) {
+      return { success: false, error: 'Unauthorized' };
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('user_invitations')
+        .delete()
+        .eq('id', invitationId);
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success('Invitation deleted successfully');
+      await fetchInvitations();
+      return { success: true };
+    } catch (err) {
+      const errorMessage = parseErrorMessageWithCodes(err, 'invitation deletion');
+      console.error('Error deleting invitation:', err);
+      toast.error(`Failed to delete invitation: ${errorMessage}`);
+      return { success: false, error: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Accept invitation (for invited users)
   const acceptInvitation = async (token: string): Promise<{ success: boolean; error?: string }> => {
     try {

@@ -219,7 +219,6 @@ export const useUserManagement = () => {
             return { success: false, error: 'Authentication token not found. Please log in again.' };
           }
 
-          const SUPABASE_URL = 'https://klifzjcfnlaxminytmyh.supabase.co';
           const response = await fetch(`${SUPABASE_URL}/functions/v1/admin-create-user`, {
             method: 'POST',
             headers: {

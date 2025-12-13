@@ -54,7 +54,6 @@ export interface VariantFormData {
   image_path?: string;
   display_order: number;
   is_active: boolean;
-  images?: VariantImage[];
 }
 
 export interface WebVariantWithImages extends WebVariant {

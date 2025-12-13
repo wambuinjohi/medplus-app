@@ -100,6 +100,7 @@ export default function UserManagement() {
     revokeInvitation,
     deleteInvitation,
     approveInvitation,
+    completeInvitation,
     resetUserPassword,
     getUserStats,
     promoteAllToAdmin,
@@ -107,9 +108,10 @@ export default function UserManagement() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [modalState, setModalState] = useState<{
-    type: 'create' | 'edit' | 'invite' | null;
+    type: 'create' | 'edit' | 'invite' | 'complete' | null;
     user?: UserProfile | null;
-  }>({ type: null, user: null });
+    invitation?: any | null;
+  }>({ type: null, user: null, invitation: null });
   const [deleteDialog, setDeleteDialog] = useState<{
     open: boolean;
     user?: UserProfile | null;

@@ -370,13 +370,13 @@ export const useUserManagement = () => {
         // Don't fail the operation if audit logging fails
       }
 
-
+      toast.success('User invitation created and approved');
       await fetchInvitations();
       return { success: true };
     } catch (err) {
       const errorMessage = parseErrorMessageWithCodes(err, 'invitation');
       console.error('Error creating invitation:', err);
-      toast.error(`Failed to send invitation: ${errorMessage}`);
+      toast.error(`Failed to create invitation: ${errorMessage}`);
       return { success: false, error: errorMessage };
     } finally {
       setLoading(false);

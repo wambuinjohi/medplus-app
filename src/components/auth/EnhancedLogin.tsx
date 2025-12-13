@@ -33,14 +33,6 @@ export function EnhancedLogin() {
 
     if (!formData.password.trim()) {
       errors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      errors.password = 'Password must be at least 8 characters';
-    }
-
-    if (currentTab === 'signup') {
-      if (!formData.fullName.trim()) {
-        errors.fullName = 'Full name is required';
-      }
     }
 
     setFormErrors(errors);

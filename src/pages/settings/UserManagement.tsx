@@ -656,6 +656,7 @@ export default function UserManagement() {
             onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             onCreateUser={handleCreateUser}
             loading={loading}
+            invitationData={modalState.invitation ? { email: modalState.invitation.email, role: modalState.invitation.role } : null}
           />
 
           <EditUserModal

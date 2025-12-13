@@ -206,45 +206,13 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // First, create the auth user
-      let userId: string;
-      try {
-        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-          email: userData.email,
-          password: userData.password || 'TempPassword123!',
-          email_confirm: true,
-          user_metadata: {
-            full_name: userData.full_name,
-            role: userData.role,
-            company_id: finalCompanyId,
-          },
-        });
+      // Create a placeholder profile record that the user will complete during signup
+      const userId = crypto.randomUUID();
 
-        if (authError) {
-          console.error('Auth user creation error:', authError);
-          // If user already exists, extract error details
-          if (authError.message?.includes('already') || authError.status === 400) {
-            return { success: false, error: 'User with this email already exists in authentication system' };
-          }
-          return { success: false, error: `Failed to create auth user: ${authError.message}` };
-        }
-
-        if (!authData.user?.id) {
-          return { success: false, error: 'Failed to create auth user: No user ID returned' };
-        }
-
-        userId = authData.user.id;
-      } catch (authErr) {
-        console.error('Error creating auth user:', authErr);
-        const errMsg = authErr instanceof Error ? authErr.message : String(authErr);
-        return { success: false, error: `Authentication error: ${errMsg}` };
-      }
-
-      // Now create the profile record with the real auth user ID
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
-          id: userId, // Use the real auth user ID from auth.users
+          id: userId,
           email: userData.email,
           full_name: userData.full_name || null,
           phone: userData.phone || null,
@@ -252,7 +220,7 @@ export const useUserManagement = () => {
           position: userData.position || null,
           company_id: finalCompanyId,
           role: userData.role,
-          status: 'active', // Auto-approve: immediately active
+          status: 'pending', // Waiting for user to sign up
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         });
@@ -260,19 +228,32 @@ export const useUserManagement = () => {
       if (profileError) {
         const profileErrorMsg = parseErrorMessageWithCodes(profileError, 'profile creation');
         console.error('Profile creation error:', profileError);
-
-        // Try to clean up the auth user if profile creation fails
-        try {
-          await supabase.auth.admin.deleteUser(userId);
-        } catch (cleanupErr) {
-          console.error('Failed to cleanup auth user:', cleanupErr);
-        }
-
-        // Add more specific guidance for FK violations
-        if (profileError.code === '23503') {
-          return { success: false, error: `${profileErrorMsg}. Please ensure the company exists and try again.` };
-        }
         return { success: false, error: profileErrorMsg };
+      }
+
+      // Send signup email
+      try {
+        const { error: signupError } = await supabase.auth.signInWithOtp({
+          email: userData.email,
+          options: {
+            shouldCreateUser: true,
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            data: {
+              full_name: userData.full_name,
+              role: userData.role,
+              company_id: finalCompanyId,
+              invited_by: currentUser?.id,
+            },
+          },
+        });
+
+        if (signupError) {
+          console.warn('Signup email error:', signupError);
+          // Don't fail - profile is created, user can signup manually
+        }
+      } catch (err) {
+        console.warn('Error sending signup email:', err);
+        // Don't fail - profile is created
       }
 
       // Log user creation in audit trail

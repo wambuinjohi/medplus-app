@@ -12,12 +12,14 @@ import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export function EnhancedLogin() {
-  const { signIn, loading } = useAuth();
+  const { signIn, signUp, loading } = useAuth();
   const [submitting, setSubmitting] = useState(false);
+  const [currentTab, setCurrentTab] = useState<'login' | 'signup'>('login');
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    fullName: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});

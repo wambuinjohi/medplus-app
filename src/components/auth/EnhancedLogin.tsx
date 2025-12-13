@@ -47,40 +47,19 @@ export function EnhancedLogin() {
     }
 
     setSubmitting(true);
+    const { error } = await signIn(formData.email, formData.password);
 
-    if (currentTab === 'login') {
-      const { error } = await signIn(formData.email, formData.password);
+    if (error) {
+      const errorInfo = handleAuthError(error);
 
-      if (error) {
-        const errorInfo = handleAuthError(error);
-
-        if (errorInfo.type === 'invalid_credentials') {
-          setTimeout(() => {
-            toast.info('Invalid credentials. If you do not have an account, contact your administrator.');
-          }, 2000);
-        }
-      } else {
-        toast.success('Welcome to Medplus Africa!');
-        navigate('/app');
+      if (errorInfo.type === 'invalid_credentials') {
+        setTimeout(() => {
+          toast.info('Invalid credentials. Please contact your administrator if you need an account.');
+        }, 2000);
       }
     } else {
-      // Sign up flow
-      const { error } = await signUp(formData.email, formData.password, formData.fullName);
-
-      if (error) {
-        const errorInfo = handleAuthError(error);
-        setTimeout(() => {
-          if (errorInfo.type === 'user_already_exists') {
-            toast.error('An account with this email already exists');
-          } else {
-            toast.error(`Sign up failed: ${errorInfo.message}`);
-          }
-        }, 500);
-      } else {
-        toast.success('Account created successfully! You can now sign in.');
-        setFormData({ email: '', password: '', fullName: '' });
-        setCurrentTab('login');
-      }
+      toast.success('Welcome to Medplus Africa!');
+      navigate('/app');
     }
     setSubmitting(false);
   };

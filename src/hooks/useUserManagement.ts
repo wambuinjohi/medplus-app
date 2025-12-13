@@ -206,10 +206,11 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Use the proper invite + complete workflow instead
+      // Redirect users to the invite + complete workflow
+      // This is more reliable than trying to create auth users from the client
       return {
         success: false,
-        error: 'Please use "Invite User" button instead for a simpler workflow'
+        error: 'Use "Invite User" workflow:\n1. Click "Invite User" button\n2. User signs up at login page\n3. Return here and click "Complete" in "Approved Invitations"\n4. Admin sets password and role to finish'
       };
 
       // Log user creation in audit trail

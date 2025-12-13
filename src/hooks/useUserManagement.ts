@@ -206,38 +206,71 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Create approved invitation for the user
-      const { data: invitation, error: inviteError } = await supabase
+      // Check for existing pending or accepted invitations
+      const { data: existingInvitation } = await supabase
         .from('user_invitations')
-        .insert({
-          email: userData.email,
-          role: userData.role,
-          company_id: finalCompanyId,
-          invited_by: currentUser?.id,
-          is_approved: true,
-          approved_by: currentUser?.id,
-          approved_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
+        .select('*')
+        .eq('email', userData.email)
+        .eq('company_id', finalCompanyId)
+        .in('status', ['pending', 'accepted'])
+        .maybeSingle();
 
-      if (inviteError) {
-        console.error('Invitation creation error:', inviteError);
-        return { success: false, error: `Failed to create invitation: ${inviteError.message}` };
-      }
+      let invitation = existingInvitation;
 
-      if (!invitation?.id) {
-        return { success: false, error: 'Failed to create invitation' };
+      // If no existing pending/accepted invitation, create a new one
+      if (!existingInvitation) {
+        const { data: newInvitation, error: inviteError } = await supabase
+          .from('user_invitations')
+          .insert({
+            email: userData.email,
+            role: userData.role,
+            company_id: finalCompanyId,
+            invited_by: currentUser?.id,
+            is_approved: true,
+            approved_by: currentUser?.id,
+            approved_at: new Date().toISOString(),
+          })
+          .select()
+          .single();
+
+        if (inviteError) {
+          console.error('Invitation creation error:', inviteError);
+          return { success: false, error: `Failed to create invitation: ${inviteError.message}` };
+        }
+
+        if (!newInvitation?.id) {
+          return { success: false, error: 'Failed to create invitation' };
+        }
+
+        invitation = newInvitation;
+      } else {
+        // Update existing invitation to ensure it's approved and current role is set
+        const { error: updateError } = await supabase
+          .from('user_invitations')
+          .update({
+            role: userData.role,
+            is_approved: true,
+            approved_by: currentUser?.id,
+            approved_at: new Date().toISOString(),
+          })
+          .eq('id', existingInvitation.id);
+
+        if (updateError) {
+          console.warn('Failed to update existing invitation:', updateError);
+          // Continue anyway - invitation still exists and is usable
+        }
       }
 
       // Log user creation in audit trail
       try {
-        await logUserCreation(invitation.id, userData.email, userData.role as UserRole, finalCompanyId);
+        if (invitation?.id) {
+          await logUserCreation(invitation.id, userData.email, userData.role as UserRole, finalCompanyId);
+        }
       } catch (auditError) {
         console.error('Failed to log user creation:', auditError);
       }
 
-      toast.success(`Pre-approved invitation created for ${userData.email}. User can sign up and will be immediately active.`);
+      toast.success(`Pre-approved invitation ready for ${userData.email}. User can sign up and will be immediately active.`);
       await fetchInvitations();
 
       return { success: true, password: userData.password };

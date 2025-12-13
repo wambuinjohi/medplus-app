@@ -666,11 +666,11 @@ export const useUserManagement = () => {
         // Don't fail the operation if marking as accepted fails - user is already created
       }
 
-      // Log user creation in audit trail
+      // Log in audit trail
       try {
-        await logUserCreation(userId, invitationData.email, invitationData.role, invitationData.company_id);
+        await logUserApproval(invitationId, invitationData.email, invitationData.company_id, 'completed');
       } catch (auditError) {
-        console.error('Failed to log user creation:', auditError);
+        console.error('Failed to log in audit trail:', auditError);
         // Don't fail the operation if audit logging fails
       }
 

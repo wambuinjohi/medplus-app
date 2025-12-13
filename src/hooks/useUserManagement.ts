@@ -209,11 +209,19 @@ export const useUserManagement = () => {
       // If password is provided, create the user directly using the edge function
       if (userData.password) {
         try {
-          const response = await fetch(`${supabase.supabaseUrl}/functions/v1/admin-create-user`, {
+          const { data: { session } } = await supabase.auth.getSession();
+          const token = session?.access_token;
+
+          if (!token) {
+            return { success: false, error: 'Authentication token not found. Please log in again.' };
+          }
+
+          const SUPABASE_URL = 'https://klifzjcfnlaxminytmyh.supabase.co';
+          const response = await fetch(`${SUPABASE_URL}/functions/v1/admin-create-user`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token || ''}`,
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
               email: userData.email,

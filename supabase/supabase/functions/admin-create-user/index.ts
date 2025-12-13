@@ -66,11 +66,6 @@ Deno.serve(async (req) => {
         email: body.email,
         password: body.password,
         email_confirm: true,
-        user_metadata: {
-          full_name: body.full_name,
-          role: body.role,
-          company_id: body.company_id,
-        },
       });
 
       if (authError) {

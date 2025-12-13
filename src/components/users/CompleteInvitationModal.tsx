@@ -78,6 +78,10 @@ export function CompleteInvitationModal({
 
     if (result.success) {
       handleClose();
+    } else if (result.error) {
+      // Ensure error is a string
+      const errorMsg = typeof result.error === 'string' ? result.error : String(result.error);
+      toast.error(errorMsg);
     }
   };
 

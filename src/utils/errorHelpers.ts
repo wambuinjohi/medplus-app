@@ -76,15 +76,30 @@ export function parseErrorMessageWithCodes(error: any, context?: string): string
           return `Duplicate entry: ${context ? `${context} already exists` : 'This record already exists'}`;
         case '23503':
           // Foreign key violation - include any available details to help debugging
-          const detail = (error.details && typeof error.details === 'string')
-            ? ` - ${error.details}`
-            : (error.message && typeof error.message === 'string')
-              ? ` - ${error.message}`
-              : (error.hint && typeof error.hint === 'string')
-                ? ` - ${error.hint}`
-                : '';
+          let detail = '';
+          let friendlyMessage = 'Referenced record not found';
 
-          return `Invalid reference: ${context ? `Invalid ${context} reference` : 'Referenced record not found'}${detail}`;
+          // Extract more meaningful information from the error
+          if (error.details && typeof error.details === 'string') {
+            detail = ` - ${error.details}`;
+
+            // Try to provide more specific guidance based on the FK error
+            if (error.details.includes('company')) {
+              friendlyMessage = 'The associated company no longer exists or is invalid';
+            } else if (error.details.includes('profile') || error.details.includes('user')) {
+              friendlyMessage = 'The associated user profile no longer exists or is invalid';
+            } else if (error.details.includes('invitation')) {
+              friendlyMessage = 'The associated invitation no longer exists or is invalid';
+            } else if (error.details.includes('product')) {
+              friendlyMessage = 'One or more products in your request no longer exist';
+            }
+          } else if (error.message && typeof error.message === 'string') {
+            detail = ` - ${error.message}`;
+          } else if (error.hint && typeof error.hint === 'string') {
+            detail = ` - ${error.hint}`;
+          }
+
+          return `Invalid reference: ${context ? `Invalid ${context} reference` : friendlyMessage}${detail}`;
         case '23514':
           return `Invalid data: ${context ? `Invalid ${context} data` : 'Data validation failed'}`;
         case '42703':

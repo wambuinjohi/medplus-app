@@ -49,6 +49,7 @@ import useUserManagement from '@/hooks/useUserManagement';
 import { CreateUserModal } from '@/components/users/CreateUserModal';
 import { EditUserModal } from '@/components/users/EditUserModal';
 import { InviteUserModal } from '@/components/users/InviteUserModal';
+import { CompleteInvitationModal } from '@/components/users/CompleteInvitationModal';
 import { UserAuditLog } from '@/components/users/UserAuditLog';
 import { RoleManagement } from '@/components/settings/RoleManagement';
 import { toast } from 'sonner';
@@ -99,6 +100,7 @@ export default function UserManagement() {
     revokeInvitation,
     deleteInvitation,
     approveInvitation,
+    completeInvitation,
     resetUserPassword,
     getUserStats,
     promoteAllToAdmin,
@@ -106,9 +108,10 @@ export default function UserManagement() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [modalState, setModalState] = useState<{
-    type: 'create' | 'edit' | 'invite' | null;
+    type: 'create' | 'edit' | 'invite' | 'complete' | null;
     user?: UserProfile | null;
-  }>({ type: null, user: null });
+    invitation?: any | null;
+  }>({ type: null, user: null, invitation: null });
   const [deleteDialog, setDeleteDialog] = useState<{
     open: boolean;
     user?: UserProfile | null;
@@ -185,6 +188,19 @@ export default function UserManagement() {
     if (result.success) {
       toast.success('Invitation approved successfully');
     }
+  };
+
+  const handleCompleteInvitation = async (
+    invitationId: string,
+    userData: {
+      password: string;
+      full_name?: string;
+      phone?: string;
+      department?: string;
+      position?: string;
+    }
+  ) => {
+    return await completeInvitation(invitationId, userData);
   };
 
   return (
@@ -558,15 +574,26 @@ export default function UserManagement() {
                           {new Date(invitation.expires_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-right">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleRevokeInvitation(invitation.id)}
-                            className="text-destructive hover:text-destructive"
-                          >
-                            <UserX className="h-4 w-4 mr-2" />
-                            Revoke
-                          </Button>
+                          <div className="flex items-center justify-end space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setModalState({ type: 'complete', invitation })}
+                              className="text-success hover:text-success"
+                            >
+                              <KeyRound className="h-4 w-4 mr-2" />
+                              Complete
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRevokeInvitation(invitation.id)}
+                              className="text-destructive hover:text-destructive"
+                            >
+                              <UserX className="h-4 w-4 mr-2" />
+                              Revoke
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -582,14 +609,14 @@ export default function UserManagement() {
           {/* Modals */}
           <CreateUserModal
             open={modalState.type === 'create'}
-            onOpenChange={(open) => !open && setModalState({ type: null })}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             onCreateUser={handleCreateUser}
             loading={loading}
           />
 
           <EditUserModal
             open={modalState.type === 'edit'}
-            onOpenChange={(open) => !open && setModalState({ type: null })}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             user={modalState.user}
             onUpdateUser={handleUpdateUser}
             loading={loading}
@@ -597,8 +624,16 @@ export default function UserManagement() {
 
           <InviteUserModal
             open={modalState.type === 'invite'}
-            onOpenChange={(open) => !open && setModalState({ type: null })}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             onInviteUser={handleInviteUser}
+            loading={loading}
+          />
+
+          <CompleteInvitationModal
+            open={modalState.type === 'complete'}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
+            invitation={modalState.invitation || null}
+            onCompleteInvitation={handleCompleteInvitation}
             loading={loading}
           />
 

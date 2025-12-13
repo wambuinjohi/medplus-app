@@ -10,9 +10,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, KeyRound, Mail, User, Phone, Briefcase } from 'lucide-react';
+import { Loader2, KeyRound, Mail, User, Phone, Briefcase, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { UserInvitation } from '@/hooks/useUserManagement';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface CompleteInvitationModalProps {
   open: boolean;

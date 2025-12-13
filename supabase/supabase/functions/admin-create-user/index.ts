@@ -163,48 +163,62 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Create or update profile record with status 'active' (directly created users are immediately active)
+    // Create profile record with RLS bypass (using service role)
     try {
-      // Check for existing profile by email
-      const { data: existingProfile } = await supabase
+      // First, check if profile already exists
+      const { data: existingProfile, error: checkError } = await supabase
         .from('profiles')
-        .select('*')
-        .eq('email', body.email)
+        .select('id')
+        .eq('id', userId)
         .maybeSingle();
 
+      if (checkError && checkError.code !== 'PGRST116') {
+        // PGRST116 is "not found" which is expected, any other error is a problem
+        console.error('Error checking for existing profile:', checkError);
+        try {
+          await supabase.auth.admin.deleteUser(userId);
+        } catch (cleanupErr) {
+          console.error('Failed to cleanup auth user:', cleanupErr);
+        }
+        return new Response(
+          JSON.stringify({ success: false, error: `Failed to check existing profile: ${checkError.message}` }),
+          { status: 500, headers: corsHeaders }
+        );
+      }
+
+      // If profile already exists, update it
       if (existingProfile) {
-        // Update the placeholder profile (may have temporary id) to use the auth user id
         const { error: updateError } = await supabase
           .from('profiles')
           .update({
             auth_user_id: userId,
             email: body.email,
-            full_name: body.full_name || existingProfile.full_name || null,
-            phone: body.phone || existingProfile.phone || null,
-            department: body.department || existingProfile.department || null,
-            position: body.position || existingProfile.position || null,
+            full_name: body.full_name || null,
+            phone: body.phone || null,
+            department: body.department || null,
+            position: body.position || null,
             company_id: body.company_id,
             role: body.role,
             status: 'active',
             is_active: true,
             updated_at: new Date().toISOString(),
           })
-          .eq('email', body.email);
+          .eq('id', userId);
 
         if (updateError) {
           console.error('Profile update error:', updateError);
           try {
             await supabase.auth.admin.deleteUser(userId);
           } catch (cleanupErr) {
-            console.error('Failed to cleanup auth user after profile update error:', cleanupErr);
+            console.error('Failed to cleanup auth user:', cleanupErr);
           }
-
           return new Response(
             JSON.stringify({ success: false, error: `Failed to update user profile: ${updateError.message}` }),
             { status: 400, headers: corsHeaders }
           );
         }
       } else {
+        // Create new profile
         const { error: profileError } = await supabase
           .from('profiles')
           .insert({
@@ -224,30 +238,24 @@ Deno.serve(async (req) => {
           });
 
         if (profileError) {
-          // Try to clean up auth user if profile creation fails
           console.error('Profile creation error:', profileError);
           try {
             await supabase.auth.admin.deleteUser(userId);
           } catch (cleanupErr) {
-            console.error('Failed to cleanup auth user after profile creation error:', cleanupErr);
+            console.error('Failed to cleanup auth user:', cleanupErr);
           }
-
           return new Response(
-            JSON.stringify({
-              success: false,
-              error: `Failed to create user profile: ${profileError.message}`,
-            }),
+            JSON.stringify({ success: false, error: `Failed to create user profile: ${profileError.message}` }),
             { status: 400, headers: corsHeaders }
           );
         }
       }
     } catch (err) {
-      // Try to clean up auth user if profile creation fails
       console.error('Error creating/updating profile:', err);
       try {
         await supabase.auth.admin.deleteUser(userId);
       } catch (cleanupErr) {
-        console.error('Failed to cleanup auth user after profile creation error:', cleanupErr);
+        console.error('Failed to cleanup auth user:', cleanupErr);
       }
 
       return new Response(

@@ -40,6 +40,8 @@ export const VariantsTab = () => {
   const [selectedVariant, setSelectedVariant] = useState<WebVariant | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedVariantForImages, setSelectedVariantForImages] = useState<WebVariant | null>(null);
+  const [showImagesModal, setShowImagesModal] = useState(false);
   const {
     fetchVariants,
     fetchCategories,

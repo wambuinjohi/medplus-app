@@ -354,27 +354,44 @@ export const useWebManager = () => {
           .delete()
           .eq('variant_id', variantId);
 
-        if (deleteErr) throw deleteErr;
+        if (deleteErr) {
+          console.error('Error deleting existing variant images:', deleteErr);
+          throw deleteErr;
+        }
 
         // Insert new images if any
         if (images.length > 0) {
-          const imagesToInsert = images.map((img) => ({
-            variant_id: variantId,
-            image_url: img.url,
-            alt_text: img.altText || '',
-            display_order: img.displayOrder,
-          }));
+          const imagesToInsert = images.map((img, index) => {
+            const data = {
+              variant_id: variantId,
+              image_url: img.url,
+              alt_text: img.altText || '',
+              display_order: img.displayOrder ?? index,
+            };
+            console.log(`Preparing to insert image ${index}:`, data);
+            return data;
+          });
 
-          const { error: insertErr } = await supabase
+          console.log('Inserting variant images:', imagesToInsert);
+          const { data: insertedData, error: insertErr } = await supabase
             .from('variant_images')
-            .insert(imagesToInsert);
+            .insert(imagesToInsert)
+            .select();
 
-          if (insertErr) throw insertErr;
+          if (insertErr) {
+            console.error('Error inserting variant images:', insertErr);
+            console.error('Attempted to insert:', imagesToInsert);
+            throw insertErr;
+          }
+
+          console.log('Successfully inserted variant images:', insertedData);
         }
 
+        toast.success('Variant images saved successfully');
         return true;
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to save variant images';
+        console.error('saveVariantImages error:', message, err);
         setError(message);
         toast.error(message);
         throw err;

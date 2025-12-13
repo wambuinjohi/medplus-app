@@ -318,6 +318,28 @@ export const useUserManagement = () => {
     setLoading(true);
 
     try {
+      // Validate that the company still exists
+      const { data: companyExists } = await supabase
+        .from('companies')
+        .select('id')
+        .eq('id', currentUser.company_id)
+        .maybeSingle();
+
+      if (!companyExists) {
+        return { success: false, error: 'Your company no longer exists in the system. Please contact support.' };
+      }
+
+      // Validate that the current user (inviter) still exists
+      const { data: inviterExists } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', currentUser.id)
+        .maybeSingle();
+
+      if (!inviterExists) {
+        return { success: false, error: 'Your user profile no longer exists. Please sign in again.' };
+      }
+
       // Check if user already exists or has pending invitation
       const { data: existingUser } = await supabase
         .from('profiles')

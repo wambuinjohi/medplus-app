@@ -264,10 +264,11 @@ export default function ProductDetail() {
                           setSelectedVariantForImages(v);
                           setShowImagesModal(true);
                         }}
-                        className="absolute bottom-2 right-2 bg-black/60 hover:bg-black/80 text-white px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer hover:shadow-lg"
+                        className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:shadow-lg hover:scale-110 border-2 border-white shadow-md flex items-center gap-1"
                         title="Click to view all images"
                       >
-                        +{categoryVariantImages[v.id].length - 1}
+                        <span>+{categoryVariantImages[v.id].length - 1}</span>
+                        <span>👁️</span>
                       </button>
                     )}
                   </div>

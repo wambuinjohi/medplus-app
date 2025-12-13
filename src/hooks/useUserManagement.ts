@@ -613,72 +613,43 @@ export const useUserManagement = () => {
       // Check if a profile already exists for this email
       const { data: existingProfile } = await supabase
         .from('profiles')
-        .select('id')
+        .select('id, status')
         .eq('email', invitationData.email)
         .maybeSingle();
 
-      let userId: string;
+      if (!existingProfile) {
+        return {
+          success: false,
+          error: 'User profile not found. Please ask the user to sign up first, or use the "Add User" button instead.'
+        };
+      }
 
-      // If profile already exists, just activate it
-      if (existingProfile) {
-        userId = existingProfile.id;
+      const userId = existingProfile.id;
 
-        // Update existing profile with invitation details
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({
-            status: 'active',
-            role: invitationData.role,
-            company_id: invitationData.company_id,
-            invited_by: invitationData.invited_by,
-            invited_at: invitationData.invited_at,
-            full_name: userData.full_name || undefined,
-            phone: userData.phone || undefined,
-            department: userData.department || undefined,
-            position: userData.position || undefined,
-          })
-          .eq('id', userId);
+      // Update the profile with invitation details and set password
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          status: 'active',
+          role: invitationData.role,
+          company_id: invitationData.company_id,
+          invited_by: invitationData.invited_by,
+          invited_at: invitationData.invited_at,
+          full_name: userData.full_name || undefined,
+          phone: userData.phone || undefined,
+          department: userData.department || undefined,
+          position: userData.position || undefined,
+          password: userData.password, // Will be hashed by DB trigger
+        })
+        .eq('id', userId);
 
-        if (updateError) {
-          const errorMsg = parseErrorMessageWithCodes(updateError, 'profile update');
-          const errorDetails = updateError && typeof updateError === 'object'
-            ? JSON.stringify(updateError)
-            : String(updateError);
-          console.error('Profile update error:', errorDetails);
-          return { success: false, error: errorMsg };
-        }
-      } else {
-        // Create new auth user and profile
-        userId = crypto.randomUUID();
-
-        // Insert profile (password will be handled via DB trigger)
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
-            email: invitationData.email,
-            full_name: userData.full_name || null,
-            phone: userData.phone || null,
-            department: userData.department || null,
-            position: userData.position || null,
-            company_id: invitationData.company_id,
-            role: invitationData.role,
-            status: 'active',
-            password: userData.password, // Will be hashed by DB trigger
-            invited_by: invitationData.invited_by,
-            invited_at: invitationData.invited_at,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          });
-
-        if (profileError) {
-          const errorMsg = parseErrorMessageWithCodes(profileError, 'profile creation');
-          const errorDetails = profileError && typeof profileError === 'object'
-            ? JSON.stringify(profileError)
-            : String(profileError);
-          console.error('Profile creation error:', errorDetails);
-          return { success: false, error: errorMsg };
-        }
+      if (updateError) {
+        const errorMsg = parseErrorMessageWithCodes(updateError, 'profile update');
+        const errorDetails = updateError && typeof updateError === 'object'
+          ? JSON.stringify(updateError)
+          : String(updateError);
+        console.error('Profile update error:', errorDetails);
+        return { success: false, error: errorMsg };
       }
 
       // Mark invitation as accepted

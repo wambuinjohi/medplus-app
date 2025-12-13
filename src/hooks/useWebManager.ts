@@ -408,7 +408,21 @@ export const useWebManager = () => {
         toast.success('Variant images saved successfully');
         return true;
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to save variant images';
+        let message = 'Failed to save variant images';
+
+        // Handle Supabase errors
+        if (err && typeof err === 'object') {
+          if ('message' in err && typeof err.message === 'string') {
+            message = err.message;
+          } else if ('code' in err && typeof err.code === 'string') {
+            message = `Error: ${err.code}`;
+          } else {
+            message = JSON.stringify(err);
+          }
+        } else if (err instanceof Error) {
+          message = err.message;
+        }
+
         console.error('saveVariantImages error:', message, err);
         setError(message);
         toast.error(message);

@@ -613,7 +613,7 @@ export const useUserManagement = () => {
     const stockManagerUsers = users.filter(u => u.role === 'stock_manager').length;
     const basicUsers = users.filter(u => u.role === 'user').length;
 
-    const pendingInvitations = invitations.filter(i => i.status === 'pending').length;
+    const pendingInvitations = invitations.filter(i => !i.is_approved).length;
 
     return {
       totalUsers,

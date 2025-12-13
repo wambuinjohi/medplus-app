@@ -188,7 +188,7 @@ export const VariantsTab = () => {
                   <TableCell>{variant.display_order}</TableCell>
                   <TableCell>
                     {variantImages[variant.id] && variantImages[variant.id].length > 0 ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 items-center">
                         {variantImages[variant.id].slice(0, 3).map((img, idx) => (
                           <img
                             key={idx}
@@ -199,9 +199,16 @@ export const VariantsTab = () => {
                           />
                         ))}
                         {variantImages[variant.id].length > 3 && (
-                          <span className="text-xs text-muted-foreground flex items-center px-1">
+                          <button
+                            onClick={() => {
+                              setSelectedVariantForImages(variant);
+                              setShowImagesModal(true);
+                            }}
+                            className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer px-1 font-semibold hover:bg-blue-50 rounded transition-colors"
+                            title="Click to view all images"
+                          >
                             +{variantImages[variant.id].length - 3}
-                          </span>
+                          </button>
                         )}
                       </div>
                     ) : variant.image_path ? (

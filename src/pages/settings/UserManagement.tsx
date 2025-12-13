@@ -46,6 +46,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth, UserProfile } from '@/contexts/AuthContext';
 import useUserManagement from '@/hooks/useUserManagement';
+import usePermissions from '@/hooks/usePermissions';
 import { CreateUserModal } from '@/components/users/CreateUserModal';
 import { EditUserModal } from '@/components/users/EditUserModal';
 import { InviteUserModal } from '@/components/users/InviteUserModal';
@@ -88,6 +89,7 @@ function getInitials(name: string) {
 
 export default function UserManagement() {
   const { isAdmin, profile: currentUser } = useAuth();
+  const { can } = usePermissions();
   const {
     users,
     invitations,
@@ -230,7 +232,13 @@ export default function UserManagement() {
               <Button
                 variant="primary-gradient"
                 size="lg"
-                onClick={() => setModalState({ type: 'create' })}
+                onClick={() => {
+                  if (!can('create_user')) {
+                    toast.error("You don't have permission to create users directly");
+                    return;
+                  }
+                  setModalState({ type: 'create' });
+                }}
               >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add User
@@ -497,6 +505,24 @@ export default function UserManagement() {
                             <Button
                               variant="outline"
                               size="sm"
+                              onClick={() => {
+                                if (!can('create_user')) {
+                                  toast.error("You don't have permission to create users directly");
+                                  return;
+                                }
+                                setModalState({
+                                  type: 'create',
+                                  invitation
+                                });
+                              }}
+                              className="text-primary hover:text-primary"
+                            >
+                              <UserPlus className="h-4 w-4 mr-2" />
+                              Create User
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
                               onClick={() => handleApproveInvitation(invitation.id)}
                               className="text-success hover:text-success"
                             >
@@ -578,6 +604,24 @@ export default function UserManagement() {
                             <Button
                               variant="outline"
                               size="sm"
+                              onClick={() => {
+                                if (!can('create_user')) {
+                                  toast.error("You don't have permission to create users directly");
+                                  return;
+                                }
+                                setModalState({
+                                  type: 'create',
+                                  invitation
+                                });
+                              }}
+                              className="text-primary hover:text-primary"
+                            >
+                              <UserPlus className="h-4 w-4 mr-2" />
+                              Create User
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
                               onClick={() => setModalState({ type: 'complete', invitation })}
                               className="text-success hover:text-success"
                             >
@@ -612,6 +656,7 @@ export default function UserManagement() {
             onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             onCreateUser={handleCreateUser}
             loading={loading}
+            invitationData={modalState.invitation ? { email: modalState.invitation.email, role: modalState.invitation.role } : null}
           />
 
           <EditUserModal

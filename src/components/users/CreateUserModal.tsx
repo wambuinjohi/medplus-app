@@ -23,6 +23,7 @@ import { CreateUserData } from '@/hooks/useUserManagement';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import usePermissions from '@/hooks/usePermissions';
 import { RoleDefinition } from '@/types/permissions';
 import { validateEmail, validatePasswordStrength, validateFullName } from '@/utils/validation';
 
@@ -31,6 +32,10 @@ interface CreateUserModalProps {
   onOpenChange: (open: boolean) => void;
   onCreateUser: (userData: CreateUserData) => Promise<{ success: boolean; password?: string; error?: string }>;
   loading?: boolean;
+  invitationData?: {
+    email: string;
+    role: string;
+  } | null;
 }
 
 export function CreateUserModal({
@@ -38,8 +43,10 @@ export function CreateUserModal({
   onOpenChange,
   onCreateUser,
   loading = false,
+  invitationData = null,
 }: CreateUserModalProps) {
   const { profile: currentUser } = useAuth();
+  const { can } = usePermissions();
   const [roles, setRoles] = useState<RoleDefinition[]>([]);
   const [rolesLoading, setRolesLoading] = useState(false);
 
@@ -59,8 +66,16 @@ export function CreateUserModal({
   useEffect(() => {
     if (open && currentUser?.company_id) {
       fetchRoles();
+      // Pre-fill from invitation if available
+      if (invitationData) {
+        setFormData(prev => ({
+          ...prev,
+          email: invitationData.email,
+          role: invitationData.role as UserRole,
+        }));
+      }
     }
-  }, [open, currentUser?.company_id]);
+  }, [open, currentUser?.company_id, invitationData]);
 
   const fetchRoles = async () => {
     if (!currentUser?.company_id) return;
@@ -120,6 +135,11 @@ export function CreateUserModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!can('create_user')) {
+      toast.error("You don't have permission to create users directly");
+      return;
+    }
+
     if (!validateForm()) {
       return;
     }
@@ -163,6 +183,8 @@ export function CreateUserModal({
     setFormErrors({});
   };
 
+  const isCreatingFromInvitation = !!invitationData;
+
   const handleInputChange = (field: keyof CreateUserData) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -185,7 +207,10 @@ export function CreateUserModal({
         <DialogHeader>
           <DialogTitle>Create New User</DialogTitle>
           <DialogDescription>
-            Add a new user to your organization with specific role and permissions.
+            {isCreatingFromInvitation
+              ? `Create user for ${invitationData?.email} with the pending invitation`
+              : 'Add a new user to your organization with specific role and permissions.'
+            }
           </DialogDescription>
         </DialogHeader>
 

@@ -135,7 +135,21 @@ export function CompleteInvitationModal({
           {submitError && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{submitError}</AlertDescription>
+              <AlertDescription>
+                {submitError.includes('not found') ? (
+                  <>
+                    <div className="font-semibold mb-2">User hasn't signed up yet</div>
+                    <p className="text-sm">The user needs to complete their signup first. They should:</p>
+                    <ol className="text-sm list-decimal list-inside mt-2 space-y-1">
+                      <li>Sign up at the login page with their email</li>
+                      <li>Return here and click "Complete" again</li>
+                    </ol>
+                    <p className="text-sm mt-2">Or use the "Add User" button instead to create their account directly.</p>
+                  </>
+                ) : (
+                  submitError
+                )}
+              </AlertDescription>
             </Alert>
           )}
 

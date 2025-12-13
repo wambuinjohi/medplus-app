@@ -60,7 +60,6 @@ export const EditVariantModal = ({
         image_path: variant.image_path || '',
         display_order: variant.display_order,
         is_active: variant.is_active,
-        images: [],
       });
 
       // Load existing variant images

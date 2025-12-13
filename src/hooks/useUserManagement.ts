@@ -641,7 +641,10 @@ export const useUserManagement = () => {
 
         if (updateError) {
           const errorMsg = parseErrorMessageWithCodes(updateError, 'profile update');
-          console.error('Profile update error:', updateError);
+          const errorDetails = updateError && typeof updateError === 'object'
+            ? JSON.stringify(updateError)
+            : String(updateError);
+          console.error('Profile update error:', errorDetails);
           return { success: false, error: errorMsg };
         }
       } else {
@@ -670,7 +673,10 @@ export const useUserManagement = () => {
 
         if (profileError) {
           const errorMsg = parseErrorMessageWithCodes(profileError, 'profile creation');
-          console.error('Profile creation error:', profileError);
+          const errorDetails = profileError && typeof profileError === 'object'
+            ? JSON.stringify(profileError)
+            : String(profileError);
+          console.error('Profile creation error:', errorDetails);
           return { success: false, error: errorMsg };
         }
       }

@@ -1,14 +1,15 @@
 -- Add view_dashboard_summary permission to Admin role
 UPDATE roles
-SET permissions = array_append(permissions, 'view_dashboard_summary')
+SET permissions = permissions || '"view_dashboard_summary"'::jsonb
 WHERE name = 'Admin'
-AND NOT ('view_dashboard_summary' = ANY(permissions::text[]));
+AND permissions IS NOT NULL;
 
 -- Add view_dashboard_summary permission to any custom admin roles
 UPDATE roles
-SET permissions = array_append(permissions, 'view_dashboard_summary')
+SET permissions = permissions || '"view_dashboard_summary"'::jsonb
 WHERE role_type = 'admin'
-AND NOT ('view_dashboard_summary' = ANY(permissions::text[]));
+AND permissions IS NOT NULL
+AND name != 'Admin';
 
 -- Add view_dashboard_summary to user_permissions for all admin and super_admin users
 INSERT INTO user_permissions (user_id, permission_name, granted)

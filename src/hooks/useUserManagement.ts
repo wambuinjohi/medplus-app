@@ -323,7 +323,7 @@ export const useUserManagement = () => {
         .from('profiles')
         .select('id')
         .eq('email', email)
-        .single();
+        .maybeSingle();
 
       if (existingUser) {
         return { success: false, error: 'User with this email already exists' };
@@ -335,7 +335,7 @@ export const useUserManagement = () => {
         .eq('email', email)
         .eq('company_id', currentUser.company_id)
         .eq('status', 'pending')
-        .single();
+        .maybeSingle();
 
       if (existingInvitation) {
         return { success: false, error: 'Invitation already sent to this email' };
@@ -349,6 +349,9 @@ export const useUserManagement = () => {
           role,
           company_id: currentUser.company_id,
           invited_by: currentUser.id,
+          is_approved: true,
+          approved_by: currentUser.id,
+          approved_at: new Date().toISOString(),
         })
         .select()
         .single();
@@ -367,14 +370,40 @@ export const useUserManagement = () => {
         // Don't fail the operation if audit logging fails
       }
 
-      // TODO: Send invitation email (would integrate with your email service)
+      // Send invitation email via Edge Function
+      try {
+        const appUrl = window.location.origin;
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-invitation-email', {
+          body: {
+            email,
+            invitationToken: invitation.invitation_token,
+            invitedByEmail: currentUser.email,
+            role,
+            appUrl,
+          },
+        });
 
-      toast.success('User invitation sent successfully');
+        if (emailError) {
+          console.error('Error sending invitation email:', emailError);
+          // Still mark as success since invitation was created, just log email error
+          toast.warning(`Invitation created but email may not have been sent. Error: ${emailError.message}`);
+        } else if (!emailData?.success) {
+          console.error('Email function returned error:', emailData?.error);
+          toast.warning(`Invitation created but email may not have been sent. Error: ${emailData?.error}`);
+        } else {
+          toast.success('User invitation sent successfully');
+        }
+      } catch (emailSendErr) {
+        console.error('Failed to send invitation email:', emailSendErr);
+        // Still mark as success since invitation was created
+        toast.warning('Invitation created but email may not have been sent. User can accept via invitation link.');
+      }
+
       await fetchInvitations();
       return { success: true };
     } catch (err) {
       const errorMessage = parseErrorMessageWithCodes(err, 'invitation');
-      console.error('Error sending invitation:', err);
+      console.error('Error creating invitation:', err);
       toast.error(`Failed to send invitation: ${errorMessage}`);
       return { success: false, error: errorMessage };
     } finally {

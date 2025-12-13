@@ -163,13 +163,13 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Create profile record using raw SQL to bypass RLS policies
+    // Create profile record - service role bypasses RLS policies
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
 
-      // Use raw SQL INSERT via the service role client
-      const { error: profileError } = await supabase
+      // Try upsert first (service role should bypass RLS)
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .upsert({
           id: userId,
@@ -186,39 +186,26 @@ Deno.serve(async (req) => {
           created_at: createdAt,
           updated_at: updatedAt,
         }, {
-          onConflict: 'id'
+          onConflict: 'id',
+          returning: 'minimal'
         });
 
       if (profileError) {
-        console.error('Profile creation/update error:', profileError);
+        console.error('Profile upsert error:', profileError);
         try {
           await supabase.auth.admin.deleteUser(userId);
         } catch (cleanupErr) {
           console.error('Failed to cleanup auth user:', cleanupErr);
         }
 
-        // If upsert fails, try a direct raw query approach
-        console.log('Attempting direct SQL insert due to upsert failure...');
-        try {
-          const sqlResult = await supabase.rpc('exec_sql', {
-            sql: `INSERT INTO public.profiles
-              (id, auth_user_id, email, full_name, phone, department, position, company_id, role, status, is_active, created_at, updated_at)
-              VALUES
-              ('${userId}', '${userId}', '${body.email.replace(/'/g, "''")}', ${body.full_name ? `'${body.full_name.replace(/'/g, "''")}'` : 'NULL'}, ${body.phone ? `'${body.phone.replace(/'/g, "''")}'` : 'NULL'}, ${body.department ? `'${body.department.replace(/'/g, "''")}'` : 'NULL'}, ${body.position ? `'${body.position.replace(/'/g, "''")}'` : 'NULL'}, '${body.company_id}', '${body.role}', 'active', true, '${createdAt}', '${updatedAt}')
-              ON CONFLICT (id) DO UPDATE SET
-              auth_user_id = '${userId}', email = '${body.email.replace(/'/g, "''")}', status = 'active', is_active = true, updated_at = '${updatedAt}'`
-          }).catch(() => null);
-
-          if (!sqlResult) {
-            throw new Error('Failed to execute SQL insert');
-          }
-        } catch (sqlErr) {
-          console.error('Direct SQL insert failed:', sqlErr);
-          return new Response(
-            JSON.stringify({ success: false, error: `Failed to create user profile: ${profileError.message}` }),
-            { status: 400, headers: corsHeaders }
-          );
-        }
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: `Failed to create user profile: ${profileError.message}`,
+            details: profileError.code || 'unknown'
+          }),
+          { status: 400, headers: corsHeaders }
+        );
       }
     } catch (err) {
       console.error('Error creating/updating profile:', err);

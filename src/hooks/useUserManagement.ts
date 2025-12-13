@@ -149,7 +149,7 @@ export const useUserManagement = () => {
     }
   };
 
-  // Create a new user (admin only) - Creates profile with auto-approval
+  // Create a new user (admin only) - Creates fully qualified user via admin edge function
   const createUser = async (userData: CreateUserData): Promise<{ success: boolean; password?: string; error?: string }> => {
     if (!isAdmin) {
       return { success: false, error: 'Unauthorized: Only administrators can create users' };
@@ -206,12 +206,34 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Redirect users to the invite + complete workflow
-      // This is more reliable than trying to create auth users from the client
-      return {
-        success: false,
-        error: 'Use "Invite User" workflow:\n1. Click "Invite User" button\n2. User signs up at login page\n3. Return here and click "Complete" in "Approved Invitations"\n4. Admin sets password and role to finish'
-      };
+      // Call admin-create-user edge function to create auth user and profile atomically
+      const { data: fnData, error: fnError } = await supabase.functions.invoke('admin-create-user', {
+        body: {
+          email: userData.email,
+          password: userData.password,
+          full_name: userData.full_name || null,
+          role: userData.role,
+          company_id: finalCompanyId,
+          invited_by: currentUser?.id,
+          phone: userData.phone || null,
+          department: userData.department || null,
+          position: userData.position || null,
+        }
+      });
+
+      if (fnError) {
+        console.error('Edge function error:', fnError);
+        const errorMessage = typeof fnError === 'object' && fnError !== null && 'message' in fnError
+          ? (fnError as any).message
+          : String(fnError);
+        return { success: false, error: `Failed to create user: ${errorMessage}` };
+      }
+
+      if (!fnData?.success) {
+        return { success: false, error: fnData?.error || 'Failed to create user' };
+      }
+
+      const userId = fnData.user_id;
 
       // Log user creation in audit trail
       try {
@@ -221,7 +243,7 @@ export const useUserManagement = () => {
         // Don't fail the operation if audit logging fails
       }
 
-      toast.success(`User "${userData.full_name}" created successfully! Status: Active (Auto-approved)`);
+      toast.success(`User "${userData.full_name || userData.email}" created successfully and is now active!`);
       await fetchUsers();
 
       return { success: true, password: userData.password };

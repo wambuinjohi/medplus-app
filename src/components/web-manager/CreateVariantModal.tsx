@@ -93,7 +93,6 @@ export const CreateVariantModal = ({
         image_path: '',
         display_order: 0,
         is_active: true,
-        images: [],
       });
       setVariantImages([]);
       onOpenChange(false);

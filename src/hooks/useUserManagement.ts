@@ -370,33 +370,6 @@ export const useUserManagement = () => {
         // Don't fail the operation if audit logging fails
       }
 
-      // Send invitation email via EmailJS
-      try {
-        // Initialize EmailJS (same as Contact page)
-        emailjs.init('dK906nDGwBHoPvOsr');
-
-        const appUrl = window.location.origin;
-        const invitationLink = `${appUrl}/auth/accept-invitation?token=${invitation.invitation_token}`;
-
-        const templateParams = {
-          to_email: email,
-          recipient_name: email.split('@')[0],
-          invitation_link: invitationLink,
-          invited_by_email: currentUser.email,
-          role_name: role.replace('_', ' '),
-          expiry_days: 7,
-          company_name: 'Medplus Africa',
-        };
-
-        // Send email using EmailJS
-        await emailjs.send('service_v8xry1b', 'template_user_invitation', templateParams);
-
-        toast.success('User invitation sent successfully with email');
-      } catch (emailSendErr) {
-        console.error('Failed to send invitation email:', emailSendErr);
-        // Still mark as success since invitation was created
-        toast.warning('Invitation created but email could not be sent. User can accept via link if provided manually.');
-      }
 
       await fetchInvitations();
       return { success: true };

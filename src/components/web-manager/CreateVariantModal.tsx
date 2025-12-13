@@ -75,7 +75,14 @@ export const CreateVariantModal = ({
 
       // Save images if any were uploaded
       if (variantImages.length > 0 && newVariant) {
-        await saveVariantImages(newVariant.id, variantImages);
+        try {
+          await saveVariantImages(newVariant.id, variantImages);
+        } catch (imageError) {
+          console.error('Failed to save variant images:', imageError);
+          // Images save error is already handled by saveVariantImages which shows a toast
+          // Continue to close the modal since variant was created successfully
+          throw imageError;
+        }
       }
 
       setFormData({
@@ -93,7 +100,9 @@ export const CreateVariantModal = ({
       onOpenChange(false);
       onSuccess();
     } catch (error) {
-      // Error is handled by the hook
+      console.error('Failed to create variant:', error);
+      // Error is already handled by the hooks (createVariant, saveVariantImages)
+      // which show toast notifications
     }
   };
 

@@ -109,14 +109,24 @@ const sidebarItems: SidebarItem[] = [
 
 export function Sidebar() {
   const location = useLocation();
+  const { profile } = useAuth();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const toggleExpanded = (title: string) => {
-    setExpandedItems(prev => 
-      prev.includes(title) 
+    setExpandedItems(prev =>
+      prev.includes(title)
         ? prev.filter(item => item !== title)
         : [...prev, title]
     );
+  };
+
+  const isItemVisible = (item: SidebarItem): boolean => {
+    // If no allowed roles specified, item is visible to everyone
+    if (!item.allowedRoles || item.allowedRoles.length === 0) {
+      return true;
+    }
+    // Check if user's role is in allowed roles
+    return item.allowedRoles.includes(profile?.role || '');
   };
 
   const isItemActive = (href?: string) => {
@@ -130,10 +140,18 @@ export function Sidebar() {
   };
 
   const renderSidebarItem = (item: SidebarItem) => {
+    // Don't render if not visible to current user
+    if (!isItemVisible(item)) {
+      return null;
+    }
+
     const hasChildren = item.children && item.children.length > 0;
     const isExpanded = expandedItems.includes(item.title);
     const isActive = isItemActive(item.href);
     const isChildActive = isParentActive(item.children);
+
+    // Filter children based on visibility
+    const visibleChildren = item.children?.filter(isItemVisible) || [];
 
     if (hasChildren) {
       return (
@@ -158,9 +176,9 @@ export function Sidebar() {
             )}
           </button>
           
-          {isExpanded && (
+          {isExpanded && visibleChildren.length > 0 && (
             <div className="pl-4 space-y-1">
-              {item.children?.map(child => (
+              {visibleChildren.map(child => (
                 <Link
                   key={child.title}
                   to={child.href!}
@@ -207,7 +225,7 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 space-y-2 p-4 custom-scrollbar overflow-y-auto">
-        {sidebarItems.map(renderSidebarItem)}
+        {sidebarItems.map(item => renderSidebarItem(item)).filter(Boolean)}
       </nav>
 
       {/* Company Info */}

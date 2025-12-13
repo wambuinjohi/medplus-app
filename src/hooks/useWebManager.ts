@@ -231,6 +231,8 @@ export const useWebManager = () => {
       setLoading(true);
       setError(null);
 
+      console.log('Creating variant with data:', data);
+
       const { data: newVariant, error: err } = await supabase
         .from('web_variants')
         .insert(data)
@@ -241,22 +243,48 @@ export const useWebManager = () => {
         console.error('Supabase error creating variant:', err);
         throw err;
       }
+
+      console.log('Variant created successfully:', newVariant);
       toast.success('Variant created successfully');
       return newVariant as WebVariant;
     } catch (err) {
       let message = 'Failed to create variant';
 
-      // Handle Supabase errors
+      // Handle Supabase errors with specific error codes
       if (err && typeof err === 'object') {
-        if ('message' in err && typeof err.message === 'string') {
+        if ('code' in err) {
+          const code = err.code;
+          if (code === '23505') {
+            // Unique constraint violation
+            message = 'A variant with this SKU already exists. Please use a unique SKU.';
+          } else if (code === '23503') {
+            // Foreign key constraint violation
+            message = 'The selected category does not exist. Please select a valid category.';
+          } else if (code === '42P01') {
+            // Table does not exist
+            message = 'Database table not found. Please contact support.';
+          } else if ('message' in err && typeof err.message === 'string') {
+            message = err.message;
+          } else {
+            message = `Database Error (${code}): Check your input and try again.`;
+          }
+        } else if ('message' in err && typeof err.message === 'string') {
           message = err.message;
-        } else if ('code' in err && typeof err.code === 'string') {
-          message = `Error: ${err.code}`;
         } else {
-          message = JSON.stringify(err);
+          try {
+            message = JSON.stringify(err);
+          } catch {
+            message = String(err);
+          }
         }
       } else if (err instanceof Error) {
         message = err.message;
+      } else {
+        try {
+          message = String(err);
+        } catch {
+          message = 'Failed to create variant';
+        }
       }
 
       console.error('Create variant error:', message, err);

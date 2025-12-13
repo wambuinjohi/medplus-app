@@ -92,14 +92,33 @@ export const useInvoicesFixed = (companyId?: string) => {
             tax_amount,
             tax_inclusive,
             line_total,
-            sort_order,
-            products(id, name, product_code, unit_of_measure)
+            sort_order
           `)
           .in('invoice_id', invoiceIds) : { data: [], error: null };
 
         if (itemsError) {
           console.error('Error fetching invoice items (non-fatal):', (itemsError as any)?.message || itemsError);
           // Don't throw here, invoices can exist without items
+        }
+
+        // Step 5b: Get product details separately if items exist
+        let productsMap = new Map();
+        if (invoiceItems && invoiceItems.length > 0) {
+          const productIds = [...new Set(invoiceItems.map(item => item.product_id).filter(id => id))];
+          if (productIds.length > 0) {
+            const { data: products, error: productsError } = await supabase
+              .from('products')
+              .select('id, name, product_code, unit_of_measure')
+              .in('id', productIds);
+
+            if (!productsError && products) {
+              products.forEach(product => {
+                productsMap.set(product.id, product);
+              });
+            } else if (productsError) {
+              console.warn('Could not fetch product details (non-fatal):', productsError);
+            }
+          }
         }
 
         // Step 6: Group invoice items by invoice_id

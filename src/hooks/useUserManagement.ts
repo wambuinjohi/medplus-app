@@ -617,39 +617,64 @@ export const useUserManagement = () => {
         .eq('email', invitationData.email)
         .maybeSingle();
 
+      let userId: string;
+
       if (!existingProfile) {
-        return {
-          success: false,
-          error: 'User profile not found. Please ask the user to sign up first, or use the "Add User" button instead.'
-        };
-      }
+        // Create profile if it doesn't exist
+        userId = crypto.randomUUID();
 
-      const userId = existingProfile.id;
+        const { error: createError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            email: invitationData.email,
+            full_name: userData.full_name || null,
+            phone: userData.phone || null,
+            department: userData.department || null,
+            position: userData.position || null,
+            company_id: invitationData.company_id,
+            role: invitationData.role,
+            status: 'active',
+            password: userData.password,
+            invited_by: invitationData.invited_by,
+            invited_at: invitationData.invited_at,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          });
 
-      // Update the profile with invitation details and set password
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({
-          status: 'active',
-          role: invitationData.role,
-          company_id: invitationData.company_id,
-          invited_by: invitationData.invited_by,
-          invited_at: invitationData.invited_at,
-          full_name: userData.full_name || undefined,
-          phone: userData.phone || undefined,
-          department: userData.department || undefined,
-          position: userData.position || undefined,
-          password: userData.password, // Will be hashed by DB trigger
-        })
-        .eq('id', userId);
+        if (createError) {
+          const errorMsg = parseErrorMessageWithCodes(createError, 'profile creation');
+          console.error('Profile creation error:', createError);
+          return { success: false, error: errorMsg };
+        }
+      } else {
+        // Update existing profile
+        userId = existingProfile.id;
 
-      if (updateError) {
-        const errorMsg = parseErrorMessageWithCodes(updateError, 'profile update');
-        const errorDetails = updateError && typeof updateError === 'object'
-          ? JSON.stringify(updateError)
-          : String(updateError);
-        console.error('Profile update error:', errorDetails);
-        return { success: false, error: errorMsg };
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({
+            status: 'active',
+            role: invitationData.role,
+            company_id: invitationData.company_id,
+            invited_by: invitationData.invited_by,
+            invited_at: invitationData.invited_at,
+            full_name: userData.full_name || undefined,
+            phone: userData.phone || undefined,
+            department: userData.department || undefined,
+            position: userData.position || undefined,
+            password: userData.password, // Will be hashed by DB trigger
+          })
+          .eq('id', userId);
+
+        if (updateError) {
+          const errorMsg = parseErrorMessageWithCodes(updateError, 'profile update');
+          const errorDetails = updateError && typeof updateError === 'object'
+            ? JSON.stringify(updateError)
+            : String(updateError);
+          console.error('Profile update error:', errorDetails);
+          return { success: false, error: errorMsg };
+        }
       }
 
       // Mark invitation as accepted

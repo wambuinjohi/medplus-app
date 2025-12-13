@@ -43,7 +43,6 @@ export const CreateVariantModal = ({
     image_path: '',
     display_order: 0,
     is_active: true,
-    images: [],
   });
   const [variantImages, setVariantImages] = useState<VariantImage[]>([]);
   const { createVariant, saveVariantImages, loading } = useWebManager();

@@ -190,6 +190,17 @@ export const useUserManagement = () => {
         return { success: false, error: 'No company available. Please create a company first.' };
       }
 
+      // Validate that the company actually exists
+      const { data: companyExists } = await supabase
+        .from('companies')
+        .select('id')
+        .eq('id', finalCompanyId)
+        .maybeSingle();
+
+      if (!companyExists) {
+        return { success: false, error: 'The selected company no longer exists. Please refresh and try again.' };
+      }
+
       // Validate that admin can create users in this company (if not super-admin)
       if (currentUser?.company_id && currentUser.company_id !== finalCompanyId) {
         return { success: false, error: 'You can only create users for your own company' };
@@ -221,6 +232,10 @@ export const useUserManagement = () => {
       if (profileError) {
         const profileErrorMsg = parseErrorMessageWithCodes(profileError, 'profile creation');
         console.error('Profile creation error:', profileError);
+        // Add more specific guidance for FK violations
+        if (profileError.code === '23503') {
+          return { success: false, error: `${profileErrorMsg}. Please ensure the company exists and try again.` };
+        }
         return { success: false, error: profileErrorMsg };
       }
 

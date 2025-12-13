@@ -206,37 +206,12 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Generate a new UUID for the user
-      const userId = crypto.randomUUID();
-
-      // Create the profile record (auto-approved and immediately active)
-      // The password will be hashed by a database trigger
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: userId,
-          email: userData.email,
-          full_name: userData.full_name || null,
-          phone: userData.phone || null,
-          department: userData.department || null,
-          position: userData.position || null,
-          company_id: finalCompanyId,
-          role: userData.role,
-          status: 'active', // Auto-approve: immediately active
-          password: userData.password, // Will be hashed by DB trigger
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
-
-      if (profileError) {
-        const profileErrorMsg = parseErrorMessageWithCodes(profileError, 'profile creation');
-        console.error('Profile creation error:', profileError);
-        // Add more specific guidance for FK violations
-        if (profileError.code === '23503') {
-          return { success: false, error: `${profileErrorMsg}. Please ensure the company exists and try again.` };
-        }
-        return { success: false, error: profileErrorMsg };
-      }
+      // Redirect users to the invite + complete workflow
+      // This is more reliable than trying to create auth users from the client
+      return {
+        success: false,
+        error: 'Use "Invite User" workflow:\n1. Click "Invite User" button\n2. User signs up at login page\n3. Return here and click "Complete" in "Approved Invitations"\n4. Admin sets password and role to finish'
+      };
 
       // Log user creation in audit trail
       try {
@@ -620,13 +595,13 @@ export const useUserManagement = () => {
       if (!existingProfile) {
         return {
           success: false,
-          error: 'User profile not found. Please ask the user to sign up first, or use the "Add User" button instead.'
+          error: 'User profile not found. Please ask the user to sign up first, or use the "Add User" button to create a complete user account directly.'
         };
       }
 
       const userId = existingProfile.id;
 
-      // Update the profile with invitation details and set password
+      // Update existing profile
       const { error: updateError } = await supabase
         .from('profiles')
         .update({

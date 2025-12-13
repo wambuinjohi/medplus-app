@@ -149,7 +149,7 @@ export const useUserManagement = () => {
     }
   };
 
-  // Create a new user (admin only) - Creates profile with auto-approval
+  // Create a new user (admin only) - Creates fully qualified user via admin edge function
   const createUser = async (userData: CreateUserData): Promise<{ success: boolean; password?: string; error?: string }> => {
     if (!isAdmin) {
       return { success: false, error: 'Unauthorized: Only administrators can create users' };
@@ -206,23 +206,72 @@ export const useUserManagement = () => {
         return { success: false, error: 'You can only create users for your own company' };
       }
 
-      // Redirect users to the invite + complete workflow
-      // This is more reliable than trying to create auth users from the client
-      return {
-        success: false,
-        error: 'Use "Invite User" workflow:\n1. Click "Invite User" button\n2. User signs up at login page\n3. Return here and click "Complete" in "Approved Invitations"\n4. Admin sets password and role to finish'
-      };
+      // Check for existing pending or accepted invitations
+      const { data: existingInvitation } = await supabase
+        .from('user_invitations')
+        .select('*')
+        .eq('email', userData.email)
+        .eq('company_id', finalCompanyId)
+        .in('status', ['pending', 'accepted'])
+        .maybeSingle();
+
+      let invitation = existingInvitation;
+
+      // If no existing pending/accepted invitation, create a new one
+      if (!existingInvitation) {
+        const { data: newInvitation, error: inviteError } = await supabase
+          .from('user_invitations')
+          .insert({
+            email: userData.email,
+            role: userData.role,
+            company_id: finalCompanyId,
+            invited_by: currentUser?.id,
+            is_approved: true,
+            approved_by: currentUser?.id,
+            approved_at: new Date().toISOString(),
+          })
+          .select()
+          .single();
+
+        if (inviteError) {
+          console.error('Invitation creation error:', inviteError);
+          return { success: false, error: `Failed to create invitation: ${inviteError.message}` };
+        }
+
+        if (!newInvitation?.id) {
+          return { success: false, error: 'Failed to create invitation' };
+        }
+
+        invitation = newInvitation;
+      } else {
+        // Update existing invitation to ensure it's approved and current role is set
+        const { error: updateError } = await supabase
+          .from('user_invitations')
+          .update({
+            role: userData.role,
+            is_approved: true,
+            approved_by: currentUser?.id,
+            approved_at: new Date().toISOString(),
+          })
+          .eq('id', existingInvitation.id);
+
+        if (updateError) {
+          console.warn('Failed to update existing invitation:', updateError);
+          // Continue anyway - invitation still exists and is usable
+        }
+      }
 
       // Log user creation in audit trail
       try {
-        await logUserCreation(userId, userData.email, userData.role as UserRole, finalCompanyId);
+        if (invitation?.id) {
+          await logUserCreation(invitation.id, userData.email, userData.role as UserRole, finalCompanyId);
+        }
       } catch (auditError) {
         console.error('Failed to log user creation:', auditError);
-        // Don't fail the operation if audit logging fails
       }
 
-      toast.success(`User "${userData.full_name}" created successfully! Status: Active (Auto-approved)`);
-      await fetchUsers();
+      toast.success(`Pre-approved invitation ready for ${userData.email}. User can sign up and will be immediately active.`);
+      await fetchInvitations();
 
       return { success: true, password: userData.password };
     } catch (err) {

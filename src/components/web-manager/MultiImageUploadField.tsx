@@ -62,9 +62,12 @@ export const MultiImageUploadField = ({
       toast.success('Image uploaded successfully');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to upload image';
+      console.error('Image upload error:', error);
       toast.error(message);
     } finally {
       setUploading(false);
+      // Reset the input so the same file can be uploaded again if needed
+      e.target.value = '';
     }
   };
 

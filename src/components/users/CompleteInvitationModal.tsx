@@ -48,6 +48,7 @@ export function CompleteInvitationModal({
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [submitError, setSubmitError] = useState<string>('');
 
   const validateForm = () => {
     const errors: Record<string, string> = {};

@@ -624,8 +624,16 @@ export default function UserManagement() {
 
           <InviteUserModal
             open={modalState.type === 'invite'}
-            onOpenChange={(open) => !open && setModalState({ type: null })}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
             onInviteUser={handleInviteUser}
+            loading={loading}
+          />
+
+          <CompleteInvitationModal
+            open={modalState.type === 'complete'}
+            onOpenChange={(open) => !open && setModalState({ type: null, user: null, invitation: null })}
+            invitation={modalState.invitation || null}
+            onCompleteInvitation={handleCompleteInvitation}
             loading={loading}
           />
 

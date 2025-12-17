@@ -277,20 +277,21 @@ export const generatePDF = (data: DocumentData) => {
         }
         
         .document-title {
-          font-size: 22px;
+          font-size: 11px;
           font-weight: bold;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
           color: #2DAAE1;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
           text-align: right;
         }
 
         .document-details {
-          background: #f8f9fa;
-          padding: 12px;
-          border-radius: 8px;
-          border: 1px solid #e9ecef;
+          background: transparent;
+          padding: 0;
+          border-radius: 0;
+          border: none;
+          text-align: right;
         }
 
         .document-details table {
@@ -301,18 +302,21 @@ export const generatePDF = (data: DocumentData) => {
         .document-details td {
           padding: 4px 0;
           border: none;
-          font-size: 11px;
+          font-size: 10px;
         }
 
         .document-details .label {
           font-weight: bold;
-          color: #495057;
-          width: 50%;
+          color: #666;
+          text-align: right;
+          padding-right: 10px;
+          width: auto;
         }
 
         .document-details .value {
           text-align: right;
           color: #212529;
+          font-weight: normal;
         }
         
         

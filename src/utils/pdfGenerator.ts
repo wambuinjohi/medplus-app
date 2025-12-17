@@ -513,7 +513,7 @@ export const generatePDF = (data: DocumentData) => {
           font-size: 10px;
           color: #666;
           border-top: 1px solid #e9ecef;
-          padding-top: 15px;
+          padding-top: 10px;
         }
         
         .delivery-info-section {

@@ -935,17 +935,8 @@ export const generatePDF = (data: DocumentData) => {
         <!-- Bank Details (invoice only) -->
         ${data.type === 'invoice' ? `
         <div class="bank-details">
-          <div style="font-weight: 700; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Banking Details</div>
-          <div style="font-size: 10px; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word;">
-            <span style="font-weight: bold;">Account Name:</span> MEDPLUS AFRICA LIMITED <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Bank:</span> ABSA BANK <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Account No:</span> 2047138798 <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Branch:</span> RONGAI <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Bank Code:</span> 03 <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Branch Code:</span> 52 <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Swift Code:</span> BARCKENX <span style="margin: 0 4px; color: #999;">•</span>
-            <span style="font-weight: bold;">Paybill No:</span> 303030
-          </div>
+          <div class="section-subtitle">Banking Details</div>
+          <div class="notes-content">Account Name: MEDPLUS AFRICA LIMITED • Bank: ABSA BANK • Account No: 2047138798 • Branch: RONGAI • Bank Code: 03 • Branch Code: 52 • Swift Code: BARCKENX • Paybill No: 303030</div>
         </div>
         ` : ''}
 

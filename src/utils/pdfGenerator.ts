@@ -239,6 +239,8 @@ export const generatePDF = (data: DocumentData) => {
           overflow: hidden;
           grid-column: 1;
           grid-row: 1;
+          justify-self: start;
+          align-self: start;
         }
 
         .logo img {

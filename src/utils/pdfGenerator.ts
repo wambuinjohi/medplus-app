@@ -206,87 +206,120 @@ export const generatePDF = (data: DocumentData) => {
         }
         
         .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto;
           margin-bottom: 30px;
+          gap: 20px;
+        }
+
+        .header-row-1 {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 20px;
+          align-items: flex-start;
           padding-bottom: 20px;
           border-bottom: 2px solid #2BB673;
         }
-        
-        .company-info {
-          flex: 1;
+
+        .header-row-2 {
+          display: grid;
+          grid-template-columns: 50% 50%;
+          gap: 20px;
         }
-        
+
+        .company-info {
+          display: contents;
+        }
+
         .logo {
-          width: 320px;
-          height: 160px;
-          margin-bottom: 15px;
+          width: 100%;
+          height: 120px;
           border-radius: 8px;
           overflow: hidden;
+          grid-column: 1;
+          grid-row: 1;
+          justify-self: start;
+          align-self: start;
         }
-        
+
         .logo img {
           width: 100%;
           height: 100%;
           object-fit: contain;
         }
-        
+
+        .company-details-block {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
         .company-name {
-          font-size: 24px;
+          font-size: 20px;
           font-weight: bold;
-          margin-bottom: 5px;
+          margin-bottom: 8px;
           color: #2BB673;
         }
-        
+
         .company-details {
-          font-size: 11px;
+          font-size: 10px;
           line-height: 1.6;
           color: #666;
           margin-bottom: 0;
         }
-        
+
         .document-info {
           text-align: right;
-          flex: 1;
-          max-width: 300px;
+          width: 100%;
+        }
+
+        .customer-info-block {
+          text-align: left;
+          width: 100%;
         }
         
         .document-title {
-          font-size: 28px;
+          font-size: 11px;
           font-weight: bold;
-          margin: 0 0 15px 0;
+          margin: 0 0 8px 0;
           color: #2DAAE1;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
+          text-align: right;
         }
-        
+
         .document-details {
-          background: #f8f9fa;
-          padding: 15px;
-          border-radius: 8px;
-          border: 1px solid #e9ecef;
+          background: transparent;
+          padding: 0;
+          border-radius: 0;
+          border: none;
+          text-align: right;
         }
-        
+
         .document-details table {
           width: 100%;
           border-collapse: collapse;
+          line-height: 1.4;
         }
-        
+
         .document-details td {
-          padding: 5px 0;
+          padding: 2px 0;
           border: none;
+          font-size: 10px;
         }
-        
+
         .document-details .label {
           font-weight: bold;
-          color: #495057;
-          width: 40%;
+          color: #666;
+          text-align: right;
+          padding-right: 10px;
+          width: auto;
         }
-        
+
         .document-details .value {
           text-align: right;
           color: #212529;
+          font-weight: normal;
         }
         
         
@@ -323,60 +356,67 @@ export const generatePDF = (data: DocumentData) => {
           border: 2px solid #2BB673;
           border-radius: 8px;
           overflow: hidden;
+          table-layout: auto;
         }
-        
+
         .items-table thead {
           background: #2BB673;
           color: white;
         }
-        
+
         .items-table th {
-          padding: 12px 8px;
+          padding: 8px 8px;
           text-align: center;
           font-weight: bold;
           font-size: 10px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           border-right: 1px solid rgba(255,255,255,0.2);
+          word-break: break-word;
         }
-        
+
         .items-table th:last-child {
           border-right: none;
         }
-        
+
         .items-table td {
-          padding: 10px 8px;
+          padding: 6px 8px;
           border-bottom: 1px solid #e9ecef;
           border-right: 1px solid #e9ecef;
           text-align: center;
-          vertical-align: top;
+          vertical-align: middle;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
         }
-        
+
         .items-table td:last-child {
           border-right: none;
         }
-        
+
         .items-table tbody tr:last-child td {
           border-bottom: none;
         }
-        
+
         .items-table tbody tr:nth-child(even) {
           background: #f8f9fa;
         }
-        
+
         .items-table tbody tr:hover {
           background: #e3f2fd;
         }
-        
+
         .description-cell {
           text-align: left !important;
-          max-width: 200px;
           word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
         }
-        
+
         .amount-cell {
           text-align: right !important;
           font-weight: 500;
+          white-space: nowrap;
         }
 
         .center {
@@ -435,31 +475,33 @@ export const generatePDF = (data: DocumentData) => {
         
         .notes-section {
           margin-top: 30px;
-          display: flex;
-          gap: 20px;
+          display: block;
         }
-        
+
         .notes, .terms {
-          flex: 1;
-          padding: 15px;
-          background: #f8f9fa;
-          border-radius: 8px;
-          border: 1px solid #e9ecef;
+          margin-bottom: 20px;
+          padding: 0;
+          background: transparent;
+          border-radius: 0;
+          border: none;
         }
         
         .section-subtitle {
-          font-size: 12px;
+          font-size: 11px;
           font-weight: bold;
           color: #2DAAE1;
-          margin: 0 0 10px 0;
+          margin: 0 0 8px 0;
           text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
         
         .notes-content, .terms-content {
           font-size: 10px;
-          line-height: 1.6;
-          color: #666;
+          line-height: 1.5;
+          color: #333;
           white-space: pre-wrap;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
         
         .footer {
@@ -471,15 +513,15 @@ export const generatePDF = (data: DocumentData) => {
           font-size: 10px;
           color: #666;
           border-top: 1px solid #e9ecef;
-          padding-top: 15px;
+          padding-top: 10px;
         }
         
         .delivery-info-section {
           margin: 25px 0;
-          padding: 20px;
-          background: #f8f9fa;
-          border-radius: 8px;
-          border: 1px solid #e9ecef;
+          padding: 0;
+          background: transparent;
+          border-radius: 0;
+          border: none;
         }
 
         .delivery-details {
@@ -591,7 +633,7 @@ export const generatePDF = (data: DocumentData) => {
             padding: 20px;
           }
         }
-        \n        .payment-banner {\n          background: #f8f9fa;\n          padding: 8px 15px;\n          margin-bottom: 20px;\n          border-left: 4px solid #2BB673;\n          font-size: 10px;\n          color: #333;\n          text-align: center;\n          border-radius: 4px;\n          font-weight: 600;\n        }\n        \n        .bank-details {\n          background: #f8f9fa;\n          padding: 10px;\n          margin: 15px 0;\n          border-left: 4px solid #2BB673;\n          font-size: 10px;\n          color: #333;\n          text-align: center;\n          border-radius: 4px;\n          font-weight: 600;\n        }\n      </style>
+        \n        .payment-banner {\n          background: transparent;\n          padding: 8px 0;\n          margin-bottom: 20px;\n          border-left: none;\n          font-size: 10px;\n          color: #333;\n          text-align: center;\n          border-radius: 0;\n          font-weight: 600;\n        }\n        \n        .bank-details {\n          background: transparent;\n          padding: 0;\n          margin: 20px 0;\n          border-left: none;\n          font-size: 10px;\n          color: #333;\n          text-align: left;\n          border-radius: 0;\n          font-weight: 400;\n        }\n      </style>
     </head>
     <body>
       <div class="page">
@@ -600,7 +642,8 @@ export const generatePDF = (data: DocumentData) => {
         
         <!-- Header Section -->
         <div class="header">
-          <div class="company-info">
+          <!-- Row 1: Logo (20%) + Company Details (80%) -->
+          <div class="header-row-1">
             <div class="logo">
               ${company.logo_url ?
                 `<img src="${company.logo_url}" alt="${company.name} Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
@@ -608,19 +651,24 @@ export const generatePDF = (data: DocumentData) => {
                 `<div style="width:100%; height:100%; background:#f8f9fa; border:2px dashed #e9ecef; display:flex; align-items:center; justify-content:center; font-size:12px; color:#6c757d; text-align:center;">No logo configured</div>`
               }
             </div>
-            <div class="company-name">${company.name}</div>
-            <div class="company-details">
-              ${company.tax_number ? `PIN: ${company.tax_number}<br>` : ''}
-              ${company.address ? `${company.address}<br>` : ''}
-              ${company.city ? `${company.city}` : ''}${company.country ? `, ${company.country}` : ''}<br>
-              ${company.phone ? `Tel: ${company.phone}<br>` : ''}
-              ${company.email ? `Email: ${company.email}` : ''}
+            <div class="company-details-block">
+              <div class="company-name">${company.name}</div>
+              <div class="company-details">
+                ${company.tax_number ? `PIN: ${company.tax_number}<br>` : ''}
+                ${company.address ? `${company.address}<br>` : ''}
+                ${company.city ? `${company.city}` : ''}${company.country ? `, ${company.country}` : ''}<br>
+                ${company.phone ? `Tel: ${company.phone}<br>` : ''}
+                ${company.email ? `Email: ${company.email}` : ''}
+              </div>
             </div>
+          </div>
 
-            <!-- Client Details Section -->
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e9ecef;">
-              <div class="section-title" style="font-size: 12px; font-weight: bold; color: #2DAAE1; margin-bottom: 8px; text-transform: uppercase;">${data.type === 'lpo' ? 'Supplier' : 'Client'}</div>
-              <div class="customer-name" style="font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #212529;">${data.customer.name}</div>
+          <!-- Row 2: Customer Details (50%) + Document Details (50%) -->
+          <div class="header-row-2">
+            <!-- Client/Supplier Details Section -->
+            <div class="customer-info-block">
+              <div class="section-title" style="font-size: 11px; font-weight: bold; color: #2DAAE1; margin-bottom: 8px; text-transform: uppercase;">${data.type === 'lpo' ? 'Supplier' : 'Client'}</div>
+              <div class="customer-name" style="font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #212529;">${data.customer.name}</div>
               <div class="customer-details" style="font-size: 10px; color: #666; line-height: 1.4;">
                 ${data.customer.email ? `${data.customer.email}<br>` : ''}
                 ${data.customer.phone ? `${data.customer.phone}<br>` : ''}
@@ -629,43 +677,44 @@ export const generatePDF = (data: DocumentData) => {
                 ${data.customer.country ? `, ${data.customer.country}` : ''}
               </div>
             </div>
-          </div>
 
-          <div class="document-info">
-            <div class="document-title">${documentTitle}</div>
-            <div class="document-details">
-              <table>
-                <tr>
-                  <td class="label">${data.type === 'receipt' ? 'Receipt #' : data.type === 'remittance' ? 'Advice #' : data.type === 'lpo' ? 'LPO #' : documentTitle + ' #'}:</td>
-                  <td class="value">${data.number}</td>
-                </tr>
-                <tr>
-                  <td class="label">${data.type === 'lpo' ? 'Order Date' : 'Date'}:</td>
-                  <td class="value">${formatDate(data.date)}</td>
-                </tr>
-                ${data.due_date ? `
-                <tr>
-                  <td class="label">${data.type === 'lpo' ? 'Expected Delivery' : 'Due Date'}:</td>
-                  <td class="value">${formatDate(data.due_date)}</td>
-                </tr>
-                ` : ''}
-                ${data.valid_until ? `
-                <tr>
-                  <td class="label">Valid Until:</td>
-                  <td class="value">${formatDate(data.valid_until)}</td>
-                </tr>
-                ` : ''}
-                ${data.lpo_number && data.type !== 'lpo' ? `
-                <tr>
-                  <td class="label">LPO Number:</td>
-                  <td class="value">${data.lpo_number}</td>
-                </tr>
-                ` : ''}
-                <tr>
-                  <td class="label">${data.type === 'receipt' ? 'Amount Paid' : data.type === 'remittance' ? 'Total Payment' : data.type === 'lpo' ? 'Order Total' : 'Amount'}:</td>
-                  <td class="value" style="font-weight: bold; color: ${data.type === 'receipt' ? '#2BB673' : '#2BB673'};">${formatCurrency(data.total_amount)}</td>
-                </tr>
-              </table>
+            <!-- Document Details Section -->
+            <div class="document-info">
+              <div class="document-title">${documentTitle}</div>
+              <div class="document-details">
+                <table>
+                  <tr>
+                    <td class="label">${data.type === 'receipt' ? 'Receipt #' : data.type === 'remittance' ? 'Advice #' : data.type === 'lpo' ? 'LPO #' : documentTitle + ' #'}:</td>
+                    <td class="value">${data.number}</td>
+                  </tr>
+                  <tr>
+                    <td class="label">${data.type === 'lpo' ? 'Order Date' : 'Date'}:</td>
+                    <td class="value">${formatDate(data.date)}</td>
+                  </tr>
+                  ${data.due_date ? `
+                  <tr>
+                    <td class="label">${data.type === 'lpo' ? 'Expected Delivery' : 'Due Date'}:</td>
+                    <td class="value">${formatDate(data.due_date)}</td>
+                  </tr>
+                  ` : ''}
+                  ${data.valid_until ? `
+                  <tr>
+                    <td class="label">Valid Until:</td>
+                    <td class="value">${formatDate(data.valid_until)}</td>
+                  </tr>
+                  ` : ''}
+                  ${data.lpo_number && data.type !== 'lpo' ? `
+                  <tr>
+                    <td class="label">LPO Number:</td>
+                    <td class="value">${data.lpo_number}</td>
+                  </tr>
+                  ` : ''}
+                  <tr>
+                    <td class="label">${data.type === 'receipt' ? 'Amount Paid' : data.type === 'remittance' ? 'Total Payment' : data.type === 'lpo' ? 'Order Total' : 'Amount'}:</td>
+                    <td class="value" style="font-weight: bold; color: ${data.type === 'receipt' ? '#2BB673' : '#2BB673'};">${formatCurrency(data.total_amount)}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -885,18 +934,9 @@ export const generatePDF = (data: DocumentData) => {
 
         <!-- Bank Details (invoice only) -->
         ${data.type === 'invoice' ? `
-        <div class="bank-details" style="text-align: left;">
-          <div style="font-weight: 800; font-size: 12px; text-align: center; margin-bottom: 8px;">BANKING DETAILS</div>
-          <table style="width: 100%; font-size: 10px; border-collapse: collapse;">
-            <tr><td style="padding: 4px 8px; width: 40%; font-weight: bold;">Account Name:</td><td style="padding: 4px 8px;">MEDPLUS AFRICA LIMITED</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Bank Name :</td><td style="padding: 4px 8px;">ABSA BANK</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Account No</td><td style="padding: 4px 8px;">2047138798</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Branch Name :</td><td style="padding: 4px 8px;">RONGAI</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Bank code  :</td><td style="padding: 4px 8px;">03</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Branch code :</td><td style="padding: 4px 8px;">52</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Swift code  :</td><td style="padding: 4px 8px;">BARCKENX</td></tr>
-            <tr><td style="padding: 4px 8px; font-weight: bold;">Paybill No:</td><td style="padding: 4px 8px;">303030</td></tr>
-          </table>
+        <div class="bank-details">
+          <div class="section-subtitle">Banking Details</div>
+          <div class="notes-content">Account Name: MEDPLUS AFRICA LIMITED • Bank: ABSA BANK • Account No: 2047138798 • Branch: RONGAI • Bank Code: 03 • Branch Code: 52 • Swift Code: BARCKENX • Paybill No: 303030</div>
         </div>
         ` : ''}
 
@@ -931,6 +971,42 @@ export const generatePDF = (data: DocumentData) => {
   }, 1000);
 
   return printWindow;
+};
+
+// Function for generating payment receipt PDF with payment details
+export const generatePaymentReceiptPDF = async (payment: any, company?: CompanyDetails) => {
+  const documentData: DocumentData = {
+    type: 'receipt',
+    number: payment.number || payment.payment_number || `REC-${Date.now()}`,
+    date: payment.date || payment.payment_date || new Date().toISOString().split('T')[0],
+    company: company,
+    customer: {
+      name: payment.customer || payment.customers?.name || 'Unknown Customer',
+      email: payment.customers?.email,
+      phone: payment.customers?.phone,
+    },
+    // Add payment allocations as items to display in table
+    items: (payment.payment_allocations || []).map((allocation: any) => ({
+      description: `Invoice ${allocation.invoice_number} - ${allocation.invoice_date ? new Date(allocation.invoice_date).toLocaleDateString() : 'N/A'}`,
+      quantity: 1,
+      unit_price: allocation.allocated_amount || 0,
+      tax_percentage: 0,
+      tax_amount: 0,
+      tax_inclusive: false,
+      line_total: allocation.allocated_amount || 0,
+      unit_of_measure: 'payment',
+    })),
+    subtotal: typeof payment.amount === 'string' ?
+      parseFloat(payment.amount.replace('$', '').replace(',', '')) :
+      payment.amount,
+    tax_amount: 0,
+    total_amount: typeof payment.amount === 'string' ?
+      parseFloat(payment.amount.replace('$', '').replace(',', '')) :
+      payment.amount,
+    notes: `Payment Method: ${payment.payment_method?.replace('_', ' ') || payment.method?.replace('_', ' ') || 'Unknown'}\nReference: ${payment.reference_number || 'N/A'}`,
+  };
+
+  return generatePDF(documentData);
 };
 
 // Specific function for invoice PDF generation
@@ -1147,28 +1223,6 @@ export const generateCustomerStatementPDF = async (customer: any, invoices: any[
     total_amount: finalBalance,
     notes: `Statement of Account as of ${new Date(statementDate).toLocaleDateString()}\n\nThis statement shows all transactions including invoices (debits) and payments (credits) with running balance.\n\nAging Summary for Outstanding Invoices:\nCurrent: ${formatCurrency(current)}\n1-30 Days: ${formatCurrency(days30)}\n31-60 Days: ${formatCurrency(days60)}\n61-90 Days: ${formatCurrency(days90)}\nOver 90 Days: ${formatCurrency(over90)}`,
     terms_and_conditions: 'Please remit payment for any outstanding amounts. Contact us if you have any questions about this statement.',
-  };
-
-  return generatePDF(documentData);
-};
-
-// Function for generating payment receipt PDF
-export const generatePaymentReceiptPDF = async (payment: any, company?: CompanyDetails) => {
-  const documentData: DocumentData = {
-    type: 'receipt', // Use receipt type for payment receipts
-    number: payment.number || payment.payment_number || `REC-${Date.now()}`,
-    date: payment.date || payment.payment_date || new Date().toISOString().split('T')[0],
-    company: company, // Pass company details
-    customer: {
-      name: payment.customer || payment.customers?.name || 'Unknown Customer',
-      email: payment.customers?.email,
-      phone: payment.customers?.phone,
-    },
-    total_amount: typeof payment.amount === 'string' ?
-      parseFloat(payment.amount.replace('$', '').replace(',', '')) :
-      payment.amount,
-    notes: `Payment received via ${payment.payment_method?.replace('_', ' ') || payment.method?.replace('_', ' ') || 'Unknown method'}\n\nReference: ${payment.reference_number || 'N/A'}\nInvoice: ${payment.payment_allocations?.[0]?.invoice_number || 'N/A'}`,
-    terms_and_conditions: 'Thank you for your payment. This receipt confirms that payment has been received and processed.',
   };
 
   return generatePDF(documentData);

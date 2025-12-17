@@ -380,7 +380,7 @@ export const generatePDF = (data: DocumentData) => {
         }
 
         .items-table td {
-          padding: 10px 8px;
+          padding: 6px 8px;
           border-bottom: 1px solid #e9ecef;
           border-right: 1px solid #e9ecef;
           text-align: center;

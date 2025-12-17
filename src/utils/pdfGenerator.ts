@@ -518,10 +518,10 @@ export const generatePDF = (data: DocumentData) => {
         
         .delivery-info-section {
           margin: 25px 0;
-          padding: 20px;
-          background: #f8f9fa;
-          border-radius: 8px;
-          border: 1px solid #e9ecef;
+          padding: 0;
+          background: transparent;
+          border-radius: 0;
+          border: none;
         }
 
         .delivery-details {

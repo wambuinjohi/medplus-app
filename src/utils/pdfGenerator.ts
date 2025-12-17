@@ -297,10 +297,11 @@ export const generatePDF = (data: DocumentData) => {
         .document-details table {
           width: 100%;
           border-collapse: collapse;
+          line-height: 1.4;
         }
 
         .document-details td {
-          padding: 4px 0;
+          padding: 2px 0;
           border: none;
           font-size: 10px;
         }

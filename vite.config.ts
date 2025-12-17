@@ -8,9 +8,10 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-    hmr: {
-      host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
-      protocol: typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws',
+    hmr: mode === 'development' ? false : {
+      protocol: 'wss',
+      host: '0.0.0.0',
+      port: 443,
     },
   },
   plugins: [
